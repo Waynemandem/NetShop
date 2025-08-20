@@ -26,3 +26,12 @@ document.addEventListener("DOMContentLoaded",()=> {
            });
       }
 })
+
+
+let age = 17;
+let message = age >= 18 ? "you are an adult" : "you re a minor";
+console.log(message);
+
+let purchaseamt = 210;
+let discount = purchaseamt >= 100? "10% discount" : "no discount";
+console.log(discount);

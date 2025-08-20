@@ -4,11 +4,11 @@ body{
     padding: 0%;
     background-image: url(photo1.jpg);
     background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     color: black;
 }
-
 #for-header{
-    border: 1px solid black;
     border-radius: 95px;
     color: black;
     padding: 0px;
@@ -19,11 +19,9 @@ body{
     margin: auto;
     height: 140px;
 }
-
 #navbar{
     text-align: center;
 }
-
 #navbar ul a{
     text-decoration: none;
     color: black;
@@ -36,7 +34,6 @@ body{
     border: 1px solid rgb(133, 75, 75);
     border-radius: 20px;
 }
-
 #navbar ul{
     list-style-type: none;
     display: flex;
@@ -71,11 +68,30 @@ body{
 }
 
 footer{
-    text-align: center;
+    text-align: left;
+    margin-left: 10px;
 }
 #searchbtn{
     width: 80px;
     height: 30px;
     border-radius: 40px;
 }
-
+.campustalks{
+    opacity: 0.9;
+    box-shadow: 5px;
+    text-align: center;
+    font-weight: 700;
+}
+#imgsec{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 5px;
+    padding: 10px;
+}
+#imgsec img{
+    border-radius: 6px;
+    width: 100%;
+}
+#message-sec{
+    margin-left: 10px; 
+}
