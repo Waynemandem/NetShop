@@ -138,3 +138,7 @@ footer{
   font-weight: bold;
   color: rgb(22, 12, 31); /* nice blue */
 }
+
+#mainP1{
+  justify-content: center;
+}
