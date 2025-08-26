@@ -7,7 +7,11 @@ document.addEventListener("DOMContentLoaded",()=> {
         { name:"Wayne tech laptop repair", category:
             "Tech", conatct: "09078740445" },
         { name: "Teena crochet", category: 
-            "fashion", contact: "09078740445" }             
+            "fashion", contact: "09078740445" },
+        { name: "Beauty's place", category:
+            "E-commerce store", contact: "09078740445"},
+        { name: "B&B fashion Hub", category:
+            "fashion", contact: "09078740445" }  
       ];
 
       const listContainer =
@@ -26,36 +30,6 @@ document.addEventListener("DOMContentLoaded",()=> {
            });
       }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
