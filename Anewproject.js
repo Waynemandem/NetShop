@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded",()=> {
       }
 });
 
+function searchBar(searchText = ""){
+    listContainer.innerHTML = "";
 
+}
 
 
