@@ -17,7 +17,10 @@ body{
     margin-top: 5px;
     width: 80%;
     margin: auto;
-    height: 140px;
+    height: auto;
+}
+#first-header{
+    text-align: center;
 }
 #navbar{
     text-align: center;
@@ -30,9 +33,9 @@ body{
     font-weight: 700;
 }
 #navbar ul a:hover{
-    background-color: rgb(133, 75, 75);
-    border: 1px solid rgb(133, 75, 75);
-    border-radius: 20px;
+    background-color: rgb(164, 177, 23);
+    border: 1px solid rgb(126, 167, 3);
+    border-radius: 10px;
 }
 #navbar ul{
     list-style-type: none;
