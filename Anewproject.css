@@ -18,6 +18,7 @@ body{
     width: 80%;
     margin: auto;
     height: auto;
+    margin-top: 10px;
 }
 #first-header{
     text-align: center;
