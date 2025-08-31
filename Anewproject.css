@@ -2,11 +2,11 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     margin: 0%;
     padding: 0%;
-    background-image: url(photo1.jpg);
+    background-image: url(dark.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    color: black;
+    color: white;
 }
 #for-header{
     border-radius: 95px;
@@ -25,10 +25,11 @@ body{
 }
 #navbar{
     text-align: center;
+
 }
 #navbar ul a{
     text-decoration: none;
-    color: black;
+    color: rgb(231, 170, 170);
     float: left;
     padding: 8px;
     font-weight: 700;
@@ -56,6 +57,7 @@ body{
     accent-color: orange;
     padding: 4px;
     width: 300px;
+    cursor: pointer;
 }
 
 #liofbusiness{
@@ -93,11 +95,14 @@ footer{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 5px;
-    padding: 10px;
+    padding: 0px;
+    margin: 0;
 }
 #imgsec img{
     border-radius: 6px;
-    width: 100%;
+    width: 100%; 
+    transition: transform 0.3s ease; 
+    margin: 0;
 }
 #message-sec{
     margin-left: 10px; 
@@ -146,6 +151,21 @@ footer{
   color: rgb(22, 12, 31); /* nice blue */
 }
 
-#mainP1{
+#mainP1{  
   justify-content: center;
+}
+
+#imgsec img:hover{
+  transform: scale(1.2);
+  box-shadow: 0 8px 16px rgb(255, 0, 150, 0.);
+}    
+
+#questionmark{
+    margin-bottom: 1rem;
+}
+#biggerhead{
+  font-size: 35px;
+  font-weight: 700;
+  letter-spacing: 0px;
+  color: #f7d9d9;
 }

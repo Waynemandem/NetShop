@@ -19,6 +19,18 @@
     </header>
    </div> <br> <br>
 
+   <p id="demo1"></p>
+
+   <script>
+    try{
+        adddlert('welcome');
+    }
+    catch(err) {
+        document.getElementById("demo1").innerHTML = err.message
+    }
+
+   </script>
+
     <section>  
      <h2>List of Businesses</h2><br><br>  
         <div>
@@ -27,7 +39,7 @@
         </div>
     </section><br><br>
 
-     <footer>
+     <footer id="the-ending">
         <p>&copy; 2025 Campus Business Hub</p>
     </footer>
 

@@ -31,9 +31,26 @@ document.addEventListener("DOMContentLoaded",()=> {
       }
 });
 
-function searchBar(searchText = ""){
-    listContainer.innerHTML = "";
-
+try{
+console.log(b);
 }
 
+catch(error){
+console.error(error);
+};
+
+
+
+console.log('this is the end of the road');
+
+
+try{
+    console.log(wayne);
+}
+
+catch(error){
+    console.error(error)
+};
+
+console.log('Error Handling...')
 
