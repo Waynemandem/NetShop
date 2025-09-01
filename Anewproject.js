@@ -31,26 +31,44 @@ document.addEventListener("DOMContentLoaded",()=> {
       }
 });
 
-try{
-console.log(b);
-}
+    function addCourse() {
+      let courseDiv = document.createElement("div");
+      courseDiv.classList.add("course");
+      courseDiv.innerHTML = `
+        <select class="grade">
+          <option value="5">A</option>
+          <option value="4">B</option>
+          <option value="3">C</option>
+          <option value="2">D</option>
+          <option value="1">E</option>
+          <option value="0">F</option>
+        </select>
+        <input type="number" class="credit" placeholder="Credit" min="1">
+      `;
+      document.getElementById("courses").appendChild(courseDiv);
+    }
 
-catch(error){
-console.error(error);
-};
+    function calculateGPA() {
+      let grades = document.querySelectorAll(".grade");
+      let credits = document.querySelectorAll(".credit");
 
+      let totalPoints = 0;
+      let totalCredits = 0;
 
+      for (let i = 0; i < grades.length; i++) {
+        let gradeValue = parseFloat(grades[i].value);
+        let creditValue = parseFloat(credits[i].value);
 
-console.log('this is the end of the road');
+        if (!isNaN(creditValue)) {
+          totalPoints += gradeValue * creditValue;
+          totalCredits += creditValue;
+        }
+      }
 
-
-try{
-    console.log(wayne);
-}
-
-catch(error){
-    console.error(error)
-};
-
-console.log('Error Handling...')
-
+      if (totalCredits === 0) {
+        document.getElementById("result").innerText = "Enter at least one course credit.";
+      } else {
+        let gpa = (totalPoints / totalCredits).toFixed(2);
+        document.getElementById("result").innerText = "Your GPA is: " + gpa;
+      }
+    }

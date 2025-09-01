@@ -2,11 +2,12 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     margin: 0%;
     padding: 0%;
-    background-image: url(dark.jpg);
+    background-image: url(photo1.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    color: white;
+    color: black;
+    min-height: 100vh;
 }
 #for-header{
     border-radius: 95px;
@@ -29,7 +30,7 @@ body{
 }
 #navbar ul a{
     text-decoration: none;
-    color: rgb(231, 170, 170);
+    color: rgb(0, 0, 0);
     float: left;
     padding: 8px;
     font-weight: 700;
@@ -79,6 +80,7 @@ footer{
 }
 #the-ending{
     text-align: center;
+    font-weight: 700;
 }
 #searchbtn{
     width: 80px;
@@ -167,5 +169,47 @@ footer{
   font-size: 35px;
   font-weight: 700;
   letter-spacing: 0px;
-  color: #f7d9d9;
+  color: black;
+}
+.gpa-box{
+    border: 1px solid black;
+    padding: 20px;
+}
+.gpa-box{
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+    width: 350px;
+}
+.gpa-box h2{
+    text-align: center;
+    margin-bottom: 15px;
+}
+.course{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.gpa-box input, select, button{
+    padding: 4px;
+    border: 1px solid black;
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+}    
+.gpa-box button{
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+.gpa-box button:hover{
+    background: #0056b3;
+}
+#result{
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: center;
 }
