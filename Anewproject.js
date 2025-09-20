@@ -48,27 +48,15 @@ document.addEventListener("DOMContentLoaded",()=> {
       document.getElementById("courses").appendChild(courseDiv);
     }
 
-    function calculateGPA() {
-      let grades = document.querySelectorAll(".grade");
-      let credits = document.querySelectorAll(".credit");
+     let gpa = (totalPoints / totalCredits).toFixed(2);
+let classification = "";
+let cssClass = "";
+if (gpa >= 4.5) { classification = "First Class 👑"; cssClass = "first-class"; }
+else if (gpa >= 3.5) { classification = "Second Class Upper 🎓"; cssClass = "second-upper"; }
+else if (gpa >= 2.4) { classification = "Second Class Lower 📘"; cssClass = "second-lower"; }
+else if (gpa >= 1.5) { classification = "Third Class 📗"; cssClass = "third-class"; }
+else { classification = "Pass/Fail ⚠️"; cssClass = "pass-fail"; }
+document.getElementById("result").innerHTML = 
+  `Your GPA is: <span class="${cssClass}">${gpa} (${classification})</span>`;
 
-      let totalPoints = 0;
-      let totalCredits = 0;
 
-      for (let i = 0; i < grades.length; i++) {
-        let gradeValue = parseFloat(grades[i].value);
-        let creditValue = parseFloat(credits[i].value);
-
-        if (!isNaN(creditValue)) {
-          totalPoints += gradeValue * creditValue;
-          totalCredits += creditValue;
-        }
-      }
-
-      if (totalCredits === 0) {
-        document.getElementById("result").innerText = "Enter at least one course credit.";
-      } else {
-        let gpa = (totalPoints / totalCredits).toFixed(2);
-        document.getElementById("result").innerText = "Your GPA is: " + gpa;
-      }
-    }

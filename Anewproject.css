@@ -212,4 +212,17 @@ footer{
     margin-top: 15px;
     font-weight: bold;
     text-align: center;
-}
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 8px;
+} 
+
+/* Different colors per classification */
+.first-class { color: #00ff88; text-shadow: 0 0 8px #00ff88; }
+.second-upper { color: #0af; text-shadow: 0 0 8px #0af; }
+.second-lower { color: #ffcc00; text-shadow: 0 0 8px #ffcc00; }
+.third-class { color: #ff884d; text-shadow: 0 0 8px #ff884d; }
+.pass-fail { color: #ff4747; text-shadow: 0 0 8px #ff4747; }
+
+
