@@ -13,3 +13,32 @@ It features a modern layout, category filters, promotional banners, and a produc
 ## 📁 Project Structure
 
 
+---
+
+## 🚀 Features
+
+- Responsive navigation menu with overlay  
+- Dynamic product and category sections  
+- Promotional banner system  
+- Newsletter subscription form  
+- Footer with quick links and social icons  
+- Integration-ready design for backend or API data  
+
+---
+
+## 🧰 Technologies Used
+
+- **HTML5** for structure  
+- **CSS3 / Flexbox / Grid** for layout  
+- **Vanilla JavaScript (ES6)** for interactivity  
+- **Font Awesome** for icons  
+
+---
+
+## 💡 Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Waynemandem/NetShop.git
+
+
