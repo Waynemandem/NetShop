@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <link rel="stylesheet" href="netshop.css">
+    <script defer src="netshop.js"></script>
+    <script defer src="shop.js"></script>
+    <link rel="icon" type="image/png" href="arrow.png">
+</head>
+<body>
+    
+     <header>
+        <h1>NetShop</h1>
+        <nav>
+            <ul id="navbar">
+                <li><a href="netshop.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i>Cart</a></li>
+            </ul>
+        </nav>
+          <div class="menu-toggle" id="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+    </header>
+    <div id="menu-overlay"></div>
+
+  <!-- Shop Banner -->  
+    <section class="shop-banner">
+        <h1>Shop All Products</h1>
+        <p>Find your perfect style today</p>
+    </section>
+
+
+    <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+      <option value="men">Men</option>
+      <option value="women">Women</option>
+      <option value="electronics">Electronics</option>
+      <option value="accessories">Accessories</option>
+    </select>
+
+    <select id="sortBy">
+      <option value="default">Sort by</option>
+      <option value="priceLow">Price: Low to High</option>
+      <option value="priceHigh">Price: High to Low</option>
+      <option value="latest">Newest</option>
+    </select>
+  </div>
+
+   <!-- PRODUCT GRID -->
+
+    <section class="shop-products">
+         <div class="product-grid" id="product-grid"></div>
+    </section>
+
+
+    <footer>
+    <div class="col">
+       <h1>NetShop</h1>
+       <h4>Contacts</h4>
+       <p><strong>Address:</strong>Plot 1, g close Arigbede phase 1, Warewa, Ogun state.</p>
+       <p><strong>Phone:</strong>+234 9078 740 445</p>
+       <p><strong>Hours:</strong>Always active</p>
+    </div>
+    <br>
+    <div class="follow">
+      <p><strong>Follow us:</strong></p>
+      <div class="social-icons">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="#"><i class="fa-brands fa-pinterest"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+    </div>
+
+    <div class="col">
+      <h4>About Us</h4>
+      <a href="about.html">About us</a> /
+      <a href="contact.html">Contact us</a> /
+      <a href="#">Privacy Policy</a> /
+      <a href="#">Terms & Conditions</a> /
+      <a href="#">Shipping Information</a>
+    </div>
+
+    <div class="col">
+      <h4>My Account</h4>
+      <a href="login.html">Sign In</a> /
+      <a href="cart.html">View Cart</a> /
+      <a href="#">My Wishlist</a> /
+      <a href="#">Track My Order</a> /
+      <a href="#">Help</a>
+    </div>
+
+    <div class="col">
+      <h4>Install App</h4>
+      <p>From App Store or Google Play</p>
+      <div class="app-logo">
+        <i class="fa-brands fa-app-store-ios"></i>
+        <i class="fa-brands fa-google-play"></i>
+      </div>
+      <p>Secured Payment Gateways</p>
+      <i class="fa-solid fa-credit-card"></i>
+    </div>  
+    <p>&copy; 2023 NetShop. All rights reserved.</p>
+   </footer>
+     <div class="toast-container" id="toastContainer"></div>
+   <script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const navbar = document.getElementById('navbar');
+  const menuOverlay = document.getElementById('menu-overlay');
+
+  menuToggle.addEventListener('click', () => {
+    navbar.classList.toggle('show');
+    menuToggle.classList.toggle('active');
+    menuOverlay.classList.toggle('show');
+  });
+
+  // Close menu if user clicks outside
+  menuOverlay.addEventListener('click', () => {
+    navbar.classList.remove('show');
+    menuToggle.classList.remove('active');
+    menuOverlay.classList.remove('show');
+  });
+</script>
+
+
+    <script src="https://kit.fontawesome.com/82046994e6.js" crossorigin="anonymous"></script>
+</body>
+</html>
