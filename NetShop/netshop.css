@@ -1077,23 +1077,12 @@ footer p:last-child {
   gap: 10px;
 }
 
-.detail-buttons .buy-btn,
-.detail-buttons .cart-btn {
+.detail-buttons,
+.detail-buttons  {
   padding: 10px 20px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
-}
-
-.buy-btn {
-  background-color: #111;
-  color: #fff;
-}
-
-.cart-btn {
-  background-color: #f5f5f5;
-  color: #111;
-  border: 1px solid #ddd;
 }
 
 
