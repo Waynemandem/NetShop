@@ -1,44 +1,28 @@
-# 🛒 NetShop
+# 🛍️ NetShop
 
-**NetShop** is a responsive e-commerce front-end built with **HTML, CSS, and JavaScript**.  
-It features a modern layout, category filters, promotional banners, and a product grid dynamically loaded from JavaScript data.
-
----
-
-## 🌐 Live Demo
-(Coming soon — add your deployed link here)
-
----
-
-## 📁 Project Structure
-
+**NetShop** is a modern, responsive e-commerce web project built with **HTML**, **CSS**, and **JavaScript**.  
+It showcases dynamic product rendering, toast notifications, and multiple layout sections for a complete online shop experience.
 
 ---
 
 ## 🚀 Features
 
-- Responsive navigation menu with overlay  
-- Dynamic product and category sections  
-- Promotional banner system  
-- Newsletter subscription form  
-- Footer with quick links and social icons  
-- Integration-ready design for backend or API data  
+- Dynamic product display from JavaScript arrays  
+- Interactive “Buy” and “Add to Cart” buttons with toast notifications  
+- Responsive grid layout for products and categories  
+- Promo banner section with hover effects  
+- Clean, modern UI inspired by real e-commerce stores  
+- Fully front-end (no backend required)
 
 ---
 
-## 🧰 Technologies Used
+## 🧠 Tech Stack
 
-- **HTML5** for structure  
-- **CSS3 / Flexbox / Grid** for layout  
-- **Vanilla JavaScript (ES6)** for interactivity  
-- **Font Awesome** for icons  
+- **HTML5** — Semantic structure  
+- **CSS3** — Responsive design with modern layout techniques  
+- **JavaScript (Vanilla)** — DOM manipulation and dynamic rendering
 
 ---
 
-## 💡 Setup
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Waynemandem/NetShop.git
-
+## 🧩 Folder Structure
 
