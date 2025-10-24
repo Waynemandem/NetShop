@@ -26,3 +26,14 @@ It showcases dynamic product rendering, toast notifications, and multiple layout
 
 ## 🧩 Folder Structure
 
+### 🧾 Product Details Page
+
+Displays detailed information for a selected product.  
+Data is passed from the shop page using `localStorage`.  
+Features include:
+
+- Dynamic product rendering
+- "Add to Cart" and "Buy Now" button actions
+- Related product suggestions
+- Mobile-responsive layout
+
