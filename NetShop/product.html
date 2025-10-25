@@ -6,8 +6,8 @@
     <title>Product Details | NetShop</title>
     <link rel="stylesheet" href="netshop.css">
     <script defer src="netshop.js"></script>
-    <script defer src="product.js"></script>
     <script defer src="shop.js"></script>
+    <script defer src="product.js"></script>
     <link rel="icon" type="image/png" href="arrow.png">
 </head>
 <body>
@@ -32,30 +32,32 @@
     <div id="menu-overlay"></div>
 
 
-       <!-- PRODUCT DETAILS SECTION -->
-  <section class="product-detail" id="product-detail">
-    <div class="product-image">
-      <img id="product-image" src="" alt="Product image">
-    </div>
+    <section class="product-detail" id="product-detail">
+      <div class="product-image">
+        <img id="product-image" src="" alt="Product image" />
+      </div>
 
-    <div class="product-info">
-      <h2 id="product-name"></h2>
-      <p id="product-brand"></p>
-      <p id="product-category"></p>
-      <p class="price" id="product-price"></p>
-      <button id="add-to-cart">Add to Cart</button>
-      <button id="buy-now">Buy Now</button>
-    </div>
-  </section>  
+      <div class="product-info">
+        <h2 id="product-name"></h2>
+        <p id="product-brand"></p>
+        <p id="product-category"></p>
+        <p class="price" id="product-price"></p>
+        <button id="add-to-cart">Add to Cart</button>
+        <button id="buy-now">Buy Now</button>
+      </div>
+    </section>
 
-
-
-
-         <!-- Related Products -->
-   <section class="related-products">
-       <h2>Related Products</h2>
-       <div id="related-products" class="product-grid"></div>
-   </section>
+    <!-- Related slider container -->
+    <section class="related-products">
+      <div class="related-header">
+        <h2>You Might Also Like</h2>
+        <div class="related-nav">
+          <button id="prev-related" class="nav-btn">‹</button>
+          <button id="next-related" class="nav-btn">›</button>
+        </div>
+      </div>
+      <div class="related-slider" id="related-products"></div>
+    </section>  
 
     <footer>
     <div class="col">

@@ -1,11 +1,13 @@
-// shop.js — runs only on shop.html
+// shop.js — safe, self-contained
+// Make sure this file is included with <script defer src="shop.js"></script>
 
-const shopGrid = document.getElementById("product-grid");
-const categoryFilter = document.getElementById("categoryFilter");
-const sortBy = document.getElementById("sortBy");
+document.addEventListener("DOMContentLoaded", () => {
+  const shopGrid = document.getElementById("product-grid");
+  const categoryFilter = document.getElementById("categoryFilter");
+  const sortBy = document.getElementById("sortBy");
 
-if (shopGrid) {
-  // Product data
+  if (!shopGrid) return; // stop if not on shop page
+
   const shopProducts = [
     { brand: "Nike", name: "Air Max", category: "men", price: 120, image: "nike1.jpeg" },
     { brand: "Adidas", name: "Ultraboost", category: "men", price: 140, image: "adidas.jpeg" },
@@ -17,12 +19,19 @@ if (shopGrid) {
     { brand: "Big 4", name: "Suit", category: "men", price: 310, image: "suit.jpg" }
   ];
 
-  // --- Render products ---
+  // Persist the full catalog so product page can read related items
+  try {
+    localStorage.setItem("shopProducts", JSON.stringify(shopProducts));
+  } catch (err) {
+    console.warn("Could not write shopProducts to localStorage:", err);
+  }
+
+  // Render products
   function renderProducts(products) {
     shopGrid.innerHTML = "";
     products.forEach(product => {
       const card = document.createElement("div");
-      card.classList.add("product-card");
+      card.className = "product-card";
 
       card.innerHTML = `
         <img src="${product.image}" alt="${product.name}">
@@ -35,10 +44,14 @@ if (shopGrid) {
         </div>
       `;
 
-      // Clicking the image or text goes to product page
+      // Click the card (but not buttons) -> save and go to product page
       card.addEventListener("click", (e) => {
         if (e.target.classList.contains("buy-btn") || e.target.classList.contains("cart-btn")) return;
-        localStorage.setItem("selectedProduct", JSON.stringify(product));
+        try {
+          localStorage.setItem("selectedProduct", JSON.stringify(product));
+        } catch (err) {
+          console.error("Could not save selectedProduct to localStorage:", err);
+        }
         window.location.href = "product.html";
       });
 
@@ -46,48 +59,40 @@ if (shopGrid) {
     });
   }
 
+  // initial
   renderProducts(shopProducts);
 
-  // --- Filter ---
+  // filter
   if (categoryFilter) {
     categoryFilter.addEventListener("change", () => {
-      const category = categoryFilter.value;
-      const filtered = category === "all"
-        ? shopProducts
-        : shopProducts.filter(p => p.category === category);
+      const cat = categoryFilter.value;
+      const filtered = cat === "all" ? shopProducts : shopProducts.filter(p => p.category === cat);
       renderProducts(filtered);
     });
   }
 
-  // --- Sort ---
+  // sort
   if (sortBy) {
     sortBy.addEventListener("change", () => {
-      const value = sortBy.value;
+      const val = sortBy.value;
       let sorted = [...shopProducts];
-      if (value === "priceLow") sorted.sort((a, b) => a.price - b.price);
-      if (value === "priceHigh") sorted.sort((a, b) => b.price - a.price);
+      if (val === "priceLow") sorted.sort((a, b) => a.price - b.price);
+      if (val === "priceHigh") sorted.sort((a, b) => b.price - a.price);
       renderProducts(sorted);
     });
   }
 
-  // --- Handle cart and buy ---
+  // Add / Buy global handlers (toasts)
   document.addEventListener("click", (e) => {
     if (e.target.classList.contains("cart-btn")) {
-      const name = e.target.closest(".product-card").querySelector(".product-name").textContent;
-      if (typeof showToast === "function") {
-        showToast(`${name} added to cart 🛒`, "success");
-      } else {
-        alert(`${name} added to cart 🛒`);
-      }
+      const name = e.target.closest(".product-card").querySelector(".product-name").textContent || "Item";
+      if (typeof showToast === "function") showToast(`${name} added to cart 🛒`, "success");
+      else console.log(`${name} added to cart 🛒`);
     }
-
     if (e.target.classList.contains("buy-btn")) {
-      const name = e.target.closest(".product-card").querySelector(".product-name").textContent;
-      if (typeof showToast === "function") {
-        showToast(`Proceeding to buy ${name} 💳`, "success");
-      } else {
-        alert(`Proceeding to buy ${name} 💳`);
-      }
+      const name = e.target.closest(".product-card").querySelector(".product-name").textContent || "Item";
+      if (typeof showToast === "function") showToast(`Proceeding to buy ${name} 💳`, "success");
+      else console.log(`Proceeding to buy ${name} 💳`);
     }
   });
-}
+});
