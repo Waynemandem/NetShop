@@ -13,15 +13,21 @@
         <h1>NetShop</h1>
         <nav>
             <ul id="navbar">
-                <li><a href="netshop.html">Home</a></li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                <li><a href="netshop.html" class="nav-link active">Home</a></li>
+                <li><a href="shop.html" class="nav-link active">Shop</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="about.html" class="nav-link active">About</a></li>
+                <li><a href="contact.html" class="nav-link active">Contact</a></li>
+                <li><a href="cart.html" class="nav-link active"><i class="fa-solid fa-cart-shopping"></i>Cart</a></li>
             </ul>
         </nav>
-    </header>    
+          <div class="menu-toggle" id="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+    </header>
+    <div id="menu-overlay"></div>
 
     <footer>
     <div class="col">
@@ -73,6 +79,27 @@
       <i class="fa-solid fa-credit-card"></i>
     <p>&copy; 2023 NetShop. All rights reserved.</p>
    </footer>
+
+      <div class="toast-container" id="toastContainer"></div>
+   <script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const navbar = document.getElementById('navbar');
+  const menuOverlay = document.getElementById('menu-overlay');
+
+  menuToggle.addEventListener('click', () => {
+    navbar.classList.toggle('show');
+    menuToggle.classList.toggle('active');
+    menuOverlay.classList.toggle('show');
+  });
+
+  // Close menu if user clicks outside
+  menuOverlay.addEventListener('click', () => {
+    navbar.classList.remove('show');
+    menuToggle.classList.remove('active');
+    menuOverlay.classList.remove('show');
+  });
+</script>
+
 
 
     

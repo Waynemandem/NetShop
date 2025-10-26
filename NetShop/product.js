@@ -71,3 +71,24 @@ const relatedList = allProducts.filter(p => p.category === productData.category 
       prevBtn.addEventListener("click", () => relatedContainer.scrollBy({ left: -300, behavior: 'smooth' }));
     }
   };
+
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const productName = urlParams.get("name");
+
+// Find product info (if using same array)
+const product = [...products, ...products2].find(p => p.name === productName);
+
+if (product) {
+  document.querySelector("#product-name").textContent = product.name;
+  document.querySelector("#product-price").textContent = product.price;
+  document.querySelector("#product-image").src = product.image;
+  document.querySelector("#product-brand").textContent = product.brandName;
+  document.querySelector("#product-description").textContent = product.description;
+}else{
+  document.querySelector(".product-details-container").innerHTML = `
+    <h2 style="text-align:center; width:100%;">Product not found 😔</h2>
+  `;
+}
+
+  

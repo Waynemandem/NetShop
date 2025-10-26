@@ -1,82 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NetShop</title>
-    <link rel="stylesheet" href="netshop.css">
-    <script defer src="netshop.js"></script>
-    <link rel="icon" type="image/png" href="arrow.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NetShop</title>
+  <link rel="stylesheet" href="netshop.css">
+  <script defer src="netshop.js"></script>
+  <script defer src="shop.js"></script>
+  <script defer src="product.js"></script>
+  <link rel="icon" type="image/png" href="arrow.png">
 
 </head>
+
 <body>
-    <header>
-        <h1>NetShop</h1>
-        <nav>
-            <ul id="navbar">
-                <li><a href="netshop.html">Home</a></li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i>Cart</a></li>
-            </ul>
-        </nav>
-          <div class="menu-toggle" id="menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-    </header>
-    <div id="menu-overlay"></div>
+  <header>
+    <h1>NetShop</h1>
+    <nav>
+      <ul id="navbar">
+        <li><a href="netshop.html" class="nav-link active">Home</a></li>
+        <li><a href="shop.html" class="nav-link active">Shop</a></li>
+        <li><a href="blog.html" class="nav-link active">Blog</a></li>
+        <li><a href="about.html" class="nav-link active">About</a></li>
+        <li><a href="contact.html" class="nav-link active">Contact</a></li>
+        <li><a href="cart.html" class="nav-link active"><i class="fa-solid fa-cart-shopping"></i>Cart</a></li>
+      </ul>
+    </nav>
+    <div class="menu-toggle" id="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+  <div id="menu-overlay"></div>
 
 
-    <section id="hero">
-       <div id="hero-text">  
-           <h4>Trade-in offer</h4>
-           <h1>Super value Deals</h1> 
-           <h2>On all purchase</h2>
-           <p>Save more with coupons & up  to 80% off! </p>
-           <button>Shop Now</button>
-       </div> 
-    </section>
+  <section id="hero">
+    <div id="hero-text">
+      <h4>Trade-in offer</h4>
+      <h1>Super value Deals</h1>
+      <h2>On all purchase</h2>
+      <p>Save more with coupons & up to 80% off! </p>
+      <button>Shop Now</button>
+    </div>
+  </section>
 
-    <section id="trust-badges" class="section-p1">
-  <div class="badge">
-    <img src="securedpayment.png" alt="Secure Payment" width="50" height="50">
-    <p>100% Secure Payment</p>
-  </div>
+  <section id="trust-badges" class="section-p1">
+    <div class="badge">
+      <img src="securedpayment.png" alt="Secure Payment" width="50" height="50">
+      <p>100% Secure Payment</p>
+    </div>
 
-  <div class="badge">
-    <img src="returnpolicy.jpg" alt="Easy Returns" width="50" height="50">
-    <p>Easy Return Policy</p>
-  </div>
+    <div class="badge">
+      <img src="returnpolicy.jpg" alt="Easy Returns" width="50" height="50">
+      <p>Easy Return Policy</p>
+    </div>
 
-  <div class="badge">
-    <img src="fastdelivery.jpg" alt="Fast Delivery" width="50" height="50">
-    <p>Fast Nationwide Delivery</p>
-  </div>
+    <div class="badge">
+      <img src="fastdelivery.jpg" alt="Fast Delivery" width="50" height="50">
+      <p>Fast Nationwide Delivery</p>
+    </div>
 
-  <div class="badge">
-    <img src="customersupport.jpg" alt="Customer Support" width="50" height="50">
-    <p>24/7 Customer Support</p>
-  </div>
-</section>
+    <div class="badge">
+      <img src="customersupport.jpg" alt="Customer Support" width="50" height="50">
+      <p>24/7 Customer Support</p>
+    </div>
+  </section>
 
 
-   <section class="product-section">
+  <section class="product-section">
     <h2 class="section-title">Featured Products</h2>
     <div class="product-grid" id="productGrid">
       <!-- Products will be added dynamically here -->
-       <p style="text-align: center;">Loading products...</p>
+      <p style="text-align: center;">Loading products...</p>
     </div>
   </section>
 
 
   <section id="banner">
     <h4>Repair Services</h4>
-    <h1>Up to <span>70% Off</span>  All t-shirts & Accessories</h1>
-    <button class="normal">Explore More</button> 
+    <h1>Up to <span>70% Off</span> All t-shirts & Accessories</h1>
+    <button class="normal">Explore More</button>
   </section>
 
 
@@ -85,21 +89,18 @@
     <p>Summer Collection New Mordern Design</p>
     <div class="product-grid2" id="productGrid2">
       <!-- Products will be added dynamically here -->
-       <p style="text-align: center;">Loading products...</p>
+      <p style="text-align: center;">Loading products...</p>
     </div>
   </section>
 
 
-   <section id="promo-section" class="promo-section"></section>
-   <script src="banners.js"></script>
+  <section id="promo-section" class="promo-section"></section>
 
 
   <section id="category-section" class="category-section">
-      <h2 class="category-title">Shop by Category</h2>
-      <div id="category-grid" class="category-grid"></div>
+    <h2 class="category-title">Shop by Category</h2>
+    <div id="category-grid" class="category-grid"></div>
   </section>
-
-<script src="categories.js"></script>
 
 
   <section id="newsletter">
@@ -108,24 +109,24 @@
       <p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
     </div>
     <div class="newsletter-form">
-      <input type="email" placeholder="Your email address">  
+      <input type="email" placeholder="Your email address">
       <button class="normal2">Sign Up</button>
-    </div>  
-   </section>
+    </div>
+  </section>
 
 
-   <footer>
+  <footer>
     <div class="col">
-       <h1>NetShop</h1>
-       <h4>Contacts</h4>
-       <p><strong>Address:</strong>Plot 1, g close Arigbede phase 1, Warewa, Ogun state.</p>
-       <p><strong>Phone:</strong>+234 9078 740 445</p>
-       <p>📞 Contact
+      <h1>NetShop</h1>
+      <h4>Contacts</h4>
+      <p><strong>Address:</strong>Plot 1, g close Arigbede phase 1, Warewa, Ogun state.</p>
+      <p><strong>Phone:</strong>+234 9078 740 445</p>
+      <p>📞 Contact
 
-Created by Waynemandem
-📧 Email: [add your contact email here]
-🔗 GitHub: https://github.com/Waynemandem</p>
-       <p><strong>Hours:</strong>Always active</p>
+        Created by Waynemandem
+        📧 Email: [add your contact email here]
+        🔗 GitHub: https://github.com/Waynemandem</p>
+      <p><strong>Hours:</strong>Always active</p>
     </div>
     <br>
     <div class="follow">
@@ -167,35 +168,36 @@ Created by Waynemandem
       </div>
       <p>Secured Payment Gateways</p>
       <i class="fa-solid fa-credit-card"></i>
-    </div>  
+    </div>
     <p>&copy; 2023 NetShop. All rights reserved.</p>
-   </footer>
+  </footer>
 
-   
+
   <script src="https://kit.fontawesome.com/82046994e6.js" crossorigin="anonymous"></script>
 
   <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
-<script>
-  const menuToggle = document.getElementById('menu-toggle');
-  const navbar = document.getElementById('navbar');
-  const menuOverlay = document.getElementById('menu-overlay');
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbar = document.getElementById('navbar');
+    const menuOverlay = document.getElementById('menu-overlay');
 
-  menuToggle.addEventListener('click', () => {
-    navbar.classList.toggle('show');
-    menuToggle.classList.toggle('active');
-    menuOverlay.classList.toggle('show');
-  });
+    menuToggle.addEventListener('click', () => {
+      navbar.classList.toggle('show');
+      menuToggle.classList.toggle('active');
+      menuOverlay.classList.toggle('show');
+    });
 
-  // Close menu if user clicks outside
-  menuOverlay.addEventListener('click', () => {
-    navbar.classList.remove('show');
-    menuToggle.classList.remove('active');
-    menuOverlay.classList.remove('show');
-  });
-</script>
+    // Close menu if user clicks outside
+    menuOverlay.addEventListener('click', () => {
+      navbar.classList.remove('show');
+      menuToggle.classList.remove('active');
+      menuOverlay.classList.remove('show');
+    });
+  </script>
 
 
 
 </body>
-</html> 
+
+</html>

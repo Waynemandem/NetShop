@@ -20,9 +20,9 @@ function showToast(message, type = "success") {
 const products = [
   { brandName: "Nike", name: "Nike Air Sneakers", price: "$120", image: "nike1.jpeg" },
   { brandName: "Adidas", name: "Adidas Ultraboost", price: "$140", image: "adidas.jpeg" },
-  { brandName: "Puma", name: "Puma Classic", price: "$100", image: "puma1.jpg" },
+  { brandName: "Puma", name: "Puma Classic", price: "$100", image: "puma1.jpeg" },
   { brandName: "New Balance", name: "New Balance 550", price: "$110", image: "newBalance.jpeg" },
-  { brandName: "Vans", name: "Converse All Star", price: "$99.99", image: "ConverseAllStar.jpeg" },
+  { brandName: "Converse", name: "Converse All Star", price: "$100", image: "ConverseAllStar.jpeg" },
   { brandName: "Nike", name: "Nike Stack", price: "$130", image: "nikestack.jpeg" }
 ];
 
@@ -32,15 +32,26 @@ if (productGrid) {
     const card = document.createElement("div");
     card.classList.add("product-card");
     card.innerHTML = `
-      <img src="${p.image}" alt="${p.name}">
-      <p class="brandName">${p.brandName}</p>
-      <p class="product-name">${p.name}</p>
-      <p class="product-price">${p.price}</p>
-      <div class="card-buttons">
-        <button class="buy-btn">Buy Now</button>
-        <button class="cart-btn">Add to Cart</button>
-      </div>
-    `;
+  <a href="product.html?name=${encodeURIComponent(p.name)}" class="product-link">
+    <img src="${p.image}" alt="${p.name}">
+    <p class="brandName">${p.brandName}</p>
+    <p class="product-name">${p.name}</p>
+    <p class="product-price">${p.price}</p>
+  </a>
+  <div class="card-buttons">
+    <button class="buy-btn">Buy Now</button>
+    <button class="cart-btn">Add to Cart</button>
+  </div>
+`;
+
+    // Make card clickable
+    card.addEventListener("click", (e) => {
+      if (!e.target.classList.contains("buy-btn") && !e.target.classList.contains("cart-btn")) {
+        const encodedName = encodeURIComponent(p.name);
+        window.location.href = `product.html?name=${encodedName}`;
+      }
+    });
+
     productGrid.appendChild(card);
   });
 }
@@ -73,6 +84,14 @@ if (productGrid2) {
         <button class="cart-btn">Add to Cart</button>
       </div>
     `;
+
+     card.addEventListener("click", (e) => {
+      if (!e.target.classList.contains("buy-btn") && !e.target.classList.contains("cart-btn")) {
+        const encodedName = encodeURIComponent(p.name);
+        window.location.href = `product.html?name=${encodedName}`;
+      }
+    });
+
     productGrid2.appendChild(card);
   });
 }
@@ -123,7 +142,7 @@ const categories = [
   { image: "mistressHome.jpg", name: "Home & Living", link: "#" },
   { image: "burger.jpg", name: "Fast Food", link: "#" },
   { image: "Menclothing.jpg", name: "Men's Clothing", link: "#" },
-  { image: "", name: "Women's Clothing", link: "#" }
+  { image: "womanclothing.jpg", name: "Women's Clothing", link: "#" }
 ];
 
 if (categoryGrid) {
@@ -138,3 +157,14 @@ if (categoryGrid) {
     categoryGrid.appendChild(card);
   });
 }
+
+
+
+ const links = document.querySelectorAll('.nav-link');
+ const currentUrl = window.location.href;
+
+ links.forEach(link => {
+  if (link.href === currentUrl) {
+    link.classList.add('active');
+  }
+ });
