@@ -1,9 +1,13 @@
-// new product.js
-
+// ...existing code...
 document.addEventListener("DOMContentLoaded", () => {
-  const productData = JSON.parse(localStorage.getItem("selectedProduct"));
-  const allProducts = JSON.parse(localStorage.getItem("shopProducts")) || [];
+  const selectedJson = localStorage.getItem("selectedProduct");
+  const productData = selectedJson ? JSON.parse(selectedJson) : null;
 
+  // prefer persisted catalog, else fall back to global arrays if present
+  const storedCatalog = localStorage.getItem("shopProducts");
+  const allProducts = storedCatalog
+    ? JSON.parse(storedCatalog)
+    : (window.products && window.products2 ? [...products, ...products2] : []);
 
   if (!productData) {
     console.warn("No selectedProduct in localStorage — redirecting to shop.");
@@ -11,84 +15,84 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  const productImage = document.getElementById("product-image");
-  const productName = document.getElementById("product-name");
-  const productBrand = document.getElementById("product-brand");
-  const productCategory = document.getElementById("product-category");
-  const productPrice = document.getElementById("product-price");
-
-  productImage.src = productData.image;
-  productImage.alt = productData.name;
-  productName.textContent = productData.name;
-  productBrand.textContent = `Brand: ${productData.brand}`;
-  productCategory.textContent = `Category: ${productData.category}`;
-  productPrice.textContent = `$${productData.price}`;
-
-// Add to cart and buy now
-  document.getElementById("add-to-cart").addEventListener("click", () => {
-    typeof showToast === "function"
-      ? showToast(`${productData.name} added to cart 🛒`)
-      : alert(`${productData.name} added to cart 🛒`);
-  });
-
-  document.getElementById("buy-now").addEventListener("click", () => {
-    typeof showToast === "function"
-      ? showToast(`Proceeding to buy ${productData.name} 💳`)
-      : alert(`Proceeding to buy ${productData.name} 💳`);
-  });
-});
-
-// ---- Related Products ---- 
-
-const relatedContainer = document.getElementById("related-products");
-const relatedList = allProducts.filter(p => p.category === productData.category && p.name !== productData.name);
-
- if (relatedList.length === 0) {
-    relatedContainer.innerHTML = "<p style='padding:12px'>No related items found.</p>";
-  } else {
-    relatedList.slice(0, 10).forEach(item => {
-      const card = document.createElement("div");
-      card.className = "product-card";
-      card.innerHTML = `
-        <img src="${item.image}" alt="${item.name}">
-        <p class="brandName">${item.brand}</p>
-        <p class="product-name">${item.name}</p>
-        <p class="product-price">$${item.price}</p>
-      `;
-      card.addEventListener("click", () => {
-        localStorage.setItem("selectedProduct", JSON.stringify(item));
-        // update page without full redirect for speed
-        location.reload();
-      });
-      relatedContainer.appendChild(card);
-    });
-
-    // controls
-    const nextBtn = document.getElementById("next-related");
-    const prevBtn = document.getElementById("prev-related");
-    if (nextBtn && prevBtn) {
-      nextBtn.addEventListener("click", () => relatedContainer.scrollBy({ left: 300, behavior: 'smooth' }));
-      prevBtn.addEventListener("click", () => relatedContainer.scrollBy({ left: -300, behavior: 'smooth' }));
+  // helper setters that safely check elements
+  const setText = (id, text) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  };
+  const setImage = (id, src, alt) => {
+    const img = document.getElementById(id);
+    if (img) {
+      img.src = src || "";
+      img.alt = alt || "";
     }
   };
 
+  setImage("product-image", productData.image, productData.name);
+  setText("product-name", productData.name || "");
+  // normalise brand field (some files use brand, others brandName)
+  setText("product-brand", `Brand: ${productData.brand || productData.brandName || "—"}`);
+  setText("product-category", `Category: ${productData.category || "—"}`);
+  setText("product-price", productData.price != null ? `$${productData.price}` : "Price not available");
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const productName = urlParams.get("name");
+  // safe button handlers
+  document.getElementById("add-to-cart")?.addEventListener("click", () => {
+    if (typeof showToast === "function") showToast(`${productData.name} added to cart 🛒`);
+    else alert(`${productData.name} added to cart 🛒`);
+  });
+  document.getElementById("buy-now")?.addEventListener("click", () => {
+    if (typeof showToast === "function") showToast(`Proceeding to buy ${productData.name} 💳`);
+    else alert(`Proceeding to buy ${productData.name} 💳`);
+  });
 
-// Find product info (if using same array)
-const product = [...products, ...products2].find(p => p.name === productName);
+  // Related products (render only if container exists)
+  const relatedContainer = document.getElementById("related-products");
+  if (relatedContainer && Array.isArray(allProducts)) {
+    const relatedList = allProducts.filter(p => (p.category === productData.category) && (p.name !== productData.name));
+    if (relatedList.length === 0) {
+      relatedContainer.innerHTML = "<p style='padding:12px'>No related items found.</p>";
+    } else {
+      relatedContainer.innerHTML = "";
+      relatedList.slice(0, 10).forEach(item => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img src="${item.image || ""}" alt="${item.name || ""}">
+          <p class="brandName">${item.brand || item.brandName || ""}</p>
+          <p class="product-name">${item.name || ""}</p>
+          <p class="product-price">${item.price != null ? "$" + item.price : ""}</p>
+        `;
+        card.addEventListener("click", () => {
+          try { localStorage.setItem("selectedProduct", JSON.stringify(item)); }
+          catch (err) { console.warn("Could not save selectedProduct:", err); }
+          // update contents on the same page instead of full reload:
+          setImage("product-image", item.image, item.name);
+          setText("product-name", item.name);
+          setText("product-brand", `Brand: ${item.brand || item.brandName || "—"}`);
+          setText("product-category", item.category || "");
+          setText("product-price", item.price != null ? `$${item.price}` : "Price not available");
+        });
+        relatedContainer.appendChild(card);
+      });
 
-if (product) {
-  document.querySelector("#product-name").textContent = product.name;
-  document.querySelector("#product-price").textContent = product.price;
-  document.querySelector("#product-image").src = product.image;
-  document.querySelector("#product-brand").textContent = product.brandName;
-  document.querySelector("#product-description").textContent = product.description;
-}else{
-  document.querySelector(".product-details-container").innerHTML = `
-    <h2 style="text-align:center; width:100%;">Product not found 😔</h2>
-  `;
-}
+      document.getElementById("next-related")?.addEventListener("click", () => relatedContainer.scrollBy({ left: 300, behavior: "smooth" }));
+      document.getElementById("prev-related")?.addEventListener("click", () => relatedContainer.scrollBy({ left: -300, behavior: "smooth" }));
+    }
+  }
 
-  
+  // Optional: support product lookup by ?name= query (fallback)
+  const urlName = new URLSearchParams(window.location.search).get("name");
+  if (urlName && Array.isArray(allProducts) && allProducts.length) {
+    const found = allProducts.find(p => p.name === decodeURIComponent(urlName));
+    if (found) {
+      try { localStorage.setItem("selectedProduct", JSON.stringify(found)); } catch {}
+      setImage("product-image", found.image, found.name);
+      setText("product-name", found.name);
+      setText("product-brand", `Brand: ${found.brand || found.brandName || "—"}`);
+      setText("product-price", found.price != null ? `$${found.price}` : "");
+      setText("product-category", found.category || "");
+      setText("product-description", found.description || "");
+    }
+  }
+});
+// ...existing code...

@@ -31,50 +31,54 @@
     </header>
     <div id="menu-overlay"></div>
 
-
-    <!-- PRODUCT DETAILS -->
-  <section class="product-details section-p1">
-    <div class="product-display">
-      <img id="product-image" src="" alt="Product Image" />
+<main class="product-page section-p1">
+  <div class="product-container">
+    <!-- LEFT: Product image -->
+    <div class="product-gallery">
+      <img id="product-image" src="" alt="Product image">
     </div>
 
-    <div class="product-info">
-      <h2 id="product-name">Loading...</h2>
+    <!-- RIGHT: Product info -->
+    <div class="product-details">
+      <h2 id="product-name"></h2>
       <p id="product-brand"></p>
       <p id="product-category"></p>
-      <p id="product-price" class="product-price"></p>
+      <h3 id="product-price"></h3>
 
-       <div class="delivery-details">
-        <h4>Delivery & Returns</h4>
+      <div class="buttons">
+        <button id="add-to-cart">Add to Cart</button>
+        <button id="buy-now">Buy Now</button>
+      </div>
+
+      <div class="delivery-box">
+        <h4>Delivery Details</h4>
         <ul>
           <li>🚚 Delivery in 2-5 business days nationwide</li>
           <li>↩️ Free return within 7 days for eligible items</li>
           <li>💳 Pay on delivery available</li>
-        </ul>
-      </div>
-
-      <br><br>
-
-      <div class="product-buttons">
-        <button id="buy-now" class="buy-btn">Buy Now</button>
-        <button id="add-to-cart" class="cart-btn">Add to Cart</button>
+        </ul>  
       </div>
     </div>
-  </section>
+  </div>
 
-  <section class="product-description">
-    <h3>Product Description</h3>
-    <p id="product-description">Loading product details...</p>
-  </section>
+  <!-- Description -->
+  <div class="product-description">
+    <h3>Description</h3>
+    <p id="product-description">Loading description...</p>
+  </div>
 
-  <!-- ✅ RELATED PRODUCTS SECTION -->
-  <section class="related-products">
-    <h2>Related Products</h2>
-    <div id="related-products" class="product-grid">
-      <!-- Related products will be dynamically added here -->
+  <!-- Related Products -->
+  <div class="related-section">
+    <div class="related-header">
+      <h3>Related Products</h3>
+      <div class="related-controls">
+        <button id="prev-related">‹</button>
+        <button id="next-related">›</button>
+      </div>
     </div>
-  </section>
-
+    <div id="related-products" class="related-grid"></div>
+  </div>
+</main>
     
 
     <footer>

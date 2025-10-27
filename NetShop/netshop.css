@@ -66,6 +66,121 @@ header{
   transition: 0.3s ease;
 }*/
 
+/* Hamburger Menu */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  width: 28px;
+  height: 22px;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1001; /* above navbar */
+}
+
+.menu-toggle span {
+  background: black;
+  height: 3px;
+  width: 100%;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Navbar default desktop view */
+#navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+/* MOBILE VIEW */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+    margin-left: auto;  /* push to right */
+  }
+
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+
+  #navbar {
+    position: fixed;
+    top: 60px;
+    right: -100%;
+    width: 200px;
+    height: calc(100vh - 60px);
+    background: rgba(255, 222, 173, 0.9);   /* burlywood but slighty transparent */
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 25px;
+    gap: 18px;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.25);
+    transition: right 0.3s ease;
+    border-radius: 8px 0 0 8px;
+  }
+
+  #navbar.show {
+    right: 0;
+  }
+
+  #navbar li {
+    width: 100%;
+  }
+
+  #navbar li a {
+    font-size: 18px;
+    color: black;
+    width: 100%;
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+
+  /* Transform hamburger into X when active */
+  .menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translateY(8px);
+  }
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-8px);
+  }
+}
+
+/* Backdrop Overlay for Mobile Menu */
+#menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+}
+
+#menu-overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Make sure navbar is above the blur */
+#navbar {
+  z-index: 1000;
+}
+
+/* SHOP PAGE */
+
+
 /* HOME PAGE */
 
 #hero{
@@ -166,6 +281,7 @@ header{
   color: #222;
 }
 
+
 /* For the product section  */
 
 /* style.css */
@@ -224,78 +340,162 @@ header{
 }
 
 /* Product card styling */
-.product-card {
+/* --- Product Page --- */
+.product-page {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* Image section */
+.product-gallery {
+  flex: 1 1 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #eee;
+  border-radius: 8px;
   background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  padding: 15px;
-  text-align: center;
-  transition: 0.3s;
-  position: relative;
+  padding: 20px;
+}
+.product-gallery img {
+  max-width: 100%;
+  border-radius: 8px;
+  object-fit: contain;
 }
 
-.product-card:hover {
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  transform: translateY(-5px);
+/* Details section */
+.product-details {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
-
-/* 🔍 Smooth image zoom on hover */
-.product-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-  transition: transform 0.3s ease;
+.product-details h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
 }
-
-.product-card:hover img {
-  transform: scale(1.05);
+.product-details h3 {
+  font-size: 1.5rem;
+  color: #ff6600;
 }
-
-
-
-.product-name {
-  font-size: 18px;
-  margin: 10px 0 5px;
-  color: #333;
+.product-details p {
+  color: #444;
+  margin: 4px 0;
 }
-
-.product-price {
-  color: #007bff;
-  font-weight: bold;
-  margin-bottom: 10px;
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
-.cart-btn,
-.buy-btn {
-  background: #007bff;
-  color: #fff;
+.buttons button {
+  flex: 1;
+  padding: 12px;
   border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
+  border-radius: 8px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s ease;
+}
+#add-to-cart {
+  background: #ff9900;
+  color: white;
+}
+#add-to-cart:hover {
+  background: #e68a00;
+}
+#buy-now {
+  background: #1a73e8;
+  color: white;
+}
+#buy-now:hover {
+  background: #1557b0;
 }
 
-.buy-btn:hover {
-  background: #001d3d;
+/* Delivery box */
+.delivery-box {
+  border: 1px solid #eee;
+  background: #fafafa;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 15px;
 }
 
-/* Add to Cart Button */
-.cart-btn {
-  background: #28a745;
-  color: #fff;
-}
-.cart-btn:hover {
-  background: #044e15;
+/* Description */
+.product-description {
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+  color: #555;
+  line-height: 1.6;
 }
 
-/* Button container for spacing */
-.card-buttons {
+/* Related products */
+.related-section {
+  margin-top: 40px;
+}
+.related-header {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  align-items: center;
 }
-
+.related-header h3 {
+  font-size: 1.4rem;
+}
+.related-controls button {
+  border: none;
+  background: #f3f3f3;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 18px;
+}
+.related-controls button:hover {
+  background: #ddd;
+}
+.related-grid {
+  display: flex;
+  overflow-x: auto;
+  gap: 5px;
+  padding: 10px 0;
+}
+.related-grid::-webkit-scrollbar {
+  display: none;
+}
+.product-card {
+  flex: 0 0 160px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background: #fff;
+  text-align: center;
+  padding: 10px;
+  transition: box-shadow 0.3s;
+  cursor: pointer;
+}
+.product-card:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.product-card img {
+  width: 100%;
+  border-radius: 6px;
+}
+.product-card .product-name {
+  font-size: 0.95rem;
+  margin: 6px 0 2px;
+}
+.product-card .product-price {
+  color: #ff6600;
+  font-weight: bold;
+}
 
 
 #banner{
@@ -888,119 +1088,6 @@ footer p:last-child {
   }
 }
 
-/* Hamburger Menu */
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  width: 28px;
-  height: 22px;
-  justify-content: space-between;
-  position: relative;
-  z-index: 1001; /* above navbar */
-}
-
-.menu-toggle span {
-  background: black;
-  height: 3px;
-  width: 100%;
-  border-radius: 3px;
-  transition: all 0.3s ease;
-}
-
-/* Navbar default desktop view */
-#navbar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-
-/* MOBILE VIEW */
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: flex;
-    margin-left: auto;  /* push to right */
-  }
-
-  header {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-  }
-
-  #navbar {
-    position: fixed;
-    top: 60px;
-    right: -100%;
-    width: 200px;
-    height: calc(100vh - 60px);
-    background: rgba(255, 222, 173, 0.9);   /* burlywood but slighty transparent */
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 25px;
-    gap: 18px;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.25);
-    transition: right 0.3s ease;
-    border-radius: 8px 0 0 8px;
-  }
-
-  #navbar.show {
-    right: 0;
-  }
-
-  #navbar li {
-    width: 100%;
-  }
-
-  #navbar li a {
-    font-size: 18px;
-    color: black;
-    width: 100%;
-    display: block;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-  }
-
-  /* Transform hamburger into X when active */
-  .menu-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translateY(8px);
-  }
-  .menu-toggle.active span:nth-child(2) {
-    opacity: 0;
-  }
-  .menu-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translateY(-8px);
-  }
-}
-
-/* Backdrop Overlay for Mobile Menu */
-#menu-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(6px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 999;
-}
-
-#menu-overlay.show {
-  opacity: 1;
-  pointer-events: all;
-}
-
-/* Make sure navbar is above the blur */
-#navbar {
-  z-index: 1000;
-}
-
-/* SHOP PAGE */
 
 /* Shop banner */
 .shop-banner {
