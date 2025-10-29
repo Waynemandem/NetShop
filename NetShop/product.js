@@ -95,4 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+
+document.getElementById("add-to-cart").addEventListener("click", () => {
+  addToCart(productData);
+  alert(`${productData.name} added to cart 🛒`);
+});
 // ...existing code...
