@@ -5,23 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact</title>
     <link rel="stylesheet" href="netshop.css">
-    <link rel="icon" type="image/png" href="arrow.png">
     <script defer src="netshop.js"></script>
+    <link rel="icon" type="image/png" href="arrow.png">
 </head>
 <body>
     <header>
-        <h1>NetShop</h1>
-        <nav>
-            <ul id="navbar">
-                <li><a href="netshop.html">Home</a></li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
-            </ul>
-        </nav>
-    </header>    
+    <h1>NetShop</h1>
+    <nav>
+      <ul id="navbar">
+        <li><a href="netshop.html" class="nav-link active">Home</a></li>
+        <li><a href="shop.html" class="nav-link active">Shop</a></li>
+        <li><a href="blog.html" class="nav-link active">Blog</a></li>
+        <li><a href="about.html" class="nav-link active">About</a></li>
+        <li><a href="contact.html" class="nav-link active">Contact</a></li>
+        <li>
+                  <a href="cart.html" class="cart-link">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                  </a>
+                </li>
+      </ul>
+    </nav>
+    <div class="menu-toggle" id="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+  <div id="menu-overlay"></div>
+
 
 
     <footer>
@@ -74,6 +86,30 @@
       <i class="fa-solid fa-credit-card"></i>
     <p>&copy; 2023 NetShop. All rights reserved.</p>
    </footer>
+
+     <script src="https://kit.fontawesome.com/82046994e6.js" crossorigin="anonymous"></script>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbar = document.getElementById('navbar');
+    const menuOverlay = document.getElementById('menu-overlay');
+
+    menuToggle.addEventListener('click', () => {
+      navbar.classList.toggle('show');
+      menuToggle.classList.toggle('active');
+      menuOverlay.classList.toggle('show');
+    });
+
+    // Close menu if user clicks outside
+    menuOverlay.addEventListener('click', () => {
+      navbar.classList.remove('show');
+      menuToggle.classList.remove('active');
+      menuOverlay.classList.remove('show');
+    });
+  </script>
+
 
 
     

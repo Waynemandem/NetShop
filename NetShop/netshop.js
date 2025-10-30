@@ -1,5 +1,16 @@
 // ...existing code...
 // --- Helpers ---
+
+document.addEventListener("DOMContentLoaded", () => {
+  const cartCountElement = document.querySelector('.cart-count');
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  if (cartCountElement) {
+    cartCountElement.textContent = cart.length;
+  }
+});
+
+
 const productGrid = document.getElementById("productGrid");
 const productGrid2 = document.getElementById("productGrid2");
 const toastContainer = document.getElementById("toastContainer");
@@ -126,19 +137,30 @@ if (productGrid2) {
 // --- Global click handling (event delegation) ---
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("button[data-action]");
-  if (btn) {
-    const action = btn.dataset.action;
-    const card = btn.closest(".product-card, .product-card2");
-    const name = card?.dataset?.name || "Product";
-    if (action === "cart") {
-      showToast(`${name} added to cart 🛒`);
-      return;
-    }
-    if (action === "buy") {
-      showToast(`Proceeding to buy ${name} 💳`);
-      return;
-    }
+  if (!btn) return;
+
+  const action = btn.dataset.action;
+  const card = btn.closest(".product-card, .product-card2");
+  const name = card?.dataset?.name;
+
+  if (!name) return;
+
+  const product = [...products, ...products2].find(p => p.name === name);
+  if (!product) return;
+
+  if (action === "cart") {
+    addToCart(product);
+    showToast(`${name} added to cart 🛒`);
+    return;
   }
+
+  if (action === "buy") {
+    addToCart(product);
+    showToast(`Proceeding to checkout for ${name} 💳`);
+    window.location.href = "cart.html";
+    return;
+  }
+});
 
   // If click landed on a product card but not on buttons, open product page
 const card = e.target.closest(".product-card, .product-card2");
@@ -227,7 +249,6 @@ const currentUrl = window.location.href;
 links.forEach(link => {
   if (link.href === currentUrl) link.classList.add('active');
 });
-});
 
 function addToCart(product){
    let cart = 
@@ -235,13 +256,27 @@ function addToCart(product){
 
    // check if item exists
    const existingItem = cart.find(item => item.name === product.name);
+
+   const price = parseFloat(product.price.replace(/[^0-9.]/g, "")) || 0;
+
    if (existingItem) {
     existingItem.quantity += 1;
    } else {
-    cart.push({ ...product, quantity: 1});
+    cart.push({ ...product, price, quantity: 1});
    }
    localStorage.setItem("cart",
     JSON.stringify(cart)
    );
+   updateCartCount();
   }
+
+  function updateCartCount() {
+  const cartCountEl = document.getElementById("cart-count");
+  if (!cartCountEl) return;
+
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  cartCountEl.textContent = totalItems;
+}
+
 // ...existing code...

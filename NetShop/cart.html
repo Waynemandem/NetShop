@@ -9,6 +9,7 @@
     <script defer src="netshop.js"></script>
     <script defer src="product.js"></script>
     <script defer src="shop.js"></script>
+    <link rel="icon" type="image/png" href="arrow.png">
 </head>
 <body>
     <header>
@@ -20,7 +21,13 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="cart.html"><i class="fa-solid fa-cart-shopping">cart</i></a></li>
+                <li>
+                    <a href="cart.html" class="cart-link">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                    </a>
+                </li>
+
             </ul>
         </nav>
           <div class="menu-toggle" id="menu-toggle">
