@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout page</title>
+    <title>Seller Page</title>
     <link rel="stylesheet" href="netshop.css">
     <script defer src="netshop.js"></script>
     <script defer src="shop.js"></script>
     <script defer src="product.js"></script>
-    <script defer src="checkout.js"></script>
     <link rel="icon" type="image/png" href="arrow.png">
-
 </head>
 <body>
     <header>
@@ -37,51 +35,9 @@
     </div>
   </header>
   <div id="menu-overlay"></div>
+    
 
-<main class="checkout-container">
-    <section class="checkout-form-section">
-      <h2>Delivery Details</h2>
-      <form id="checkout-form">
-        <label>Full Name</label>
-        <input type="text" id="name" placeholder="Enter your full name" required>
-
-        <label>Phone Number</label>
-        <input type="tel" id="phone" placeholder="e.g. 09012345678" required>
-
-        <label>Delivery Address</label>
-        <textarea id="address" placeholder="Enter your delivery address" required></textarea>
-
-        <label>City</label>
-        <input type="text" id="city" placeholder="Enter your city" required>
-
-        <label>Payment Method</label>
-        <select id="payment-method" required>
-          <option value="">Select</option>
-          <option value="card">Credit/Debit Card</option>
-          <option value="transfer">Bank Transfer</option>
-          <option value="delivery">Pay on Delivery</option>
-        </select>
-
-        <button type="submit" id="place-order">Place Order</button>
-      </form>
-    </section>
-
-    <section class="order-summary">
-        <h2>Order Summary</h2>
-          <div id="order-items"></div>
-
-         <div class="price-breakdown">
-        <p><span>Subtotal:</span> <span id="subtotal-price">₦0</span></p>
-        <p><span>Delivery Fee:</span> <span id="delivery-fee">₦1,200</span></p>
-        <hr>
-        <p class="total"><span>Total:</span> <span id="total-price">₦0</span></p>
-      </div>
-    </section>
-
-  </main>
-
-
-  <footer>
+   <footer>
     <div class="col">
       <h1>NetShop</h1>
       <h4>Contacts</h4>
@@ -139,30 +95,8 @@
   </footer>
 
 
-  <script src="https://kit.fontawesome.com/82046994e6.js" crossorigin="anonymous"></script>
-
-  <!-- Toast Container -->
-  <div class="toast-container" id="toastContainer"></div>
-  <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const navbar = document.getElementById('navbar');
-    const menuOverlay = document.getElementById('menu-overlay');
-
-    menuToggle.addEventListener('click', () => {
-      navbar.classList.toggle('show');
-      menuToggle.classList.toggle('active');
-      menuOverlay.classList.toggle('show');
-    });
-
-    // Close menu if user clicks outside
-    menuOverlay.addEventListener('click', () => {
-      navbar.classList.remove('show');
-      menuToggle.classList.remove('active');
-      menuOverlay.classList.remove('show');
-    });
-  </script>
 
 
-    
+  
 </body>
 </html>
