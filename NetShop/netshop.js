@@ -279,28 +279,18 @@ function addToCart(product){
   cartCountEl.textContent = totalItems;
 }
 
-// Wait until all HTML content is loaded
 document.addEventListener("DOMContentLoaded", () => {
-  // Check if current page is netshop.html
   if (window.location.pathname.endsWith("netshop.html")) {
-
-    // Select the seller button
     const btn = document.getElementById("seller-btn");
-
-    // If the button exists, attach a click event
     if (btn) {
       btn.addEventListener("click", () => {
-        // Redirect to seller.html when clicked
         window.location.href = "seller.html";
       });
     }
-
   } else {
-    // If not on netshop.html, remove button if it exists
     const existingBtn = document.getElementById("seller-btn");
     if (existingBtn) existingBtn.remove();
   }
 });
-
 
 // ...existing code...
