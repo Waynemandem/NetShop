@@ -180,8 +180,7 @@ if (card && !e.target.closest("button")) {
 // --- Promo Section ---
 const promos = [
   { image: "iphone-promo.jpg", title: "New Arrivals", subtitle: "Fresh styles for 2025", link: "#" },
-  { image: "food-banner.jpg", title: "Flash Sale", subtitle: "Up to 50% off", link: "#" },
-  { image: "banner3.jpg", title: "Trending Now", subtitle: "Hot picks of the week", link: "#" }
+  { image: "food-banner.jpg", title: "Flash Sale", subtitle: "Up to 50% off", link: "#" }
 ];
 
 if (promoSection) {
