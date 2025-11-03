@@ -137,8 +137,7 @@ if (productGrid2) {
 // --- Global click handling (event delegation) ---
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("button[data-action]");
-  if (!btn) return;
-
+  if (btn) {
   const action = btn.dataset.action;
   const card = btn.closest(".product-card, .product-card2");
   const name = card?.dataset?.name;
@@ -160,7 +159,7 @@ document.addEventListener("click", (e) => {
     window.location.href = "cart.html";
     return;
   }
-});
+}
 
   // If click landed on a product card but not on buttons, open product page
 const card = e.target.closest(".product-card, .product-card2");
@@ -169,8 +168,8 @@ if (card && !e.target.closest("button")) {
   const product = [...products, ...products2].find(p => p.name === name);
 
   if (product) {
-    // Store full product data for product.html to use
-    localStorage.setItem("selectedProduct", JSON.stringify(product));
+    // Store full product data for product.html to use 
+    try { localStorage.setItem("selectedProduct", JSON.stringify(product)); }  catch (err) { console.warn(err); }
     window.location.href = "product.html";
   } else {
     console.warn("Product not found for:", name);
@@ -257,27 +256,34 @@ function addToCart(product){
    // check if item exists
    const existingItem = cart.find(item => item.name === product.name);
 
-   const price = parseFloat(product.price.replace(/[^0-9.]/g, "")) || 0;
+   const price = parseFloat(String(product.price).replace(/[^0-9.]/g, "")) || 0;
 
    if (existingItem) {
     existingItem.quantity += 1;
    } else {
     cart.push({ ...product, price, quantity: 1});
    }
+   try {
    localStorage.setItem("cart",
     JSON.stringify(cart)
    );
+  } catch (err) {
+    console.warn("could not save cart:", err);
+    }
    updateCartCount();
   }
 
   function updateCartCount() {
-  const cartCountEl = document.getElementById("cart-count");
+  // prefer element with id 'cart-count' (update your markup to use this id)  
+  const cartCountEl = document.getElementById("cart-count") || document.querySelector('.cart-count') ;
   if (!cartCountEl) return;
 
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
   cartCountEl.textContent = totalItems;
 }
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
   if (window.location.pathname.endsWith("netshop.html")) {
@@ -292,5 +298,33 @@ document.addEventListener("DOMContentLoaded", () => {
     if (existingBtn) existingBtn.remove();
   }
 });
+
+
+
+// --- Dynamic Navbar Login State ---
+document.addEventListener("DOMContentLoaded", () => {
+  const navLinks = document.querySelector(".nav-links");
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+  // If logged in, show logout + username
+  if (loggedInUser) {
+    navLinks.insertAdjacentHTML(
+      "beforeend",
+      `<li class="nav-user">👋 ${loggedInUser.name}</li>
+       <li><a href="#" id="logout" class="nav-link logout-btn">Logout</a></li>`
+    );
+  }
+
+  // Handle logout
+  const logoutBtn = document.getElementById("logout");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("loggedInUser");
+      alert("You have logged out.");
+      window.location.reload();
+    });
+  }
+});
+})
 
 // ...existing code...

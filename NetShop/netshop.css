@@ -1464,3 +1464,41 @@ button:hover {
   background-color: #0056b3;
   transform: scale(1.05);
 }
+
+/* for login */
+
+.login-container {
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 30px;
+  border-radius: 10px;
+  background: #1a1a1a;
+  color: white;
+  box-shadow: 0 0 20px rgba(0, 188, 212, 0.3);
+  text-align: center;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 15px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.login-container button {
+  width: 100%;
+  background-color: #00bcd4;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.login-container button:hover {
+  background-color: #0097a7;
+}

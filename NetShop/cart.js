@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const cartContainer = document.getElementById("cart-container");
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  updateCartCount();
+
 
 
   if (cart.length === 0) {
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cartContainer.appendChild(div);
   });
 
-  updateCartCount();
+
 
 
   const totalDiv = document.createElement("div");

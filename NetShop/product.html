@@ -11,31 +11,33 @@
     <link rel="icon" type="image/png" href="arrow.png">
 </head>
 <body>
-    <header>
-        <h1>NetShop</h1>
-        <nav>
-            <ul id="navbar">
-                <li><a href="netshop.html">Home</a></li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li>
+     <header>
+    <h1>Product</h1>
+      <ul id="navbar">
+        <li><a href="netshop.html" class="nav-link active">Home</a></li>
+        <li><a href="shop.html" class="nav-link active">Shop</a></li>
+        <li><a href="categories.html" class="nav-link active">Categories</a></li>
+        <li><a href="about.html" class="nav-link active">About</a></li>
+        <li><a href="contact.html" class="nav-link active">Contact</a></li>
+                <li><a href="login.html" class="nav-link login-btn">
+          <i class="fa-solid fa-user"></i>
+          </a>
+        </li>
+        <li>
                   <a href="cart.html" class="cart-link">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span id="cart-count" class="cart-count">0</span>
                   </a>
                 </li>
- 
-            </ul>
-        </nav>
-          <div class="menu-toggle" id="menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-    </header>
-    <div id="menu-overlay"></div>
+      </ul>
+    </nav>
+    <div class="menu-toggle" id="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+  <div id="menu-overlay"></div>
 
 <main class="product-page section-p1">
   <div class="product-container">
@@ -143,6 +145,8 @@ Created by Waynemandem
     <p>&copy; 2023 NetShop. All rights reserved.</p>
     </div>
    </footer>
+
+   
      <div class="toast-container" id="toastContainer"></div>
    <script>
   const menuToggle = document.getElementById('menu-toggle');
