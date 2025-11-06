@@ -17,196 +17,330 @@ const toastContainer = document.getElementById("toastContainer");
 const promoSection = document.getElementById("promo-section");
 const categoryGrid = document.getElementById("category-grid");
 
-function showToast(message, type = "success") {
-  if (!toastContainer) return;
-  const toast = document.createElement("div");
-  toast.className = `toast ${type}`;
-  toast.textContent = message;
-  toastContainer.appendChild(toast);
-  setTimeout(() => toast.remove(), 3000);
-}
+// Consolidated and upgraded netshop.js
+// Single entry point, safer localStorage helpers, consistent selectors, accessible cards
 
-function slugify(text = "") {
-  return String(text).toLowerCase().trim().replace(/\s+/g, "-").replace(/[^\w-]/g, "");
-}
+document.addEventListener("DOMContentLoaded", () => {
+  // --- Utility helpers ---
+  const safeParse = (key, fallback = null) => {
+    try {
+      const v = localStorage.getItem(key);
+      return v ? JSON.parse(v) : fallback;
+    } catch (e) {
+      console.warn(`safeParse: invalid JSON for ${key}`);
+      return fallback;
+    }
+  };
 
-function createTextElement(tag, className, text) {
-  const el = document.createElement(tag);
-  if (className) el.className = className;
-  el.textContent = text;
-  return el;
-}
+  const safeSet = (key, value) => {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {
+      console.warn(`safeSet: could not save ${key}`, e);
+    }
+  };
 
-// --- Data ---
-const products = [
-  { brandName: "Nike", name: "Nike Air Sneakers", price: "$120", image: "nike1.jpeg" },
-  { brandName: "Adidas", name: "Adidas Ultraboost", price: "$140", image: "adidas.jpeg" },
-  { brandName: "Puma", name: "Puma Classic", price: "$100", image: "puma1.jpg" },
-  { brandName: "New Balance", name: "New Balance 550", price: "$110", image: "newBalance.jpeg" },
-  { brandName: "Converse", name: "Converse All Star", price: "$100", image: "ConverseAllStar.jpeg" },
-  { brandName: "Nike", name: "Nike Stack", price: "$130", image: "nikestack.jpeg" }
-].map(p => ({ ...p, id: slugify(p.name) }));
+  const el = (selector) => document.querySelector(selector);
+  const elById = (id) => document.getElementById(id);
 
-const products2 = [
-  { brandName: "Big 4", name: "Rema Swag", price: "$499.99", image: "starboy.jpg" },
-  { brandName: "Africon", name: "Africa", price: "$199.99", image: "ConverseAllStar.jpeg" },
-  { brandName: "Wayne Real Estates", name: "4 Bedroom House", price: "$31,000,000", image: "mistressHome.jpg" },
-  { brandName: "Big 4", name: "Suit", price: "$310", image: "suit.jpg" },
-  { brandName: "Big 4", name: "Track Suit", price: "$350", image: "tracktech.jpg" },
-  { brandName: "Big 4", name: "Sharp Fit", price: "$310.99", image: "sharpfit.jpg" },
-  { brandName: "Big 4", name: "Cloth Collection", price: "$699.99", image: "tops&bottom.jpg" },
-  { brandName: "Big 4", name: "Shoe Collection", price: "$999.99", image: "shoes.jpg" },
-  { brandName: "Big 4", name: "Jogger and Shoes", price: "$699.99", image: "track&shoe.jpg" }
-].map(p => ({ ...p, id: slugify(p.name) }));
+  // DOM roots
+  const productGrid = elById("productGrid");
+  const productGrid2 = elById("productGrid2");
+  const toastContainer = elById("toastContainer");
+  const promoSection = elById("promo-section");
+  const categoryGrid = elById("category-grid");
 
-localStorage.setItem("shopProducts", JSON.stringify([...products, ...products2]));
+  function showToast(message, type = "success") {
+    if (!toastContainer) return;
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.setAttribute("role", "status");
+    toast.textContent = message;
+    toastContainer.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+  // expose globally so other scripts can reuse the same toast UI
+  try { window.showToast = showToast; } catch (e) { /* ignore in non-browser env */ }
 
+  function slugify(text = "") {
+    return String(text).toLowerCase().trim().replace(/\s+/g, "-").replace(/[^\w-]/g, "");
+  }
 
-// --- Builders ---
-function buildProductCard(p, cardClass = "product-card") {
-  const card = document.createElement("div");
-  card.className = cardClass;
-  card.dataset.name = p.name;
-  card.dataset.id = p.id;
+  function createTextElement(tag, className, text) {
+    const o = document.createElement(tag);
+    if (className) o.className = className;
+    o.textContent = text;
+    return o;
+  }
 
-  const link = document.createElement("a");
-  link.className = "product-link";
-  link.href = `product.html?name=${encodeURIComponent(p.name)}`;
-  link.setAttribute("aria-label", `${p.name} details`);
+  // --- Data ---
+  const products = [
+    { brandName: "Nike", name: "Nike Air Sneakers", price: "$120", image: "nike1.jpeg" },
+    { brandName: "Adidas", name: "Adidas Ultraboost", price: "$140", image: "adidas.jpeg" },
+    { brandName: "Puma", name: "Puma Classic", price: "$100", image: "puma1.jpg" },
+    { brandName: "New Balance", name: "New Balance 550", price: "$110", image: "newBalance.jpeg" },
+    { brandName: "Converse", name: "Converse All Star", price: "$100", image: "ConverseAllStar.jpeg" },
+    { brandName: "Nike", name: "Nike Stack", price: "$130", image: "nikestack.jpeg" }
+  ].map(p => ({ ...p, id: slugify(p.name) }));
 
-  const img = document.createElement("img");
-  img.src = p.image;
-  img.alt = p.name;
-  img.loading = "lazy";
+  const products2 = [
+    { brandName: "Big 4", name: "Rema Swag", price: "$499.99", image: "starboy.jpg" },
+    { brandName: "Africon", name: "Africa", price: "$199.99", image: "ConverseAllStar.jpeg" },
+    { brandName: "Wayne Real Estates", name: "4 Bedroom House", price: "$31,000,000", image: "mistressHome.jpg" },
+    { brandName: "Big 4", name: "Suit", price: "$310", image: "suit.jpg" },
+    { brandName: "Big 4", name: "Track Suit", price: "$350", image: "tracktech.jpg" },
+    { brandName: "Big 4", name: "Sharp Fit", price: "$310.99", image: "sharpfit.jpg" },
+    { brandName: "Big 4", name: "Cloth Collection", price: "$699.99", image: "tops&bottom.jpg" },
+    { brandName: "Big 4", name: "Shoe Collection", price: "$999.99", image: "shoes.jpg" },
+    { brandName: "Big 4", name: "Jogger and Shoes", price: "$699.99", image: "track&shoe.jpg" }
+  ].map(p => ({ ...p, id: slugify(p.name) }));
 
-  link.appendChild(img);
-  link.appendChild(createTextElement("p", "brandName", p.brandName));
-  link.appendChild(createTextElement("p", "product-name", p.name));
-  link.appendChild(createTextElement("p", "product-price", p.price));
+  // persist combined catalog if not present
+  if (!safeParse("shopProducts")) safeSet("shopProducts", [...products, ...products2]);
 
-  const buttons = document.createElement("div");
-  buttons.className = "card-buttons";
+  // --- Builder ---
+  function buildProductCard(p, className = "product-card") {
+    const card = document.createElement("article");
+    card.className = className;
+    card.dataset.id = p.id;
+    card.dataset.name = p.name;
 
-  const buy = document.createElement("button");
-  buy.type = "button";
-  buy.className = "buy-btn";
-  buy.dataset.action = "buy";
-  buy.setAttribute("aria-label", `Buy ${p.name}`);
-  buy.textContent = "Buy Now";
+    const link = document.createElement("a");
+    link.className = "product-link";
+    link.href = `product.html?name=${encodeURIComponent(p.name)}`;
+    link.setAttribute("aria-label", `${p.name} details`);
 
-  const cart = document.createElement("button");
-  cart.type = "button";
-  cart.className = "cart-btn";
-  cart.dataset.action = "cart";
-  cart.setAttribute("aria-label", `Add ${p.name} to cart`);
-  cart.textContent = "Add to Cart";
+    const img = document.createElement("img");
+    img.src = p.image || "";
+    img.alt = p.name || "Product image";
+    img.loading = "lazy";
+    img.decoding = "async";
 
-  buttons.appendChild(buy);
-  buttons.appendChild(cart);
+    link.appendChild(img);
+    link.appendChild(createTextElement("p", "brandName", p.brandName || ""));
+    link.appendChild(createTextElement("p", "product-name", p.name || ""));
+    link.appendChild(createTextElement("p", "product-price", p.price || ""));
 
-  card.appendChild(link);
-  card.appendChild(buttons);
+    const buttons = document.createElement("div");
+    buttons.className = "card-buttons";
 
-  // keyboard support: Enter/Space on card navigates
-  card.tabIndex = 0;
-  card.addEventListener("keydown", (e) => {
-    if ((e.key === "Enter" || e.key === " ") && document.activeElement === card) {
-      window.location.href = `product.html?name=${encodeURIComponent(p.name)}`;
+    const buy = document.createElement("button");
+    buy.type = "button";
+    buy.className = "buy-btn";
+    buy.dataset.action = "buy";
+    buy.setAttribute("aria-label", `Buy ${p.name}`);
+    buy.textContent = "Buy Now";
+
+    const cart = document.createElement("button");
+    cart.type = "button";
+    cart.className = "cart-btn";
+    cart.dataset.action = "cart";
+    cart.setAttribute("aria-label", `Add ${p.name} to cart`);
+    cart.textContent = "Add to Cart";
+
+    buttons.appendChild(buy);
+    buttons.appendChild(cart);
+
+    card.appendChild(link);
+    card.appendChild(buttons);
+
+    // keyboard support for entire card
+    card.tabIndex = 0;
+    card.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter" || ev.key === " ") {
+        window.location.href = link.href;
+      }
+    });
+
+    return card;
+  }
+
+  // --- Render grids ---
+  const renderGrid = (container, list, className) => {
+    if (!container) return;
+    container.innerHTML = "";
+    const frag = document.createDocumentFragment();
+    list.forEach(p => frag.appendChild(buildProductCard(p, className)));
+    container.appendChild(frag);
+  };
+
+  renderGrid(productGrid, products, "product-card");
+  renderGrid(productGrid2, products2, "product-card2");
+
+  // --- Cart functions ---
+  function readCart() {
+    return safeParse("cart", []);
+  }
+
+  function writeCart(cart) {
+    safeSet("cart", cart);
+  }
+
+  function updateCartCount() {
+    const cartCountEl = elById("cart-count") || el(".cart-count");
+    if (!cartCountEl) return;
+    const cart = readCart();
+    const total = cart.reduce((s, it) => s + (it.quantity || 0), 0);
+    cartCountEl.textContent = total;
+  }
+
+  function addToCart(product) {
+    const cart = readCart();
+    const idx = cart.findIndex(i => i.id === product.id || i.name === product.name);
+    const normalizePrice = (price) => {
+      if (price == null) return 0;
+      const n = String(price).replace(/[^0-9.]/g, "");
+      return Number(n) || 0;
+    };
+    const price = normalizePrice(product.price);
+    if (idx >= 0) {
+      cart[idx].quantity = (cart[idx].quantity || 0) + 1;
+    } else {
+      cart.push({ id: product.id || slugify(product.name), name: product.name, price, quantity: 1, image: product.image, brandName: product.brandName });
+    }
+    writeCart(cart);
+    updateCartCount();
+  }
+
+  // ensure cart count initial
+  updateCartCount();
+
+  // --- Event delegation: clicks for buttons and card navigation ---
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if (btn) {
+      const action = btn.dataset.action;
+      const card = btn.closest(".product-card, .product-card2");
+      const id = card?.dataset?.id;
+      const name = card?.dataset?.name;
+      const product = [...products, ...products2].find(p => p.id === id || p.name === name);
+      if (!product) return;
+
+      if (action === "cart") {
+        addToCart(product);
+        showToast(`${product.name} added to cart 🛒`);
+      }
+
+      if (action === "buy") {
+        addToCart(product);
+        showToast(`Proceeding to checkout for ${product.name} 💳`);
+        window.location.href = "cart.html";
+      }
+
+      return;
+    }
+
+    // click on a card (but not on its buttons)
+    const card = e.target.closest(".product-card, .product-card2");
+    if (card && !e.target.closest("button")) {
+      const id = card.dataset.id;
+      const name = card.dataset.name;
+      const product = [...products, ...products2].find(p => p.id === id || p.name === name);
+      if (!product) return console.warn("Product not found for:", name);
+      safeSet("selectedProduct", product);
+      window.location.href = "product.html";
     }
   });
 
-  return card;
-}
+  // --- Promo Section ---
+  const promos = [
+    { image: "iphone-promo.jpg", title: "New Arrivals", subtitle: "Fresh styles for 2025", link: "#" },
+    { image: "food-banner.jpg", title: "Flash Sale", subtitle: "Up to 50% off", link: "#" }
+  ];
 
-// --- Render Section 1 ---
-if (productGrid) {
-  productGrid.innerHTML = "";
-  const frag = document.createDocumentFragment();
-  products.forEach(p => frag.appendChild(buildProductCard(p, "product-card")));
-  productGrid.appendChild(frag);
-}
+  if (promoSection) {
+    promoSection.innerHTML = "";
+    const frag = document.createDocumentFragment();
+    promos.forEach(({ image, title, subtitle, link }) => {
+      const promo = document.createElement("div");
+      promo.className = "promo-card";
+      const a = document.createElement("a");
+      a.href = link;
+      const img = document.createElement("img");
+      img.src = image;
+      img.alt = title;
+      img.loading = "lazy";
 
-// --- Render Section 2 ---
-if (productGrid2) {
-  productGrid2.innerHTML = "";
-  const frag2 = document.createDocumentFragment();
-  products2.forEach(p => frag2.appendChild(buildProductCard(p, "product-card2")));
-  productGrid2.appendChild(frag2);
-}
+      const overlay = document.createElement("div");
+      overlay.className = "promo-overlay";
+      overlay.innerHTML = `<strong>${title}</strong><span>${subtitle}</span><div class="promo-button">Shop Now</div>`;
 
-// --- Global click handling (event delegation) ---
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest("button[data-action]");
-  if (btn) {
-  const action = btn.dataset.action;
-  const card = btn.closest(".product-card, .product-card2");
-  const name = card?.dataset?.name;
-
-  if (!name) return;
-
-  const product = [...products, ...products2].find(p => p.name === name);
-  if (!product) return;
-
-  if (action === "cart") {
-    addToCart(product);
-    showToast(`${name} added to cart 🛒`);
-    return;
+      a.appendChild(img);
+      a.appendChild(overlay);
+      promo.appendChild(a);
+      frag.appendChild(promo);
+    });
+    promoSection.appendChild(frag);
   }
 
-  if (action === "buy") {
-    addToCart(product);
-    showToast(`Proceeding to checkout for ${name} 💳`);
-    window.location.href = "cart.html";
-    return;
+  // --- Categories ---
+  const categories = [
+    { image: "crocs.jpg", name: "Unisex Footwear", link: "#" },
+    { image: "perfume.jpg", name: "Hygiene and Self Care", link: "#" },
+    { image: "nikestyle.jpg", name: "Nike", link: "#" },
+    { image: "iphone-promo.jpg", name: "Tech Gadgets", link: "#" },
+    { image: "mistressHome.jpg", name: "Home & Living", link: "#" },
+    { image: "burger.jpg", name: "Fast Food", link: "#" },
+    { image: "Menclothing.jpg", name: "Men's Clothing", link: "#" },
+    { image: "womanclothing.jpg", name: "Women's Clothing", link: "#" }
+  ];
+
+  if (categoryGrid) {
+    categoryGrid.innerHTML = "";
+    const frag = document.createDocumentFragment();
+    categories.forEach(({ image, name, link }) => {
+      const a = document.createElement("a");
+      a.className = "category-card";
+      a.href = link;
+      const img = document.createElement("img");
+      img.src = image;
+      img.alt = name;
+      img.loading = "lazy";
+      const info = document.createElement("div");
+      info.className = "category-info";
+      info.textContent = name;
+      a.appendChild(img);
+      a.appendChild(info);
+      frag.appendChild(a);
+    });
+    categoryGrid.appendChild(frag);
   }
-}
 
-  // If click landed on a product card but not on buttons, open product page
-const card = e.target.closest(".product-card, .product-card2");
-if (card && !e.target.closest("button")) {
-  const name = card.dataset.name;
-  const product = [...products, ...products2].find(p => p.name === name);
+  // --- Nav links active state ---
+  document.querySelectorAll('.nav-link').forEach(link => {
+    try { if (link.href === location.href) link.classList.add('active'); } catch(e){}
+  });
 
-  if (product) {
-    // Store full product data for product.html to use 
-    try { localStorage.setItem("selectedProduct", JSON.stringify(product)); }  catch (err) { console.warn(err); }
-    window.location.href = "product.html";
+  // Seller button behavior
+  if (location.pathname.endsWith("netshop.html")) {
+    const btn = elById("seller-btn");
+    if (btn) btn.addEventListener("click", () => location.href = "seller.html");
   } else {
-    console.warn("Product not found for:", name);
+    elById("seller-btn")?.remove();
   }
-}
 
+  // Dynamic navbar login state
+  const navLinks = document.querySelector(".nav-links");
+  const loggedInUser = safeParse("loggedInUser");
+  if (loggedInUser && navLinks) {
+    navLinks.insertAdjacentHTML("beforeend", `<li class="nav-user">👋 ${loggedInUser.name}</li><li><a href="#" id="logout" class="nav-link logout-btn">Logout</a></li>`);
+    document.getElementById("logout")?.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      localStorage.removeItem("loggedInUser");
+      showToast("You have logged out.");
+      setTimeout(() => location.reload(), 500);
+    });
+  }
 
-// --- Promo Section ---
-const promos = [
-  { image: "iphone-promo.jpg", title: "New Arrivals", subtitle: "Fresh styles for 2025", link: "#" },
-  { image: "food-banner.jpg", title: "Flash Sale", subtitle: "Up to 50% off", link: "#" }
-];
+});
 
-if (promoSection) {
-  promoSection.innerHTML = "";
-  const frag = document.createDocumentFragment();
-  promos.forEach(({ image, title, subtitle, link }) => {
-    const promo = document.createElement("div");
-    promo.className = "promo-card";
-    const a = document.createElement("a");
-    a.href = link;
-    const img = document.createElement("img");
-    img.src = image;
-    img.alt = title;
-    img.loading = "lazy";
-
-    const overlay = document.createElement("div");
-    overlay.className = "promo-overlay";
-    overlay.innerHTML = `${title}<span>${subtitle}</span><div class="promo-button">Shop Now</div>`;
 
     a.appendChild(img);
     a.appendChild(overlay);
     promo.appendChild(a);
     frag.appendChild(promo);
-  });
   promoSection.appendChild(frag);
-}
+
 
 // --- Categories ---
 const categories = [
@@ -324,6 +458,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-})
 
 // ...existing code...

@@ -1,0 +1,119 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('seller-form');
+  const feedback = document.getElementById('seller-feedback');
+  const clearBtn = document.getElementById('seller-clear');
+
+  const safeParse = (k, fallback = null) => {
+    try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; } catch(e) { return fallback; }
+  };
+  const safeSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) { console.warn('safeSet', e); } };
+
+  const slug = (s) => String(s || '').toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+
+  function showMessage(msg, type = 'success') {
+    if (typeof showToast === 'function') { showToast(msg, type); return; }
+    if (feedback) {
+      feedback.textContent = msg;
+      feedback.className = `seller-feedback ${type}`;
+      setTimeout(() => { feedback.textContent = ''; feedback.className = ''; }, 3000);
+    } else {
+      alert(msg);
+    }
+  }
+
+  if (clearBtn) clearBtn.addEventListener('click', () => { form.reset(); document.getElementById('product-image-preview').style.display = 'none'; });
+
+  // preview selected image
+  const fileInput = document.getElementById('product-image');
+  const previewImg = document.getElementById('product-image-preview');
+  const MAX_FILE_BYTES = 2 * 1024 * 1024; // 2MB
+
+  fileInput?.addEventListener('change', (ev) => {
+    const f = fileInput.files && fileInput.files[0];
+    if (!f) {
+      if (previewImg) previewImg.style.display = 'none';
+      return;
+    }
+    if (f.size > MAX_FILE_BYTES) {
+      showMessage('Selected image is larger than 2 MB. Please choose a smaller file.', 'error');
+      fileInput.value = '';
+      if (previewImg) previewImg.style.display = 'none';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (previewImg) {
+        previewImg.src = reader.result;
+        previewImg.style.display = 'block';
+      }
+    };
+    reader.onerror = () => {
+      showMessage('Could not read image file.', 'error');
+      fileInput.value = '';
+      if (previewImg) previewImg.style.display = 'none';
+    };
+    reader.readAsDataURL(f);
+  });
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('product-name')?.value?.trim();
+    const brand = document.getElementById('product-brand')?.value?.trim();
+    const category = document.getElementById('product-category')?.value || 'uncategorized';
+    const priceRaw = document.getElementById('product-price')?.value;
+    // read file input as data URL if present
+    let image = '';
+    const fileEl = document.getElementById('product-image');
+    const file = fileEl?.files ? fileEl.files[0] : null;
+    // helper to read file -> dataURL
+    const readFileAsDataURL = (file) => new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(r.result);
+      r.onerror = reject;
+      r.readAsDataURL(file);
+    });
+
+    if (file) {
+      if (file.size > MAX_FILE_BYTES) { showMessage('Image too large (max 2 MB).', 'error'); return; }
+      try {
+        image = await readFileAsDataURL(file);
+      } catch (err) {
+        console.warn('read image failed', err);
+        showMessage('Could not read image file.', 'error');
+        return;
+      }
+    }
+    const description = document.getElementById('product-description')?.value?.trim() || '';
+
+    if (!name) { showMessage('Please enter a product name', 'error'); return; }
+
+    const price = priceRaw ? Number(priceRaw) : null;
+
+    const shopProducts = safeParse('shopProducts', []);
+
+    const product = {
+      id: slug(name),
+      name,
+      brandName: brand || '',
+      category,
+      price: price != null ? price : '',
+      image,
+      description
+    };
+
+    // avoid duplicate id
+    const exists = shopProducts.find(p => p.id === product.id || p.name === product.name);
+    if (exists) {
+      showMessage('A product with that name already exists. Consider changing the name.', 'error');
+      return;
+    }
+
+    shopProducts.push(product);
+    safeSet('shopProducts', shopProducts);
+    safeSet('selectedProduct', product);
+
+    showMessage('Product added successfully — redirecting to shop...', 'success');
+
+    setTimeout(() => { window.location.href = 'shop.html'; }, 700);
+  });
+});

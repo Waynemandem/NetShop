@@ -8,10 +8,11 @@
     <script defer src="netshop.js"></script>
     <script defer src="shop.js"></script>
     <script defer src="product.js"></script>
+    <script defer src="seller.js"></script>
     <link rel="icon" type="image/png" href="arrow.png">
 </head>
 <body>
-    <header>
+    <header>  
     <h1>Seller</h1>
     <nav>
       <ul id="navbar">
@@ -20,7 +21,10 @@
         <li><a href="categories.html" class="nav-link active">Categories</a></li>
         <li><a href="about.html" class="nav-link active">About</a></li>
         <li><a href="contact.html" class="nav-link active">Contact</a></li>
-        
+                <li><a href="login.html" class="nav-link login-btn">
+          <i class="fa-solid fa-user"></i>
+          </a>
+        </li>
         <li>
                   <a href="cart.html" class="cart-link">
                     <i class="fa-solid fa-cart-shopping"></i>
@@ -36,64 +40,148 @@
     </div>
   </header>
   <div id="menu-overlay"></div>
+  
+  <!-- Seller dashboard -->
+  <main class="seller-main">
+    <section class="seller-panel">
+      <h2>Sell a product</h2>
+      <form id="seller-form" class="seller-form">
+        <label>
+          Product name
+          <input type="text" id="product-name" name="name" required>
+        </label>
+
+        <label>
+          Brand
+          <input type="text" id="product-brand" name="brand">
+        </label>
+
+        <label>
+          Category
+          <select id="product-category" name="category">
+            <option value="men">Men</option>
+            <option value="women">Women</option>
+            <option value="electronics">Electronics</option>
+            <option value="accessories">Accessories</option>
+            <option value="home">Home & Living</option>
+          </select>
+        </label>
+
+        <label>
+          Price
+          <input type="number" id="product-price" name="price" step="0.01" min="0">
+        </label>
+
+        <label>
+          Product image
+          <input type="file" id="product-image" name="image" accept="image/*">
+          <small>Max 2 MB. If no image is selected a placeholder will be used.</small>
+          <div class="image-preview">
+            <img id="product-image-preview" src="" alt="preview" style="display:none; max-width:160px; margin-top:8px; border-radius:6px;" />
+          </div>
+        </label>
+
+        <label>
+          Description
+          <textarea id="product-description" name="description" rows="4"></textarea>
+        </label>
+
+        <div class="seller-actions">
+          <button type="submit" id="seller-submit">Add product</button>
+          <button type="button" id="seller-clear">Clear</button>
+        </div>
+      </form>
+      <div id="seller-feedback" aria-live="polite"></div>
+    </section>
+  </main>
  
 
-   <footer>
-    <div class="col">
-      <h1>NetShop</h1>
-      <h4>Contacts</h4>
-      <p><strong>Address:</strong>Plot 1, g close Arigbede phase 1, Warewa, Ogun state.</p>
-      <p><strong>Phone:</strong>+234 9078 740 445</p>
-      <p>📞 Contact
+   
 
-        Created by Waynemandem <br>
-        📧 Email: okoemu4@gmail.com <br>
-        🔗 GitHub: https://github.com/Waynemandem</p>
-      <p><strong>Hours:</strong>Always active</p>
-    </div>
-    <br>
+<footer>
+  <!-- About / Company Info -->
+  <div class="col about">
+    <h1>NetShop</h1>
+    <p>Your one-stop shop for electronics, fashion, and more. Quality products delivered fast.</p>
+  </div>
+
+  <!-- Quick Links -->
+  <div class="col links">
+    <h4>Quick Links</h4>
+    <ul>
+      <li><a href="netshop.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="#">Categories</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="checkout.html">Checkout</a></li>
+    </ul>
+  </div>
+
+  <!-- Customer Service -->
+  <div class="col support">
+    <h4>Customer Service</h4>
+    <ul>
+      <li><a href="#">Help Center</a></li>
+      <li><a href="#">Returns</a></li>
+      <li><a href="#">Shipping Info</a></li>
+      <li><a href="#">Terms & Conditions</a></li>
+    </ul>
+  </div>
+
+  <!-- Follow & App Downloads -->
+  <div class="col follow-apps">
     <div class="follow">
-      <p><strong>Follow us:</strong></p>
+      <p>Follow Us</p>
       <div class="social-icons">
-        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="#"><i class="fa-brands fa-twitter"></i></a>
-        <a href="#"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="#"><i class="fa-brands fa-pinterest"></i></a>
-        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
       </div>
     </div>
 
-    <div class="col">
-      <h4>About Us</h4>
-      <a href="about.html">About us</a> /
-      <a href="contact.html">Contact us</a> /
-      <a href="#">Privacy Policy</a> /
-      <a href="#">Terms & Conditions</a> /
-      <a href="#">Shipping Information</a>
-    </div>
-
-    <div class="col">
-      <h4>My Account</h4>
-      <a href="login.html">Sign In</a> /
-      <a href="cart.html">View Cart</a> /
-      <a href="#">My Wishlist</a> /
-      <a href="#">Track My Order</a> /
-      <a href="#">Help</a>
-    </div>
-
-    <div class="col">
-      <h4>Install App</h4>
-      <p>From App Store or Google Play</p>
-      <div class="app-logo">
-        <i class="fa-brands fa-app-store-ios"></i>
-        <i class="fa-brands fa-google-play"></i>
+    <div class="apps">
+      <p>Get Our App</p>
+      <div class="app-logos">
+        <i class="fab fa-apple"></i>
+        <i class="fab fa-google-play"></i>
       </div>
-      <p>Secured Payment Gateways</p>
-      <i class="fa-solid fa-credit-card"></i>
     </div>
-    <p>&copy; 2023 NetShop. All rights reserved.</p>
-  </footer>
+
+    <div class="payments">
+      <p>We Accept</p>
+      <i class="fas fa-credit-card"></i>
+    </div>
+  </div>
+
+  <p class="copyright">
+    &copy; 2025 NetShop. All rights reserved.
+  </p>
+</footer>
+    <script src="https://kit.fontawesome.com/82046994e6.js" crossorigin="anonymous"></script>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbar = document.getElementById('navbar');
+    const menuOverlay = document.getElementById('menu-overlay');
+
+    menuToggle.addEventListener('click', () => {
+      navbar.classList.toggle('show');
+      menuToggle.classList.toggle('active');
+      menuOverlay.classList.toggle('show');
+    });
+
+    // Close menu if user clicks outside
+    menuOverlay.addEventListener('click', () => {
+      navbar.classList.remove('show');
+      menuToggle.classList.remove('active');
+      menuOverlay.classList.remove('show');
+    });
+  </script>
+  
+
 
 
 

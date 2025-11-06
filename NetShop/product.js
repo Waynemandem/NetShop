@@ -28,6 +28,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // --- Cart helpers (local to this page) ---
+  const readCart = () => {
+    try { return JSON.parse(localStorage.getItem('cart')) || []; } catch (e) { return []; }
+  };
+
+  const writeCart = (cart) => {
+    try { localStorage.setItem('cart', JSON.stringify(cart)); } catch (e) { console.warn('writeCart:', e); }
+  };
+
+  const updateCartCount = () => {
+    const el = document.getElementById('cart-count') || document.querySelector('.cart-count');
+    if (!el) return;
+    const cart = readCart();
+    const total = cart.reduce((s, it) => s + (it.quantity || 0), 0);
+    el.textContent = total;
+  };
+
+  const addToCart = (product) => {
+    if (!product) return;
+    const cart = readCart();
+    const idx = cart.findIndex(i => i.id === product.id || i.name === product.name);
+    if (idx >= 0) {
+      cart[idx].quantity = (cart[idx].quantity || 0) + 1;
+    } else {
+      // store a minimal normalized product in cart
+      cart.push({ id: product.id || product.name, name: product.name, price: product.price, image: product.image, quantity: 1 });
+    }
+    writeCart(cart);
+    updateCartCount();
+  };
+
   setImage("product-image", productData.image, productData.name);
   setText("product-name", productData.name || "");
   // normalise brand field (some files use brand, others brandName)
@@ -35,14 +66,19 @@ document.addEventListener("DOMContentLoaded", () => {
   setText("product-category", `Category: ${productData.category || "—"}`);
   setText("product-price", productData.price != null ? `$${productData.price}` : "Price not available");
 
-  // safe button handlers
+  // safe button handlers (add to cart and buy now)
   document.getElementById("add-to-cart")?.addEventListener("click", () => {
+    addToCart(productData);
     if (typeof showToast === "function") showToast(`${productData.name} added to cart 🛒`);
     else alert(`${productData.name} added to cart 🛒`);
   });
+
   document.getElementById("buy-now")?.addEventListener("click", () => {
+    addToCart(productData);
     if (typeof showToast === "function") showToast(`Proceeding to buy ${productData.name} 💳`);
     else alert(`Proceeding to buy ${productData.name} 💳`);
+    // small delay so the toast can be seen; then open cart/checkout
+    setTimeout(() => { window.location.href = 'cart.html'; }, 300);
   });
 
   // Related products (render only if container exists)
@@ -96,8 +132,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-document.getElementById("add-to-cart").addEventListener("click", () => {
-  addToCart(productData);
-  alert(`${productData.name} added to cart 🛒`);
-});
+// (removed stray top-level listener; add-to-cart now wired inside DOMContentLoaded)
 // ...existing code...

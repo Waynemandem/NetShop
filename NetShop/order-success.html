@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Order Success</title>
+  <link rel="stylesheet" href="netshop.css">
+  <script defer src="netshop.js"></script>
+  <script defer src="order-success.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Order Confirmation</h1>
+  </header>
+
+  <main class="order-success">
+    <section class="success-card">
+      <h2>Thank you — your order is on its way 🎉</h2>
+      <p id="order-id">Order: —</p>
+      <p id="order-status">Status: —</p>
+
+      <div id="order-summary"></div>
+
+      <div class="success-actions">
+        <button id="download-receipt">Download Receipt (PDF)</button>
+        <a href="orders.html"><button id="view-orders">View Order History</button></a>
+        <a href="shop.html"><button id="continue-shopping">Continue Shopping</button></a>
+      </div>
+
+    </section>
+  </main>
+
+  <footer></footer>
+
+  <!-- jspdf (used for PDF generation); falls back to print if CDN unavailable -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>
