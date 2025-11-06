@@ -75,24 +75,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Data ---
   const products = [
-    { brandName: "Nike", name: "Nike Air Sneakers", price: "$120", image: "nike1.jpeg" },
-    { brandName: "Adidas", name: "Adidas Ultraboost", price: "$140", image: "adidas.jpeg" },
-    { brandName: "Puma", name: "Puma Classic", price: "$100", image: "puma1.jpg" },
-    { brandName: "New Balance", name: "New Balance 550", price: "$110", image: "newBalance.jpeg" },
-    { brandName: "Converse", name: "Converse All Star", price: "$100", image: "ConverseAllStar.jpeg" },
-    { brandName: "Nike", name: "Nike Stack", price: "$130", image: "nikestack.jpeg" }
+    { brandName: "Nike", name: "Nike Air Sneakers", price: 120, image: "nike1.jpeg" },
+    { brandName: "Adidas", name: "Adidas Ultraboost", price: 140, image: "adidas.jpeg" },
+    { brandName: "Puma", name: "Puma Classic", price: 100, image: "puma1.jpg" },
+    { brandName: "New Balance", name: "New Balance 550", price: 110, image: "newBalance.jpeg" },
+    { brandName: "Converse", name: "Converse All Star", price: 100, image: "ConverseAllStar.jpeg" },
+    { brandName: "Nike", name: "Nike Stack", price: 130, image: "nikestack.jpeg" }
   ].map(p => ({ ...p, id: slugify(p.name) }));
 
   const products2 = [
-    { brandName: "Big 4", name: "Rema Swag", price: "$499.99", image: "starboy.jpg" },
-    { brandName: "Africon", name: "Africa", price: "$199.99", image: "ConverseAllStar.jpeg" },
-    { brandName: "Wayne Real Estates", name: "4 Bedroom House", price: "$31,000,000", image: "mistressHome.jpg" },
-    { brandName: "Big 4", name: "Suit", price: "$310", image: "suit.jpg" },
-    { brandName: "Big 4", name: "Track Suit", price: "$350", image: "tracktech.jpg" },
-    { brandName: "Big 4", name: "Sharp Fit", price: "$310.99", image: "sharpfit.jpg" },
-    { brandName: "Big 4", name: "Cloth Collection", price: "$699.99", image: "tops&bottom.jpg" },
-    { brandName: "Big 4", name: "Shoe Collection", price: "$999.99", image: "shoes.jpg" },
-    { brandName: "Big 4", name: "Jogger and Shoes", price: "$699.99", image: "track&shoe.jpg" }
+    { brandName: "Big 4", name: "Rema Swag", price: 499.99, image: "starboy.jpg" },
+    { brandName: "Africon", name: "Africa", price: 199.99, image: "ConverseAllStar.jpeg" },
+    { brandName: "Wayne Real Estates", name: "4 Bedroom House", price: 31000000, image: "mistressHome.jpg" },
+    { brandName: "Big 4", name: "Suit", price: 310, image: "suit.jpg" },
+    { brandName: "Big 4", name: "Track Suit", price: 350, image: "tracktech.jpg" },
+    { brandName: "Big 4", name: "Sharp Fit", price: 310.99, image: "sharpfit.jpg" },
+    { brandName: "Big 4", name: "Cloth Collection", price: 699.99, image: "tops&bottom.jpg" },
+    { brandName: "Big 4", name: "Shoe Collection", price: 999.99, image: "shoes.jpg" },
+    { brandName: "Big 4", name: "Jogger and Shoes", price: 699.99, image: "track&shoe.jpg" }
   ].map(p => ({ ...p, id: slugify(p.name) }));
 
   // persist combined catalog if not present

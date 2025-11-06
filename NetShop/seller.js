@@ -87,7 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!name) { showMessage('Please enter a product name', 'error'); return; }
 
-    const price = priceRaw ? Number(priceRaw) : null;
+    // normalize price input: remove non-numeric characters (except dot and minus) then parse
+    let price = null;
+    if (priceRaw) {
+      const cleaned = String(priceRaw).replace(/[^0-9.\-]/g, '');
+      const parsed = parseFloat(cleaned);
+      price = Number.isFinite(parsed) ? parsed : null;
+    }
 
     const shopProducts = safeParse('shopProducts', []);
 

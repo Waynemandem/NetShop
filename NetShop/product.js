@@ -45,6 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
     el.textContent = total;
   };
 
+  const formatPrice = (v) => {
+    const n = Number(v) || 0;
+    try { return n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }); } catch (e) { return n.toFixed(2); }
+  };
+
   const addToCart = (product) => {
     if (!product) return;
     const cart = readCart();
@@ -64,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // normalise brand field (some files use brand, others brandName)
   setText("product-brand", `Brand: ${productData.brand || productData.brandName || "—"}`);
   setText("product-category", `Category: ${productData.category || "—"}`);
-  setText("product-price", productData.price != null ? `$${productData.price}` : "Price not available");
+  setText("product-price", productData.price != null ? `₦${formatPrice(productData.price)}` : "Price not available");
 
   // safe button handlers (add to cart and buy now)
   document.getElementById("add-to-cart")?.addEventListener("click", () => {
@@ -93,11 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const card = document.createElement("div");
         card.className = "product-card";
         card.innerHTML = `
-          <img src="${item.image || ""}" alt="${item.name || ""}">
-          <p class="brandName">${item.brand || item.brandName || ""}</p>
-          <p class="product-name">${item.name || ""}</p>
-          <p class="product-price">${item.price != null ? "$" + item.price : ""}</p>
-        `;
+            <img src="${item.image || ""}" alt="${item.name || ""}">
+            <p class="brandName">${item.brand || item.brandName || ""}</p>
+            <p class="product-name">${item.name || ""}</p>
+            <p class="product-price">${item.price != null ? '₦' + formatPrice(item.price) : ""}</p>
+          `;
         card.addEventListener("click", () => {
           try { localStorage.setItem("selectedProduct", JSON.stringify(item)); }
           catch (err) { console.warn("Could not save selectedProduct:", err); }
@@ -106,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
           setText("product-name", item.name);
           setText("product-brand", `Brand: ${item.brand || item.brandName || "—"}`);
           setText("product-category", item.category || "");
-          setText("product-price", item.price != null ? `$${item.price}` : "Price not available");
+          setText("product-price", item.price != null ? `₦${formatPrice(item.price)}` : "Price not available");
         });
         relatedContainer.appendChild(card);
       });
@@ -124,8 +129,8 @@ document.addEventListener("DOMContentLoaded", () => {
       try { localStorage.setItem("selectedProduct", JSON.stringify(found)); } catch {}
       setImage("product-image", found.image, found.name);
       setText("product-name", found.name);
-      setText("product-brand", `Brand: ${found.brand || found.brandName || "—"}`);
-      setText("product-price", found.price != null ? `$${found.price}` : "");
+  setText("product-brand", `Brand: ${found.brand || found.brandName || "—"}`);
+  setText("product-price", found.price != null ? `₦${formatPrice(found.price)}` : "");
       setText("product-category", found.category || "");
       setText("product-description", found.description || "");
     }

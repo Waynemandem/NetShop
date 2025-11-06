@@ -30,7 +30,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  const shopProducts = safeParse('shopProducts', defaultProducts);
+  let shopProducts = safeParse('shopProducts', defaultProducts);
+
+  // normalize price fields to numbers (migrate older entries that used strings like "$120")
+  const normalizePrice = (v) => {
+    if (v == null || v === '') return null;
+    if (typeof v === 'number') return v;
+    const cleaned = String(v).replace(/[^0-9.\-]/g, '');
+    const n = parseFloat(cleaned);
+    return Number.isFinite(n) ? n : null;
+  };
+
+  shopProducts = (shopProducts || []).map(p => ({ ...p, price: normalizePrice(p.price), oldPrice: normalizePrice(p.oldPrice) }));
 
   // Ensure there's a persisted catalog for other pages to read (write only if absent)
   if (!localStorage.getItem('shopProducts')) {
@@ -64,7 +75,13 @@ document.addEventListener("DOMContentLoaded", () => {
             <span class="product-price">₦${priceNum.toLocaleString()}</span>
             ${oldPrice ? `<span class="old-price">₦${oldPrice.toLocaleString()}</span>` : ''}
           </div>
-          <div class="rating">★ ★ ★ ★ ☆</div>
+          <div class="rating">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-regular fa-star"></i>
+          </div>
           <div class="card-buttons">
             <button class="cart-btn">Add to Cart</button>
             <button class="buy-btn">Buy Now</button>

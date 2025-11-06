@@ -80,8 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
       h3.textContent = item.name || '';
 
       const p = document.createElement('p');
-      p.className = 'cart-line-price';
-      p.textContent = `$${formatPrice(priceNum)} × `;
+  p.className = 'cart-line-price';
+  p.textContent = `₦${formatPrice(priceNum)} × `;
 
       const qtySpan = document.createElement('span');
       qtySpan.className = 'cart-quantity';
@@ -123,9 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
       list.appendChild(row);
     });
 
-    const totalDiv = document.createElement('div');
-    totalDiv.className = 'cart-total';
-    totalDiv.innerHTML = `<h2>Total: $${formatPrice(total)}</h2>`;
+  const totalDiv = document.createElement('div');
+  totalDiv.className = 'cart-total';
+  totalDiv.innerHTML = `<h2>Total: ₦${formatPrice(total)}</h2>`;
 
     cartContainer.appendChild(list);
     cartContainer.appendChild(totalDiv);
