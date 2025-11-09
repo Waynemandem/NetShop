@@ -1,5 +1,19 @@
 // ...existing code...
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  // Ensure ImageDB is loaded
+  if (!window.ImageDB) {
+    console.error('ImageDB not loaded! Make sure db.js is included before product.js');
+    return;
+  }
+
+  // Initialize IndexedDB
+  try {
+    await ImageDB.init();
+  } catch (err) {
+    console.error('Failed to initialize IndexedDB:', err);
+    showMessage?.('Could not initialize image storage. Some images may not load.', 'error');
+  }
+
   const selectedJson = localStorage.getItem("selectedProduct");
   const productData = selectedJson ? JSON.parse(selectedJson) : null;
 
@@ -8,6 +22,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const allProducts = storedCatalog
     ? JSON.parse(storedCatalog)
     : (window.products && window.products2 ? [...products, ...products2] : []);
+
+  // Helper to get product image from IndexedDB
+  const getProductImage = async (product) => {
+    if (!product || !product.hasImage) return '';
+    try {
+      const imageData = await ImageDB.getImage(product.id);
+      return imageData || product.image || ''; // Fallback to legacy image or empty
+    } catch (err) {
+      console.warn('Failed to fetch image for product:', product.id, err);
+      return product.image || ''; // Fallback to legacy image or empty
+    }
+  };
 
   if (!productData) {
     console.warn("No selectedProduct in localStorage — redirecting to shop.");
@@ -64,7 +90,13 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCartCount();
   };
 
-  setImage("product-image", productData.image, productData.name);
+  // Load and display the main product
+  const loadProductImage = async () => {
+    const imageData = await getProductImage(productData);
+    setImage("product-image", imageData || productData.image, productData.name);
+  };
+
+  loadProductImage();
   setText("product-name", productData.name || "");
   // normalise brand field (some files use brand, others brandName)
   setText("product-brand", `Brand: ${productData.brand || productData.brandName || "—"}`);

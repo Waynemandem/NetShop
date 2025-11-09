@@ -1,7 +1,21 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // Ensure ImageDB is loaded
+  if (!window.ImageDB) {
+    console.error('ImageDB not loaded! Make sure db.js is included before seller.js');
+    return;
+  }
+
   const form = document.getElementById('seller-form');
   const feedback = document.getElementById('seller-feedback');
   const clearBtn = document.getElementById('seller-clear');
+
+  // Initialize IndexedDB
+  try {
+    await ImageDB.init();
+  } catch (err) {
+    console.error('Failed to initialize IndexedDB:', err);
+    showMessage('Could not initialize storage. Some features may not work.', 'error');
+  }
 
   const safeParse = (k, fallback = null) => {
     try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; } catch(e) { return fallback; }
@@ -97,14 +111,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const shopProducts = safeParse('shopProducts', []);
 
+    const productId = slug(name);
     const product = {
-      id: slug(name),
+      id: productId,
       name,
       brandName: brand || '',
       category,
       price: price != null ? price : '',
-      image,
-      description
+      description,
+      hasImage: !!image // Flag to indicate if product has an image
     };
 
     // avoid duplicate id
@@ -114,12 +129,29 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    shopProducts.push(product);
-    safeSet('shopProducts', shopProducts);
-    safeSet('selectedProduct', product);
-
-    showMessage('Product added successfully — redirecting to shop...', 'success');
-
-    setTimeout(() => { window.location.href = 'shop.html'; }, 700);
+    try {
+      if (image) {
+        // Store image in IndexedDB first
+        await ImageDB.saveImage(productId, image);
+      }
+      
+      // Then store product metadata in localStorage
+      shopProducts.push(product);
+      safeSet('shopProducts', shopProducts);
+      
+      // For selectedProduct, include the image for immediate use
+      const selectedProduct = { ...product };
+      if (image) {
+        selectedProduct.image = image; // Include image for preview
+      }
+      safeSet('selectedProduct', selectedProduct);
+      
+      showMessage('Product added successfully — redirecting to shop...', 'success');
+      
+      setTimeout(() => { window.location.href = 'shop.html'; }, 700);
+    } catch (err) {
+      console.error('Failed to save product:', err);
+      showMessage('Failed to save product. Please try again.', 'error');
+    }
   });
 });

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - NetShop</title>
+    <link rel="stylesheet" href="netshop.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header will be injected by JavaScript -->
+    <header class="main-header"></header>
+
+    <main class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar">
+            <div class="user-profile">
+                <div class="profile-image">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="profile-info">
+                    <h3 class="user-name">John Doe</h3>
+                    <p class="user-email">john@example.com</p>
+                </div>
+            </div>
+
+            <nav class="dashboard-nav">
+                <a href="#overview" class="nav-item active">
+                    <i class="fas fa-home"></i> Overview
+                </a>
+                <a href="#orders" class="nav-item">
+                    <i class="fas fa-box"></i> My Orders
+                    <span class="badge">5</span>
+                </a>
+                <a href="#wishlist" class="nav-item">
+                    <i class="fas fa-heart"></i> Wishlist
+                    <span class="badge">3</span>
+                </a>
+                <a href="#messages" class="nav-item">
+                    <i class="fas fa-envelope"></i> Messages
+                    <span class="badge">2</span>
+                </a>
+                <a href="#reviews" class="nav-item">
+                    <i class="fas fa-star"></i> My Reviews
+                </a>
+                <a href="#addresses" class="nav-item">
+                    <i class="fas fa-map-marker-alt"></i> Addresses
+                </a>
+                <a href="#wallet" class="nav-item">
+                    <i class="fas fa-wallet"></i> Wallet
+                </a>
+                <a href="#settings" class="nav-item">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+            </nav>
+
+            <div class="logout-section">
+                <a href="#" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="dashboard-content">
+            <!-- Overview Section -->
+            <section id="overview" class="dashboard-section active">
+                <div class="section-header">
+                    <h2>Dashboard Overview</h2>
+                    <p class="last-login">Last login: Nov 8, 2025, 10:30 AM</p>
+                </div>
+
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-box"></i>
+                        <div class="stat-info">
+                            <h3>Active Orders</h3>
+                            <p>5</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-heart"></i>
+                        <div class="stat-info">
+                            <h3>Wishlist Items</h3>
+                            <p>3</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-wallet"></i>
+                        <div class="stat-info">
+                            <h3>Wallet Balance</h3>
+                            <p>₦15,000</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-tag"></i>
+                        <div class="stat-info">
+                            <h3>Available Coupons</h3>
+                            <p>2</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Recent Orders -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Recent Orders</h3>
+                            <a href="#orders" class="view-all">View All</a>
+                        </div>
+                        <div class="recent-orders">
+                            <!-- Orders will be loaded dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Wishlist Preview -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Wishlist</h3>
+                            <a href="#wishlist" class="view-all">View All</a>
+                        </div>
+                        <div class="wishlist-preview">
+                            <!-- Wishlist items will be loaded dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Recent Reviews -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Recent Reviews</h3>
+                            <a href="#reviews" class="view-all">View All</a>
+                        </div>
+                        <div class="recent-reviews">
+                            <!-- Reviews will be loaded dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Latest Messages -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Messages</h3>
+                            <a href="#messages" class="view-all">View All</a>
+                        </div>
+                        <div class="latest-messages">
+                            <!-- Messages will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Other sections will be shown/hidden via JavaScript -->
+        </div>
+    </main>
+
+    <script src="netshop.js"></script>
+    <script src="db.js"></script>
+    <script src="dashboard.js"></script>
+
+    <script>
+document.querySelectorAll('.dashboard-nav .nav-item').forEach(item => {
+  item.addEventListener('click', e => {
+    e.preventDefault();
+
+    // Remove 'active' from all
+    document.querySelectorAll('.dashboard-nav .nav-item, .dashboard-section')
+      .forEach(el => el.classList.remove('active'));
+
+    // Add active class to clicked item and corresponding section
+    item.classList.add('active');
+    const sectionId = item.getAttribute('href');
+    document.querySelector(sectionId).classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
