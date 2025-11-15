@@ -8,6 +8,10 @@
 </head>
 <body>
   <div class="login-container"> 
+    <button id="theme-toggle" class="theme-toggle-btn">
+      <i class="fas fa-moon"></i>
+      <i class="fas fa-sun"></i>
+    </button>
     <h2>Create Your Account</h2>
     <form id="signup-form">
       <label>Full Name:</label>
@@ -89,6 +93,66 @@
 </footer>
 
   <script>
+    // --- Dark Mode Toggle ---
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    const sunIcon = themeToggle.querySelector('.fa-sun');
+    const moonIcon = themeToggle.querySelector('.fa-moon');
+
+    // Function to apply the saved theme on page load
+    const applyTheme = () => {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+      } else {
+        body.classList.remove('dark-mode');
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+      }
+    };
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+      applyTheme(); // Update icon visibility
+    });
+
+    document.addEventListener('DOMContentLoaded', applyTheme);
+
+    // Save new user to localStorage
+    document.getElementById("signup-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      // Get existing users or empty array
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      // Check if email already exists
+      const existingUser = users.find(u => u.email === email);
+      if (existingUser) {
+        alert("This email is already registered!");
+        return;
+      }
+
+      // Add new user
+      users.push({ name, email, password });
+      localStorage.setItem("users", JSON.stringify(users));
+
+      alert("Account created successfully!");
+      window.location.href = "login.html";
+    });
+  </script>
+
+</body>
+</html>
+
+    document.addEventListener('DOMContentLoaded', applyTheme);
+
     // Save new user to localStorage
     document.getElementById("signup-form").addEventListener("submit", function(e) {
       e.preventDefault();

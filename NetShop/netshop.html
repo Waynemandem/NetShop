@@ -71,6 +71,8 @@
         <li><a href="shop.html" class="nav-link">Shop</a></li>
         <li><a href="seller.html" class="nav-link">Sell on NetShop</a></li>
         <li><a href="orders.html" class="nav-link">Orders</a></li>
+
+        
       </ul>
     </nav>
   </header>
@@ -198,21 +200,7 @@
       <div class="product-grid" id="recent-products"></div>
     </section>
 
-    <!-- Newsletter Subscription -->
-    <section class="newsletter">
-      <div class="newsletter-content">
-        <h2>Subscribe to our Newsletter</h2>
-        <p>Get updates on our latest offers!</p>
-        <form class="subscribe-form">
-          <input type="email" placeholder="Enter your email address" required>
-          <button type="submit">Subscribe</button>
-        </form>
-      </div>
-      <h2>On all purchase</h2>
-      <p>Save more with coupons & up to 80% off! </p>
-      <button>Shop Now</button>
-    </div>
-  </section>
+
 
   <section id="trust-badges" class="section-p1">
     <div class="badge">
@@ -266,11 +254,84 @@
   <section id="promo-section" class="promo-section"></section>
 
 
+
+  <!-- Inspiration Preview Section -->
+<section class="inspiration-preview">
+  <h2>Creative Inspiration</h2>
+  <p>Check out ideas that spark our design and product creativity.</p>
+
+  <!-- Pinterest Board Preview Embed -->
+  <iframe 
+    src="https://assets.pinterest.com/ext/embed.html?id=https://www.pinterest.com/okoemu4/inspiration-page/"
+    height="350"
+    width="100%"
+    frameborder="0"
+    scrolling="no">
+  </iframe>
+
+  <div class="view-all">
+    <a href="netshop-inspiration.html" class="btn">View All Inspirations</a>
+  </div>
+</section>
+
+<style>
+.inspiration-preview {
+  background: #fafafa;
+  text-align: center;
+  padding: 2rem 1rem;
+  border-radius: 12px;
+  margin: 2rem auto;
+  max-width: 900px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.inspiration-preview h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+.inspiration-preview p {
+  color: #555;
+  margin-bottom: 1rem;
+}
+.inspiration-preview iframe {
+  border-radius: 10px;
+  overflow: hidden;
+}
+.view-all .btn {
+  background: #e60023;
+  color: white;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: bold;
+}
+.view-all .btn:hover {
+  background: #c0001b;
+}
+</style>
+
+
+
   <section id="category-section" class="category-section">
     <h2 class="category-title">Shop by Category</h2>
     <div id="category-grid" class="category-grid"></div>
   </section>
 
+
+    <!-- Newsletter Subscription -->
+    <section class="newsletter">
+      <div class="newsletter-content">
+        <h2>Subscribe to our Newsletter</h2>
+        <p>Get updates on our latest offers!</p>
+        <form class="subscribe-form">
+          <input type="email" placeholder="Enter your email address" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+      <h2>On all purchase</h2>
+      <p>Save more with coupons & up to 80% off! </p>
+      <button>Shop Now</button>
+    </div>
+  </section>
 
 
 <footer>
