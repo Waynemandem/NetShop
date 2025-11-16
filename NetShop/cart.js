@@ -1,32 +1,27 @@
+// cart.js - CLEANED VERSION
+// Removed duplicate functions now in netshop_core_fixed.js
+
 document.addEventListener('DOMContentLoaded', () => {
+  // ═══════════════════════════════════════════════════════════════
+  // DOM ELEMENTS
+  // ═══════════════════════════════════════════════════════════════
   const cartContainer = document.getElementById('cart-container');
   const checkoutBtn = document.getElementById('checkout-btn');
 
-  const safeParse = (k) => { try { return JSON.parse(localStorage.getItem(k)) || []; } catch (e) { return []; } };
-  const safeSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { console.warn('localStorage set failed', e); } };
+  // ═══════════════════════════════════════════════════════════════
+  // DELETED - Now in netshop_core_fixed.js:
+  // - safeParse()
+  // - safeSet()
+  // - updateCartCount()
+  // - formatPrice()
+  // ═══════════════════════════════════════════════════════════════
 
-  let cart = safeParse('cart');
-
-  function updateCartCount() {
-    const el = document.getElementById('cart-count') || document.querySelector('.cart-count');
-    if (!el) return;
-    const totalItems = cart.reduce((s, it) => s + (it.quantity || 0), 0);
-    el.textContent = totalItems;
-  }
-
-  // Format number to currency-style string with two decimals and thousands separators
-  function formatPrice(v) { 
-    const n = Number(v);
-    if (isNaN(n)) return '0.00';
-    try {
-      return n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    } catch (e) {
-      return n.toFixed(2);
-    }
-  }
-
+  // ═══════════════════════════════════════════════════════════════
+  // RENDER EMPTY CART
+  // ═══════════════════════════════════════════════════════════════
   function renderEmpty() {
     cartContainer.innerHTML = '';
+    
     const wrap = document.createElement('div');
     wrap.className = 'cart-empty';
 
@@ -42,23 +37,36 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.type = 'button';
     btn.className = 'continue-btn';
     btn.textContent = 'Continue shopping';
-    btn.addEventListener('click', () => { window.location.href = 'shop.html'; });
+    btn.addEventListener('click', () => {
+      window.location.href = 'shop.html';
+    });
 
     wrap.appendChild(p);
     wrap.appendChild(hint);
     wrap.appendChild(btn);
     cartContainer.appendChild(wrap);
+    
     if (checkoutBtn) checkoutBtn.disabled = true;
   }
 
+  // ═══════════════════════════════════════════════════════════════
+  // RENDER CART
+  // ═══════════════════════════════════════════════════════════════
   function renderCart() {
     cartContainer.innerHTML = '';
-    if (!cart || cart.length === 0) return renderEmpty();
+    
+    // Get cart from Core Manager
+    const cart = NetShop.CartManager.getCart(); // USE CORE
+
+    if (!cart || cart.length === 0) {
+      return renderEmpty();
+    }
 
     const list = document.createElement('div');
     list.className = 'cart-list';
 
     let total = 0;
+    
     cart.forEach((item, index) => {
       const priceNum = Number(item.price) || 0;
       const qty = Number(item.quantity) || 1;
@@ -67,12 +75,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const row = document.createElement('div');
       row.className = 'cart-item';
 
+      // Image
       const img = document.createElement('img');
       img.src = item.image || '';
       img.alt = item.name || 'Product';
       img.width = 80;
       img.height = 80;
 
+      // Info section
       const info = document.createElement('div');
       info.className = 'cart-info';
 
@@ -80,32 +90,34 @@ document.addEventListener('DOMContentLoaded', () => {
       h3.textContent = item.name || '';
 
       const p = document.createElement('p');
-  p.className = 'cart-line-price';
-  p.textContent = `₦${formatPrice(priceNum)} × `;
+      p.className = 'cart-line-price';
+      p.textContent = `₦${NetShop.Utils.formatPrice(priceNum)} × `; // USE CORE
 
       const qtySpan = document.createElement('span');
       qtySpan.className = 'cart-quantity';
       qtySpan.textContent = qty;
+      p.appendChild(qtySpan);
 
+      // Controls
       const controls = document.createElement('div');
 
       const minus = document.createElement('button');
       minus.className = 'qty-btn';
-      minus.dataset.index = index;
+      minus.dataset.itemId = item.id || item.name;
       minus.dataset.action = 'minus';
       minus.type = 'button';
       minus.textContent = '−';
 
       const plus = document.createElement('button');
       plus.className = 'qty-btn';
-      plus.dataset.index = index;
+      plus.dataset.itemId = item.id || item.name;
       plus.dataset.action = 'plus';
       plus.type = 'button';
       plus.textContent = '+';
 
       const remove = document.createElement('button');
       remove.className = 'remove-btn';
-      remove.dataset.index = index;
+      remove.dataset.itemId = item.id || item.name;
       remove.type = 'button';
       remove.textContent = 'Remove';
 
@@ -113,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
       controls.appendChild(plus);
       controls.appendChild(remove);
 
-      p.appendChild(qtySpan);
       info.appendChild(h3);
       info.appendChild(p);
       info.appendChild(controls);
@@ -123,45 +134,55 @@ document.addEventListener('DOMContentLoaded', () => {
       list.appendChild(row);
     });
 
-  const totalDiv = document.createElement('div');
-  totalDiv.className = 'cart-total';
-  totalDiv.innerHTML = `<h2>Total: ₦${formatPrice(total)}</h2>`;
+    // Total
+    const totalDiv = document.createElement('div');
+    totalDiv.className = 'cart-total';
+    totalDiv.innerHTML = `<h2>Total: ₦${NetShop.Utils.formatPrice(total)}</h2>`; // USE CORE
 
     cartContainer.appendChild(list);
     cartContainer.appendChild(totalDiv);
+    
     if (checkoutBtn) checkoutBtn.disabled = false;
   }
 
-  function persistCart() {
-    safeSet('cart', cart);
-    updateCartCount();
-  }
-
-  // initial render
-  renderCart();
-  updateCartCount();
-
-  // Delegated click handling for qty and remove
+  // ═══════════════════════════════════════════════════════════════
+  // EVENT HANDLERS
+  // ═══════════════════════════════════════════════════════════════
+  
+  // Delegated click handling for quantity and remove buttons
   cartContainer.addEventListener('click', (e) => {
     const btn = e.target.closest('button');
-    if (!btn) return;
-    const idx = Number(btn.dataset.index);
-    if (Number.isNaN(idx)) return;
+    if (!btn || !btn.dataset.itemId) return;
 
+    const itemId = btn.dataset.itemId;
+
+    // Quantity buttons
     if (btn.classList.contains('qty-btn')) {
+      const cart = NetShop.CartManager.getCart();
+      const item = cart.find(i => i.id === itemId || i.name === itemId);
+      
+      if (!item) return;
+
       const action = btn.dataset.action;
-      if (action === 'plus') cart[idx].quantity = (cart[idx].quantity || 0) + 1;
-      if (action === 'minus' && (cart[idx].quantity || 0) > 1) cart[idx].quantity -= 1;
-      persistCart();
+      let newQty = item.quantity || 1;
+
+      if (action === 'plus') {
+        newQty += 1;
+      } else if (action === 'minus' && newQty > 1) {
+        newQty -= 1;
+      }
+
+      NetShop.CartManager.updateQuantity(itemId, newQty); // USE CORE
       renderCart();
       return;
     }
 
+    // Remove button
     if (btn.classList.contains('remove-btn')) {
       const ok = confirm('Remove this item from the cart?');
       if (!ok) return;
-      cart.splice(idx, 1);
-      persistCart();
+      
+      NetShop.CartManager.removeItem(itemId); // USE CORE
       renderCart();
       return;
     }
@@ -170,11 +191,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // Checkout button
   if (checkoutBtn) {
     checkoutBtn.addEventListener('click', () => {
+      const cart = NetShop.CartManager.getCart(); // USE CORE
+      
       if (!cart || cart.length === 0) {
-        alert('Your cart is empty!');
+        NetShop.Utils.showError('Your cart is empty!'); // USE CORE
         return;
       }
+      
       window.location.href = 'checkout.html';
     });
   }
+
+  // ═══════════════════════════════════════════════════════════════
+  // INITIAL RENDER
+  // ═══════════════════════════════════════════════════════════════
+  renderCart();
 });

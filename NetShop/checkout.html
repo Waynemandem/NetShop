@@ -3,166 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout page</title>
+    <title>Checkout - NetShop</title>
     <link rel="stylesheet" href="netshop.css">
-    <script defer src="netshop.js"></script>
-    <script defer src="shop.js"></script>
-    <script defer src="product.js"></script>
-    <script defer src="checkout.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" type="image/png" href="arrow.png">
-
+    <!-- Load scripts in correct order -->
+     <script defer src="db.js"></script> 
+     <script defer src="toast.js"></script>
+     <script defer src="netshop_core_fixed.js"></script>
+     <script defer src="checkout.js"></script>
 </head>
 <body>
-    <header>
-    <h1>NetShop</h1>
-    <nav>
-      <ul id="navbar">
-        <li><a href="netshop.html" class="nav-link active">Home</a></li>
-        <li><a href="shop.html" class="nav-link active">Shop</a></li>
-        <li><a href="blog.html" class="nav-link active">Blog</a></li>
-        <li><a href="about.html" class="nav-link active">About</a></li>
-        <li><a href="contact.html" class="nav-link active">Contact</a></li>
-        <li>
-                  <a href="cart.html" class="cart-link">
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-top">
+            <h1 class="logo">NetShop</h1>
+            <button id="menu-toggle" class="menu-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <select class="search-category">
+                        <option value="all">All Categories</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="home">Home & Living</option>
+                    </select>
+                    <input type="search" placeholder="Search products, brands and categories..." />
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <a href="dashboard.html" class="action-btn">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Account</span>
+                </a>
+                <a href="#" class="action-btn" id="help-btn">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Help</span>
+                </a>
+                <a href="cart.html" class="action-btn cart-btn">
                     <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="cart-count" class="cart-count">0</span>
-                  </a>
-                </li>
-      </ul>
-    </nav>
-    <div class="menu-toggle" id="menu-toggle">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </header>
-  <div id="menu-overlay"></div>
+                    <span class="cart-count" id="cart-count">0</span>
+                    <span>Cart</span>
+                </a>
+            </div>
+        </div>
 
-<main class="checkout-container">
-    <section class="checkout-form-section">
-      <h2>Delivery Details</h2>
-      <form id="checkout-form">
-        <label>Full Name</label>
-        <input type="text" id="name" placeholder="Enter your full name" required>
+        <nav class="main-nav">
+            <ul id="navbar">
+                <li><a href="netshop.html" class="nav-link">Home</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li><a href="cart.html" class="nav-link">Cart</a></li>
+                <li><a href="orders.html" class="nav-link">Orders</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div id="menu-overlay"></div>
 
-        <label>Phone Number</label>
-        <input type="tel" id="phone" placeholder="e.g. 09012345678" required>
+    <!-- Checkout Content -->
+    <main class="checkout-container">
+        <!-- Delivery Details Form -->
+        <section class="checkout-form-section">
+            <h2>Delivery Details</h2>
+            <form id="checkout-form">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name"
+                        placeholder="Enter your full name" 
+                        required
+                        minlength="2"
+                        autocomplete="name"
+                    >
+                </div>
 
-        <label>Delivery Address</label>
-        <textarea id="address" placeholder="Enter your delivery address" required></textarea>
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone"
+                        placeholder="e.g. 09012345678" 
+                        required
+                        pattern="[0-9+\s-()]+"
+                        autocomplete="tel"
+                    >
+                </div>
 
-        <label>City</label>
-        <input type="text" id="city" placeholder="Enter your city" required>
+                <div class="form-group">
+                    <label for="address">Delivery Address *</label>
+                    <textarea 
+                        id="address" 
+                        name="address"
+                        placeholder="Enter your full delivery address including street, area, and landmarks" 
+                        required
+                        rows="3"
+                        minlength="10"
+                        autocomplete="street-address"
+                    ></textarea>
+                </div>
 
-        <label>Payment Method</label>
-        <select id="payment-method" required>
-          <option value="">Select</option>
-          <option value="card">Credit/Debit Card</option>
-          <option value="transfer">Bank Transfer</option>
-          <option value="delivery">Pay on Delivery</option>
-        </select>
+                <div class="form-group">
+                    <label for="city">City *</label>
+                    <input 
+                        type="text" 
+                        id="city" 
+                        name="city"
+                        placeholder="Enter your city" 
+                        required
+                        autocomplete="address-level2"
+                    >
+                </div>
 
-        <button type="submit" id="place-order">Place Order</button>
-      </form>
-    </section>
+                <div class="form-group">
+                    <label for="payment-method">Payment Method *</label>
+                    <select id="payment-method" name="payment-method" required>
+                        <option value="">-- Select Payment Method --</option>
+                        <option value="card">Credit/Debit Card</option>
+                        <option value="transfer">Bank Transfer</option>
+                        <option value="delivery">Pay on Delivery</option>
+                    </select>
+                </div>
 
-    <section class="order-summary">
-        <h2>Order Summary</h2>
-          <div id="order-items"></div>
+                <button type="submit" id="place-order" class="place-order-btn">
+                    <i class="fas fa-check-circle"></i>
+                    Place Order
+                </button>
+            </form>
+        </section>
 
-         <div class="price-breakdown">
-        <p><span>Subtotal:</span> <span id="subtotal-price">₦0</span></p>
-        <p><span>Delivery Fee:</span> <span id="delivery-fee">₦1,200</span></p>
-        <hr>
-        <p class="total"><span>Total:</span> <span id="total-price">₦0</span></p>
-      </div>
-    </section>
+        <!-- Order Summary -->
+        <section class="order-summary">
+            <h2>Order Summary</h2>
+            
+            <div id="order-items" class="order-items-list">
+                <!-- Items will be dynamically populated by checkout.js -->
+                <p class="loading-text">Loading your order...</p>
+            </div>
 
-  </main>
+            <div class="price-breakdown">
+                <div class="price-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal-price">₦0.00</span>
+                </div>
+                <div class="price-row">
+                    <span>Delivery Fee:</span>
+                    <span id="delivery-fee">₦1,200.00</span>
+                </div>
+                <hr>
+                <div class="price-row total-row">
+                    <span><strong>Total:</strong></span>
+                    <span id="total-price"><strong>₦0.00</strong></span>
+                </div>
+            </div>
 
+            <div class="secure-checkout">
+                <i class="fas fa-lock"></i>
+                <span>Secure Checkout - Your information is protected</span>
+            </div>
+        </section>
+    </main>
 
-  <footer>
-    <div class="col">
-      <h1>NetShop</h1>
-      <h4>Contacts</h4>
-      <p><strong>Address:</strong>Plot 1, g close Arigbede phase 1, Warewa, Ogun state.</p>
-      <p><strong>Phone:</strong>+234 9078 740 445</p>
-      <p>📞 Contact
+    <!-- Footer -->
+    <footer>
+        <div class="col about">
+            <h1>NetShop</h1>
+            <p>Your one-stop shop for electronics, fashion, and more. Quality products delivered fast.</p>
+        </div>
 
-        Created by Waynemandem <br>
-        📧 Email: okoemu4@gmail.com <br>
-        🔗 GitHub: https://github.com/Waynemandem</p>
-      <p><strong>Hours:</strong>Always active</p>
-    </div>
-    <br>
-    <div class="follow">
-      <p><strong>Follow us:</strong></p>
-      <div class="social-icons">
-        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="#"><i class="fa-brands fa-twitter"></i></a>
-        <a href="#"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="#"><i class="fa-brands fa-pinterest"></i></a>
-        <a href="#"><i class="fa-brands fa-youtube"></i></a>
-      </div>
-    </div>
+        <div class="col links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="netshop.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="#">Categories</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="checkout.html">Checkout</a></li>
+            </ul>
+        </div>
 
-    <div class="col">
-      <h4>About Us</h4>
-      <a href="about.html">About us</a> /
-      <a href="contact.html">Contact us</a> /
-      <a href="#">Privacy Policy</a> /
-      <a href="#">Terms & Conditions</a> /
-      <a href="#">Shipping Information</a>
-    </div>
+        <div class="col support">
+            <h4>Customer Service</h4>
+            <ul>
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Returns</a></li>
+                <li><a href="#">Shipping Info</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+            </ul>
+        </div>
 
-    <div class="col">
-      <h4>My Account</h4>
-      <a href="login.html">Sign In</a> /
-      <a href="cart.html">View Cart</a> /
-      <a href="#">My Wishlist</a> /
-      <a href="#">Track My Order</a> /
-      <a href="#">Help</a>
-    </div>
+        <div class="col follow-apps">
+            <div class="follow">
+                <p>Follow Us</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
 
-    <div class="col">
-      <h4>Install App</h4>
-      <p>From App Store or Google Play</p>
-      <div class="app-logo">
-        <i class="fa-brands fa-app-store-ios"></i>
-        <i class="fa-brands fa-google-play"></i>
-      </div>
-      <p>Secured Payment Gateways</p>
-      <i class="fa-solid fa-credit-card"></i>
-    </div>
-    <p>&copy; 2023 NetShop. All rights reserved.</p>
-  </footer>
+            <div class="apps">
+                <p>Get Our App</p>
+                <div class="app-logos">
+                    <i class="fab fa-apple"></i>
+                    <i class="fab fa-google-play"></i>
+                </div>
+            </div>
 
+            <div class="payments">
+                <p>We Accept</p>
+                <i class="fas fa-credit-card"></i>
+            </div>
+        </div>
 
-  <script src="https://kit.fontawesome.com/82046994e6.js" crossorigin="anonymous"></script>
+        <p class="copyright">
+            &copy; 2025 NetShop. All rights reserved.
+        </p>
+    </footer>
 
-  <!-- Toast Container -->
-  <div class="toast-container" id="toastContainer"></div>
-  <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const navbar = document.getElementById('navbar');
-    const menuOverlay = document.getElementById('menu-overlay');
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
 
-    menuToggle.addEventListener('click', () => {
-      navbar.classList.toggle('show');
-      menuToggle.classList.toggle('active');
-      menuOverlay.classList.toggle('show');
-    });
-
-    // Close menu if user clicks outside
-    menuOverlay.addEventListener('click', () => {
-      navbar.classList.remove('show');
-      menuToggle.classList.remove('active');
-      menuOverlay.classList.remove('show');
-    });
-  </script>
-
-
-    
+    <script src="https://kit.fontawesome.com/82046994e6.js" crossorigin="anonymous"></script>
 </body>
 </html>
