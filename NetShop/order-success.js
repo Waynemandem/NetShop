@@ -1,9 +1,31 @@
+// order-success.js - FIXED VERSION
+// Properly loads order details and enables PDF download
+
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('[OrderSuccess] Page loaded');
+
+  // Get order ID from URL
   const qs = new URLSearchParams(window.location.search);
   const orderId = qs.get('orderId');
-  const safeParse = (k, fallback = null) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; } catch(e){return fallback;} };
+  
+  console.log('[OrderSuccess] Order ID:', orderId);
 
+  // Safe parse helper
+  const safeParse = (k, fallback = null) => {
+    try {
+      const v = localStorage.getItem(k);
+      return v ? JSON.parse(v) : fallback;
+    } catch(e) {
+      console.error('[OrderSuccess] Parse error:', e);
+      return fallback;
+    }
+  };
+
+  // Get all orders
   const orders = safeParse('orders', []) || [];
+  console.log('[OrderSuccess] Total orders found:', orders.length);
+
+  // Find the order
   let order = null;
   if (orderId) order = orders.find(o => o.id === orderId) || null;
   if (!order) order = orders.length ? orders[orders.length - 1] : null;
