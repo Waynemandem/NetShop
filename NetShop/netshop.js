@@ -1,7 +1,22 @@
-// netshop.js - CLEANED VERSION (remove duplicates)
-// This version removes functions now handled by netshop_core_fixed.js
+// ═══════════════════════════════════════════════════════════════
+// NETSHOP.JS - CLEANED VERSION
+// All menu code removed - handled by netshop_menu_final.js
+// ═══════════════════════════════════════════════════════════════
 
-document.addEventListener("DOMContentLoaded", () => {
+(function() {
+  'use strict';
+
+  // Ensure shared components (header, utilities) are available.
+  // If `loadHeader` is not defined, dynamically load `components.js` so pages don't need manual script edits.
+  if (typeof window.loadHeader !== 'function') {
+    const _s = document.createElement('script');
+    _s.src = 'components.js';
+    _s.defer = true;
+    document.head.appendChild(_s);
+  }
+
+  console.log('[NetShop Page] Loading...');
+
   // ═══════════════════════════════════════════════════════════════
   // DOM ELEMENTS
   // ═══════════════════════════════════════════════════════════════
@@ -11,17 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const categoryGrid = document.getElementById("category-grid");
 
   // ═══════════════════════════════════════════════════════════════
-  // DELETED - Now in netshop_core_fixed.js:
-  // - safeParse()
-  // - safeSet()
-  // - addToCart()
-  // - updateCartCount()
-  // - slugify()
-  // - showToast()
-  // ═══════════════════════════════════════════════════════════════
-
-  // ═══════════════════════════════════════════════════════════════
-  // PRODUCT DATA (Keep this - it's page-specific)
+  // PRODUCT DATA
   // ═══════════════════════════════════════════════════════════════
   const products = [
     { brandName: "Nike", name: "Nike Air Sneakers", price: 120, image: "nike1.jpeg" },
@@ -32,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { brandName: "Nike", name: "Nike Stack", price: 130, image: "nikestack.jpeg" }
   ].map(p => ({ 
     ...p, 
-    id: NetShop.Utils.slugify(p.name) // USE CORE FUNCTION
+    id: NetShop.Utils.slugify(p.name)
   }));
 
   const products2 = [
@@ -47,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { brandName: "Big 4", name: "Jogger and Shoes", price: 699.99, image: "track&shoe.jpg" }
   ].map(p => ({ 
     ...p, 
-    id: NetShop.Utils.slugify(p.name) // USE CORE FUNCTION
+    id: NetShop.Utils.slugify(p.name)
   }));
 
   // Save combined catalog if not present
@@ -57,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ═══════════════════════════════════════════════════════════════
-  // PRODUCT CARD BUILDER (Keep - page specific UI)
+  // PRODUCT CARD BUILDER
   // ═══════════════════════════════════════════════════════════════
   function buildProductCard(p, className = "product-card") {
     const card = document.createElement("article");
@@ -89,21 +94,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const price = document.createElement("p");
     price.className = "product-price";
-    price.textContent = `₦${NetShop.Utils.formatPrice(p.price)}`; // USE CORE FUNCTION
+    price.textContent = `₦${NetShop.Utils.formatPrice(p.price)}`;
     link.appendChild(price);
 
     // Buttons
     const buttons = document.createElement("div");
     buttons.className = "card-buttons";
 
-    const buyBtn = document.createElement("button");
+     const buyBtn = document.createElement("button");
     buyBtn.type = "button";
     buyBtn.className = "buy-btn";
     buyBtn.textContent = "Buy Now";
     buyBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      NetShop.CartManager.addItem(p); // USE CORE FUNCTION
+      NetShop.CartManager.addItem(p);
       window.location.href = "cart.html";
     });
 
@@ -114,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cartBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      NetShop.CartManager.addItem(p); // USE CORE FUNCTION
+      NetShop.CartManager.addItem(p);
     });
 
     buttons.appendChild(buyBtn);
@@ -126,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ═══════════════════════════════════════════════════════════════
-  // RENDER GRIDS (Keep - page specific)
+  // RENDER GRIDS
   // ═══════════════════════════════════════════════════════════════
   function renderGrid(container, list, className) {
     if (!container) return;
@@ -141,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (productGrid2) renderGrid(productGrid2, products2, "product-card2");
 
   // ═══════════════════════════════════════════════════════════════
-  // PROMO SECTION (Keep - page specific)
+  // PROMO SECTION
   // ═══════════════════════════════════════════════════════════════
   const promos = [
     { image: "iphone-promo.jpg", title: "New Arrivals", subtitle: "Fresh styles for 2025", link: "#" },
@@ -178,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ═══════════════════════════════════════════════════════════════
-  // CATEGORIES SECTION (Keep - page specific)
+  // CATEGORIES SECTION
   // ═══════════════════════════════════════════════════════════════
   const categories = [
     { image: "crocs.jpg", name: "Unisex Footwear", link: "#" },
@@ -218,19 +223,32 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ═══════════════════════════════════════════════════════════════
-  // SELLER BUTTON (Keep - page specific)
+  // HELP DROPDOWN
   // ═══════════════════════════════════════════════════════════════
-  if (window.location.pathname.endsWith("netshop.html")) {
-    const sellerBtn = document.getElementById("seller-btn");
-    if (sellerBtn) {
-      sellerBtn.addEventListener("click", () => {
-        window.location.href = "seller.html";
+  const helpBtn = document.getElementById('help-btn');
+  const helpDropdown = document.getElementById('help-dropdown');
+  const closeHelp = document.querySelector('.close-help');
+
+  if (helpBtn && helpDropdown) {
+    helpBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      helpDropdown.classList.toggle('show');
+    });
+
+    if (closeHelp) {
+      closeHelp.addEventListener('click', () => {
+        helpDropdown.classList.remove('show');
       });
     }
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!helpDropdown.contains(e.target) && !helpBtn.contains(e.target)) {
+        helpDropdown.classList.remove('show');
+      }
+    });
   }
 
-  // ═══════════════════════════════════════════════════════════════
-  // DELETED - Mobile menu now in netshop_core_fixed.js
-  // DELETED - Cart count updates now in netshop_core_fixed.js
-  // ═══════════════════════════════════════════════════════════════
-});
+  console.log('[NetShop Page] ✓ Initialized successfully');
+
+})();

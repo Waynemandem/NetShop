@@ -1,0 +1,68 @@
+/* components.css
+   Shared UI tokens and small utility classes for NetShop
+   Mobile-first, minimal, and modular styles for buttons, cards, header, and layout helpers.
+*/
+:root {
+  --primary: #a4161a;
+  --primary-contrast: #ffffff;
+  --muted: #f4f4f4;
+  --text: #222;
+  --muted-text: #666;
+  --radius: 8px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* Utility helpers */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.row { display:flex; gap:1rem; flex-wrap:wrap; }
+.col { flex:1 1 0; }
+.text-center{ text-align:center; }
+.hide{ display:none !important; }
+
+/* Buttons */
+.btn{ display:inline-flex; align-items:center; gap:0.5rem; padding:0.6rem 1rem; border-radius:6px; border:none; cursor:pointer; font-weight:600;}
+.btn-primary{ background:var(--primary); color:var(--primary-contrast); }
+.btn-ghost{ background:transparent; border:1px solid #eee; color:var(--text); }
+.icon-btn{ padding:0.45rem; border-radius:6px; }
+
+/* Card */
+.card{ background:#fff; border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:1rem; border:1px solid #f0f0f0; }
+.card-compact{ padding:0.5rem; }
+
+/* Header - mobile-first */
+.main-header{ background:#fff; border-bottom:1px solid #f0f0f0; z-index:1200; position:sticky; top:0; }
+.header-container{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:0.6rem 1rem; }
+.header-left{ display:flex; align-items:center; gap:0.75rem; }
+.logo{ font-weight:800; color:var(--primary); font-size:1.1rem; text-decoration:none; }
+.header-search{ flex:1; display:flex; align-items:center; gap:0.5rem; }
+.header-search input{ flex:1; padding:0.55rem 0.75rem; border-radius:6px; border:1px solid #eee; }
+.header-actions{ display:flex; gap:0.5rem; align-items:center; }
+.nav{ display:flex; gap:0.5rem; align-items:center; }
+.hamburger{ display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:6px; }
+
+/* Desktop layout */
+@media(min-width:900px){
+  .header-search input{ max-width:480px; }
+  .hamburger{ display:none; }
+}
+
+/* Mobile nav panel */
+.mobile-nav-panel{ position:fixed; left:-320px; top:0; width:280px; height:100vh; background:#fff; box-shadow:2px 0 12px rgba(0,0,0,0.08); transition:left 0.25s; z-index:1300; overflow:auto; padding:1.25rem; }
+.mobile-nav-panel.show{ left:0; }
+.mobile-nav-panel .nav-link{ display:block; padding:0.8rem 0; color:var(--text); text-decoration:none; border-bottom:1px solid #f6f6f6; }
+
+/* Small components */
+.badge{ background:var(--primary); color:var(--primary-contrast); padding:0.2rem 0.5rem; border-radius:999px; font-size:0.75rem; }
+.form-row{ display:flex; gap:0.5rem; align-items:center; }
+
+/* Accessibility helpers */
+.sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+
+/* Search autocomplete mock */
+.autocomplete-list{ position:absolute; background:#fff; border:1px solid #eee; box-shadow:var(--shadow-sm); width:100%; max-height:260px; overflow:auto; margin-top:0.25rem; border-radius:6px; }
+.autocomplete-item{ padding:0.6rem 0.75rem; border-bottom:1px solid #fafafa; display:flex; gap:0.5rem; align-items:center; }
+.autocomplete-item:hover{ background:#fafafa; cursor:pointer; }

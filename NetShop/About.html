@@ -1,134 +1,222 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>about</title>
-    <link rel="stylesheet" href="netshop.css">
-    <script defer src="db.js"></script>
-    <script defer src="toast.js"></script>
-    <script defer src="netshop_core_fixed.js"></script>
-    <script defer src="[page-specific].js"></script>
-    <link rel="icon" type="image/png" href="arrow.png">
+  <!--
+    about-us.html
+    Purpose: A clean, responsive "About Us" single-file page suitable for a startup or personal brand.
+    Notes: Includes inline CSS and minimal JS. All major sections are commented for clarity.
+  -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>About Us — NetShop</title>
+  <meta name="description" content="NetShop — building delightful web experiences. Learn our mission, values, and the team behind the product."/>
+  <style>
+    /* Basic reset and typography */
+    :root{--accent:#1f8ef1;--muted:#6b7280;--bg:#0f1724;--card:#1a202c;--glass:rgba(255,255,255,0.04)}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;line-height:1.5;color:#e6eef8;background:linear-gradient(180deg,#071025 0%,#07151e 100%);padding:24px}
+    .container{max-width:980px;margin:0 auto}
+
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:54px;height:54px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    h1{margin:0;font-size:clamp(1.4rem,2.2vw,2rem)}
+    p.lead{margin:6px 0 0;color:var(--muted)}
+
+    main{background:var(--card);padding:24px;border-radius:14px;box-shadow:0 6px 30px rgba(2,6,23,0.6)}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:20px}
+    @media (max-width:820px){.grid{grid-template-columns:1fr}}
+
+    .section{margin-bottom:20px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:18px;border-radius:10px}
+
+    .values{display:flex;gap:12px;flex-wrap:wrap}
+    .value{flex:1 1 140px;background:var(--glass);padding:12px;border-radius:8px}
+    .team{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    @media (max-width:480px){.team{grid-template-columns:1fr}}
+    .member{display:flex;gap:12px;align-items:center}
+    .avatar{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#111827,#1f2937);display:flex;align-items:center;justify-content:center;color:#cbd5e1;font-weight:700}
+    footer{margin-top:18px;color:var(--muted);font-size:0.9rem;text-align:center}
+
+    /* CTA */
+    .cta{display:flex;gap:10px;align-items:center;margin-top:10px}
+    .btn{padding:10px 14px;border-radius:10px;border:0;font-weight:600;cursor:pointer}
+    .btn-primary{background:var(--accent);color:white}
+    .btn-ghost{background:transparent;color:var(--accent);border:1px solid rgba(255,255,255,0.06)}
+
+    /* Small utilities */
+    .muted{color:var(--muted)}
+    .meta{font-size:0.95rem;color:var(--muted)}
+  </style>
 </head>
 <body>
-     <header>
-    <h1>About Us</h1>
-    <nav>
-      <ul id="navbar">
-        <li><a href="netshop.html" class="nav-link active">Home</a></li>
-        <li><a href="shop.html" class="nav-link active">Shop</a></li>
-        <li><a href="categories.html" class="nav-link active">Blog</a></li>
-        <li><a href="about.html" class="nav-link active">About</a></li>
-        <li><a href="contact.html" class="nav-link active">Contact</a></li>
-                <li><a href="login.html" class="nav-link login-btn">
-          <i class="fa-solid fa-user"></i>
-          </a>
-        </li>
-        <li>
-                  <a href="cart.html" class="cart-link">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="cart-count" class="cart-count">0</span>
-                  </a>
-                </li>
-      </ul>
-    </nav>
-    <div class="menu-toggle" id="menu-toggle">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </header>
-  <div id="menu-overlay"></div>
-
-
-    
-
-<footer>
-  <!-- About / Company Info -->
-  <div class="col about">
-    <h1>NetShop</h1>
-    <p>Your one-stop shop for electronics, fashion, and more. Quality products delivered fast.</p>
-  </div>
-
-  <!-- Quick Links -->
-  <div class="col links">
-    <h4>Quick Links</h4>
-    <ul>
-      <li><a href="netshop.html">Home</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="#">Categories</a></li>
-      <li><a href="cart.html">Cart</a></li>
-      <li><a href="checkout.html">Checkout</a></li>
-    </ul>
-  </div>
-
-  <!-- Customer Service -->
-  <div class="col support">
-    <h4>Customer Service</h4>
-    <ul>
-      <li><a href="#">Help Center</a></li>
-      <li><a href="#">Returns</a></li>
-      <li><a href="#">Shipping Info</a></li>
-      <li><a href="#">Terms & Conditions</a></li>
-    </ul>
-  </div>
-
-  <!-- Follow & App Downloads -->
-  <div class="col follow-apps">
-    <div class="follow">
-      <p>Follow Us</p>
-      <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+  <div class="container">
+    <!-- Header: brand and short tagline -->
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">NS</div>
+        <div>
+          <h1>NetShop</h1>
+          <p class="lead">We design sleek, fast web experiences for modern shoppers.</p>
+        </div>
       </div>
-    </div>
+      <nav aria-label="Top navigation">
+        <button class="btn btn-ghost" onclick="scrollToContact()">Contact</button>
+      </nav>
+    </header>
 
-    <div class="apps">
-      <p>Get Our App</p>
-      <div class="app-logos">
-        <i class="fab fa-apple"></i>
-        <i class="fab fa-google-play"></i>
+    <!-- Main card containing About content and sidebar -->
+    <main>
+      <div class="grid">
+        <!-- Left column: mission, story, values -->
+        <section class="section" aria-labelledby="mission">
+          <article class="card">
+            <!-- Mission section: concise statement -->
+            <h2 id="mission">Our mission</h2>
+            <p class="meta">To empower small businesses and creators with elegant, conversion-minded web products — without the bloat.</p>
+            <div style="height:12px"></div>
+
+            <!-- Story: short narrative about the company -->
+            <h3>Who we are</h3>
+            <p>
+              Founded by a small team of designers and engineers, NetShop started as a weekend project to make online selling less painful. Over time,
+              what began as a minimal store template grew into a full product suite: fast storefronts, simple inventory tools, and checkout flows that actually convert.
+            </p>
+
+            <!-- Values: bullet style boxes -->
+            <h3 style="margin-top:16px">Our values</h3>
+            <div class="values">
+              <div class="value">
+                <strong>Clarity</strong>
+                <div class="muted">Simple interfaces, clear outcomes.</div>
+              </div>
+              <div class="value">
+                <strong>Speed</strong>
+                <div class="muted">Performance-first thinking at every layer.</div>
+              </div>
+              <div class="value">
+                <strong>Practicality</strong>
+                <div class="muted">Solve real problems with small, thoughtful features.</div>
+              </div>
+              <div class="value">
+                <strong>Respect</strong>
+                <div class="muted">For users, teammates, and the broader community.</div>
+              </div>
+            </div>
+
+            <!-- Call to action: invites engagement -->
+            <div class="cta" style="margin-top:16px">
+              <button class="btn btn-primary" onclick="scrollToContact()">Work with us</button>
+              <button class="btn btn-ghost" onclick="window.location.href='#team'">Meet the team</button>
+            </div>
+          </article>
+
+          <!-- More company details: timeline or impact stats -->
+          <div style="height:16px"></div>
+          <article class="card">
+            <h3>In numbers</h3>
+            <p class="meta">Small wins we care about</p>
+            <ul>
+             <li><strong>15+</strong> real-world features delivered</li>
+             <li><strong>7,000+</strong> monthly active users across our tools</li>
+             <li><strong>Built on consistency, not hype — every improvement counts.</strong></li>
+            </ul>
+   
+          </article>
+        </section>
+
+        <!-- Right column: team, contact -->
+        <aside>
+          <section class="section card" id="team" aria-labelledby="teamHeading">
+            <h3 id="teamHeading">The team</h3>
+            <p class="meta">Small, distributed, and focused.</p>
+            <div class="team" style="margin-top:12px">
+              <!-- Team member entries: avatar + role -->
+              <div class="member">
+                <div class="avatar">AW</div>
+                <div>
+                  <div><strong>Ada Wong</strong></div>
+                  <div class="muted">Founder & Product</div>
+                </div>
+              </div>
+
+              <div class="member">
+                <div class="avatar">MK</div>
+                <div>
+                  <div><strong>Michael K.</strong></div>
+                  <div class="muted">Lead Engineer</div>
+                </div>
+              </div>
+
+              <div class="member">
+                <div class="avatar">BN</div>
+                <div>
+                  <div><strong>Big Wayne</strong></div>
+                  <div class="muted">Frontend Developer</div>
+                </div>
+              </div>
+
+              <div class="member">
+                <div class="avatar">RA</div>
+                <div>
+                  <div><strong>Rita A.</strong></div>
+                  <div class="muted">Customer Success</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="height:12px"></div>
+            <p class="meta">Want to join? We're hiring for engineering and growth roles.</p>
+            <button class="btn btn-primary" onclick="window.location.href='mailto:careers@netshop.example'">Apply</button>
+          </section>
+
+          <div style="height:12px"></div>
+
+          <section class="section card" id="contact" aria-labelledby="contactHeading">
+            <h3 id="contactHeading">Contact</h3>
+            <p class="meta">Questions, partnerships, or press — we read every message.</p>
+            <p class="meta"><strong>Email:</strong> hello@netshop.example</p>
+            <p class="meta"><strong>Location:</strong> Lagos, Nigeria</p>
+            <button class="btn btn-ghost" onclick="copyEmail()">Copy email</button>
+          </section>
+        </aside>
       </div>
-    </div>
 
-    <div class="payments">
-      <p>We Accept</p>
-      <i class="fas fa-credit-card"></i>
-    </div>
+      <!-- Footer: small legal & social links -->
+      <footer>
+        <div>© <span id="year"></span> NetShop. Built with focus & care.</div>
+      </footer>
+    </main>
   </div>
 
-  <p class="copyright">
-    &copy; 2025 NetShop. All rights reserved.
-  </p>
-</footer>
-     <script src="https://kit.fontawesome.com/82046994e6.js" crossorigin="anonymous"></script>
-
-  <!-- Toast Container -->
-  <div class="toast-container" id="toastContainer"></div>
   <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const navbar = document.getElementById('navbar');
-    const menuOverlay = document.getElementById('menu-overlay');
+    /*
+      Small JS helpers:
+      - populate current year
+      - copy email to clipboard
+      - scroll to contact section
+      Note: Keeping behavior minimal for a single-file page.
+    */
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    menuToggle.addEventListener('click', () => {
-      navbar.classList.toggle('show');
-      menuToggle.classList.toggle('active');
-      menuOverlay.classList.toggle('show');
-    });
+    function copyEmail(){
+      const email = 'hello@netshop.example';
+      navigator.clipboard?.writeText(email).then(()=>{
+        alert('Email copied to clipboard');
+      }).catch(()=>{
+        prompt('Copy email', email);
+      });
+    }
 
-    // Close menu if user clicks outside
-    menuOverlay.addEventListener('click', () => {
-      navbar.classList.remove('show');
-      menuToggle.classList.remove('active');
-      menuOverlay.classList.remove('show');
-    });
+    function scrollToContact(){
+      document.getElementById('contact').scrollIntoView({behavior:'smooth',block:'start'});
+    }
   </script>
 
-
-
-    
+  
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+  <script defer src="hamburger.js"></script>
 </body>
 </html>

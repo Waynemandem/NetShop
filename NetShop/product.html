@@ -14,32 +14,58 @@
 </head>
 <body>
      <header class="main-header">
-    <h1>Product</h1>
-      <ul id="navbar">
-        <li><a href="netshop.html" class="nav-link active">Home</a></li>
-        <li><a href="shop.html" class="nav-link active">Shop</a></li>
-        <li><a href="categories.html" class="nav-link active">Categories</a></li>
-        <li><a href="about.html" class="nav-link active">About</a></li>
-        <li><a href="contact.html" class="nav-link active">Contact</a></li>
-                <li><a href="login.html" class="nav-link login-btn">
-          <i class="fa-solid fa-user"></i>
-          </a>
-        </li>
-        <li>
-                  <a href="cart.html" class="cart-link">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="cart-count" class="cart-count">0</span>
-                  </a>
+    <div class="header-container">
+        <div class="header-left">
+            <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="netshop.html" class="logo-link">
+                <h1 class="logo">Product</h1>
+            </a>
+        </div>
+
+        <nav class="main-nav" id="main-nav">
+            <ul class="nav-list">
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link">Categories <i class="fa-solid fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="#"><i class="fas fa-mobile-alt"></i> Phones & Tablets</a>
+                        <a href="#"><i class="fas fa-laptop"></i> Computing</a>
+                        <a href="#"><i class="fas fa-tshirt"></i> Fashion</a>
+                        <a href="#"><i class="fas fa-home"></i> Home & Office</a>
+                        <a href="#"><i class="fas fa-gamepad"></i> Gaming</a>
+                        <a href="#"><i class="fas fa-dumbbell"></i> Sporting Goods</a>
+                        <a href="#"><i class="fas fa-car"></i> Automobile</a>
+                        <a href="#"><i class="fas fa-tools"></i> Other Categories</a>
+                    </div>
                 </li>
-      </ul>
-    </nav>
-    <div class="menu-toggle" id="menu-toggle">
-      <span></span>
-      <span></span>
-      <span></span>
+                <li><a href="seller.html" class="nav-link">Sell on NetShop</a></li>
+                <li><a href="orders.html" class="nav-link">Orders</a></li>
+                <li><a href="#" class="nav-link" id="help-btn">Help</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-right">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="search" placeholder="Search..." />
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+            <a href="dashboard.html" class="action-btn">
+                <i class="fa-solid fa-user"></i>
+                <span class="action-text">Account</span>
+            </a>
+            <a href="cart.html" class="action-btn cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count" id="cart-count">0</span>
+                <span class="action-text">Cart</span>
+            </a>
+        </div>
     </div>
-  </header>
-  <div id="menu-overlay"></div>
+</header>
+  
 
 <main class="product-page section-p1">
   <div class="product-container">
@@ -155,24 +181,40 @@
 
    
      <div class="toast-container" id="toastContainer"></div>
-   <script>
-  const menuToggle = document.getElementById('menu-toggle');
-  const navbar = document.getElementById('navbar');
-  const menuOverlay = document.getElementById('menu-overlay');
 
-  menuToggle.addEventListener('click', () => {
-    navbar.classList.toggle('show');
-    menuToggle.classList.toggle('active');
-    menuOverlay.classList.toggle('show');
-  });
 
-  // Close menu if user clicks outside
-  menuOverlay.addEventListener('click', () => {
-    navbar.classList.remove('show');
-    menuToggle.classList.remove('active');
-    menuOverlay.classList.remove('show');
-  });
-</script>
+  <script>
+        console.log('[Products] Page loaded');
+        
+        // Mobile menu functionality
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (menuBtn && mobileMenu) {
+            console.log('[Products] Menu elements found');
+            menuBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('[Products] Menu toggled');
+                const isHidden = mobileMenu.classList.contains('hidden');
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.style.display = 'block';
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.style.display = 'none';
+                }
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.style.display = 'none';
+                }
+            });
+        }
+        </script>
 <script src="https://kit.fontawesome.com/82046994e6.js" crossorigin="anonymous"></script>
     
 </body>

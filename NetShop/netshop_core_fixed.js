@@ -1,19 +1,74 @@
 // ═══════════════════════════════════════════════════════════════
-// NETSHOP CORE - Consolidated & Fixed Version
-// Place this BEFORE all other scripts in your HTML
+// NETSHOP CORE - CLEANED VERSION (Menu code removed)
 // ═══════════════════════════════════════════════════════════════
 
 (function() {
   'use strict';
 
+  console.log('[NetShop Core] Loading...');
+
   // ═══════════════════════════════════════════════════════════════
-  // 1. UTILITIES - Safe localStorage helpers
+  // 1. TOAST MANAGER
+  // ═══════════════════════════════════════════════════════════════
+  
+  const ToastManager = {
+    container: null,
+
+    init() {
+      if (!document.querySelector('.toast-container')) {
+        const container = document.createElement('div');
+        container.className = 'toast-container';
+        container.id = 'toastContainer';
+        document.body.appendChild(container);
+      }
+      this.container = document.querySelector('.toast-container');
+    },
+
+    show(message, type = 'success') {
+      if (!this.container) this.init();
+
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      
+      let icon = 'fa-info-circle';
+      switch(type) {
+        case 'success': icon = 'fa-check-circle'; break;
+        case 'error': icon = 'fa-times-circle'; break;
+        case 'warning': icon = 'fa-exclamation-circle'; break;
+      }
+
+      toast.innerHTML = `
+        <i class="fas ${icon}"></i>
+        <span class="toast-message">${message}</span>
+        <button class="toast-close">&times;</button>
+      `;
+
+      this.container.appendChild(toast);
+
+      const closeBtn = toast.querySelector('.toast-close');
+      closeBtn?.addEventListener('click', () => this.close(toast));
+
+      setTimeout(() => this.close(toast), 3000);
+    },
+
+    close(toast) {
+      toast.style.animation = 'slideOut 0.3s ease-out forwards';
+      setTimeout(() => toast.remove(), 300);
+    },
+
+    success(message) { this.show(message, 'success'); },
+    error(message) { this.show(message, 'error'); },
+    warning(message) { this.show(message, 'warning'); },
+    info(message) { this.show(message, 'info'); }
+  };
+
+  // ═══════════════════════════════════════════════════════════════
+  // 2. UTILITIES
   // ═══════════════════════════════════════════════════════════════
   
   window.NetShop = window.NetShop || {};
   
   const Utils = {
-    // Safe parse with fallback
     safeParse(key, fallback = null) {
       try {
         const value = localStorage.getItem(key);
@@ -24,7 +79,6 @@
       }
     },
 
-    // Safe set with error handling
     safeSet(key, value) {
       try {
         localStorage.setItem(key, JSON.stringify(value));
@@ -32,7 +86,7 @@
       } catch (error) {
         if (error.name === 'QuotaExceededError') {
           console.error('[NetShop] localStorage is full!');
-          this.showError('Storage is full. Please clear some data.');
+          ToastManager.error('Storage is full. Please clear some data.');
         } else {
           console.error('[NetShop] Failed to save:', error);
         }
@@ -40,7 +94,6 @@
       }
     },
 
-    // Slugify for IDs
     slugify(text) {
       return String(text || '')
         .toLowerCase()
@@ -49,7 +102,6 @@
         .replace(/[^\w-]/g, '');
     },
 
-    // Format price consistently
     formatPrice(value) {
       const num = Number(value) || 0;
       try {
@@ -62,77 +114,51 @@
       }
     },
 
-    // Normalize price input
     normalizePrice(value) {
       if (value == null || value === '') return 0;
       if (typeof value === 'number') return value;
       const cleaned = String(value).replace(/[^0-9.\-]/g, '');
       const parsed = parseFloat(cleaned);
       return Number.isFinite(parsed) ? parsed : 0;
-    },
-
-    // Show error toast
-    showError(message) {
-      if (window.toast) {
-        window.toast.error(message);
-      } else if (typeof showToast === 'function') {
-        showToast(message, 'error');
-      } else {
-        alert(message);
-      }
-    },
-
-    // Show success toast
-    showSuccess(message) {
-      if (window.toast) {
-        window.toast.success(message);
-      } else if (typeof showToast === 'function') {
-        showToast(message, 'success');
-      } else {
-        console.log(message);
-      }
     }
   };
 
   NetShop.Utils = Utils;
 
   // ═══════════════════════════════════════════════════════════════
-  // 2. CART MANAGER - Single source of truth for cart operations
+  // 3. CART MANAGER
   // ═══════════════════════════════════════════════════════════════
 
   const CartManager = {
     STORAGE_KEY: 'cart',
 
-    // Get cart items
     getCart() {
       return Utils.safeParse(this.STORAGE_KEY, []);
     },
 
-    // Save cart
     saveCart(cart) {
       return Utils.safeSet(this.STORAGE_KEY, cart);
     },
 
-    // Add item to cart
     addItem(product) {
+      console.log('[CartManager] Adding item:', product);
+      
       if (!product || !product.name) {
         console.warn('[CartManager] Invalid product:', product);
+        ToastManager.error('Invalid product');
         return false;
       }
 
       const cart = this.getCart();
       const price = Utils.normalizePrice(product.price);
       
-      // Find existing item by ID or name
       const index = cart.findIndex(item => 
         item.id === product.id || item.name === product.name
       );
 
       if (index >= 0) {
-        // Increment quantity
         cart[index].quantity = (cart[index].quantity || 0) + 1;
       } else {
-        // Add new item
         cart.push({
           id: product.id || Utils.slugify(product.name),
           name: product.name,
@@ -146,12 +172,14 @@
       const saved = this.saveCart(cart);
       if (saved) {
         this.updateCartCount();
-        Utils.showSuccess(`${product.name} added to cart 🛒`);
+        ToastManager.success(`${product.name} added to cart 🛒`);
+        console.log('[CartManager] Item added successfully');
+      } else {
+        ToastManager.error('Failed to add item to cart');
       }
       return saved;
     },
 
-    // Remove item from cart
     removeItem(productId) {
       const cart = this.getCart();
       const filtered = cart.filter(item => 
@@ -161,12 +189,12 @@
       if (filtered.length < cart.length) {
         this.saveCart(filtered);
         this.updateCartCount();
+        ToastManager.success('Item removed from cart');
         return true;
       }
       return false;
     },
 
-    // Update item quantity
     updateQuantity(productId, quantity) {
       const cart = this.getCart();
       const item = cart.find(i => i.id === productId || i.name === productId);
@@ -183,19 +211,16 @@
       return false;
     },
 
-    // Clear cart
     clearCart() {
       this.saveCart([]);
       this.updateCartCount();
     },
 
-    // Get cart total (item count)
     getItemCount() {
       const cart = this.getCart();
       return cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
     },
 
-    // Get cart subtotal (price)
     getSubtotal() {
       const cart = this.getCart();
       return cart.reduce((sum, item) => {
@@ -205,17 +230,12 @@
       }, 0);
     },
 
-    // Update cart count display (all instances)
     updateCartCount() {
       const count = this.getItemCount();
       const elements = document.querySelectorAll('.cart-count, #cart-count');
       
       elements.forEach(el => {
         el.textContent = count;
-        
-        // Add pulse animation
-        el.classList.remove('pulse');
-        void el.offsetWidth; // Trigger reflow
         el.classList.add('pulse');
         setTimeout(() => el.classList.remove('pulse'), 300);
       });
@@ -225,13 +245,12 @@
   NetShop.CartManager = CartManager;
 
   // ═══════════════════════════════════════════════════════════════
-  // 3. PRODUCT MANAGER - Handle product catalog
+  // 4. PRODUCT MANAGER
   // ═══════════════════════════════════════════════════════════════
 
   const ProductManager = {
     STORAGE_KEY: 'shopProducts',
 
-    // Default products (fallback)
     DEFAULT_PRODUCTS: [
       { brandName: "Nike", name: "Nike Air Sneakers", category: "men", price: 120, image: "nike1.jpeg" },
       { brandName: "Adidas", name: "Adidas Ultraboost", category: "men", price: 140, image: "adidas.jpeg" },
@@ -241,7 +260,6 @@
       { brandName: "Nike", name: "Nike Stack", category: "men", price: 130, image: "nikestack.jpeg" }
     ],
 
-    // Initialize product catalog
     init() {
       const products = this.getProducts();
       if (!products || products.length === 0) {
@@ -249,7 +267,6 @@
       }
     },
 
-    // Get all products
     getProducts() {
       const products = Utils.safeParse(this.STORAGE_KEY, []);
       return products.map(p => ({
@@ -259,22 +276,18 @@
       }));
     },
 
-    // Set products
     setProducts(products) {
       return Utils.safeSet(this.STORAGE_KEY, products);
     },
 
-    // Add product
     addProduct(product) {
       const products = this.getProducts();
-      
-      // Check for duplicates
       const exists = products.find(p => 
         p.id === product.id || p.name === product.name
       );
       
       if (exists) {
-        Utils.showError('Product already exists');
+        ToastManager.error('Product already exists');
         return false;
       }
 
@@ -287,13 +300,11 @@
       return this.setProducts(products);
     },
 
-    // Get product by ID
     getProductById(id) {
       const products = this.getProducts();
       return products.find(p => p.id === id || p.name === id);
     },
 
-    // Search products
     search(query) {
       if (!query || query.trim().length === 0) {
         return this.getProducts();
@@ -307,7 +318,6 @@
       );
     },
 
-    // Filter by category
     filterByCategory(category) {
       if (!category || category === 'all') {
         return this.getProducts();
@@ -315,7 +325,6 @@
       return this.getProducts().filter(p => p.category === category);
     },
 
-    // Sort products
     sort(products, sortBy) {
       const sorted = [...products];
       
@@ -337,116 +346,7 @@
   NetShop.ProductManager = ProductManager;
 
   // ═══════════════════════════════════════════════════════════════
-  // 4. IMAGE MANAGER - Handle product images with IndexedDB
-  // ═══════════════════════════════════════════════════════════════
-
-  const ImageManager = {
-    // Check if ImageDB is available
-    isAvailable() {
-      return window.ImageDB && typeof window.ImageDB.init === 'function';
-    },
-
-    // Initialize ImageDB
-    async init() {
-      if (!this.isAvailable()) {
-        console.warn('[ImageManager] ImageDB not available');
-        return false;
-      }
-
-      try {
-        await window.ImageDB.init();
-        return true;
-      } catch (error) {
-        console.error('[ImageManager] Failed to initialize:', error);
-        return false;
-      }
-    },
-
-    // Save image
-    async saveImage(productId, imageData) {
-      if (!this.isAvailable()) return false;
-
-      try {
-        await window.ImageDB.saveImage(productId, imageData);
-        return true;
-      } catch (error) {
-        console.error('[ImageManager] Failed to save image:', error);
-        return false;
-      }
-    },
-
-    // Get image (with fallback)
-    async getImage(product) {
-      // Try IndexedDB first
-      if (this.isAvailable() && product.hasImage) {
-        try {
-          const imageData = await window.ImageDB.getImage(product.id);
-          if (imageData) return imageData;
-        } catch (error) {
-          console.warn('[ImageManager] Failed to load from IndexedDB:', error);
-        }
-      }
-
-      // Fallback to legacy image field
-      return product.image || '';
-    }
-  };
-
-  NetShop.ImageManager = ImageManager;
-
-  // ═══════════════════════════════════════════════════════════════
-  // 5. INITIALIZATION
-  // ═══════════════════════════════════════════════════════════════
-
-  document.addEventListener('DOMContentLoaded', () => {
-    // Initialize modules
-    ProductManager.init();
-    CartManager.updateCartCount();
-    
-    // Initialize ImageDB if available
-    if (ImageManager.isAvailable()) {
-      ImageManager.init().catch(err => 
-        console.warn('[NetShop] ImageDB initialization failed:', err)
-      );
-    }
-
-    // Setup mobile menu (if present)
-    setupMobileMenu();
-
-    // Setup search (if present)
-    setupSearch();
-
-    console.log('[NetShop] Core initialized successfully');
-  });
-
-  // ═══════════════════════════════════════════════════════════════
-  // 6. MOBILE MENU - Consolidated handler
-  // ═══════════════════════════════════════════════════════════════
-
-  function setupMobileMenu() {
-    const menuToggle = document.getElementById('menu-toggle');
-    const navbar = document.getElementById('navbar');
-    const menuOverlay = document.getElementById('menu-overlay');
-
-    if (!menuToggle || !navbar) return;
-
-    menuToggle.addEventListener('click', () => {
-      navbar.classList.toggle('show');
-      menuToggle.classList.toggle('active');
-      if (menuOverlay) menuOverlay.classList.toggle('show');
-    });
-
-    if (menuOverlay) {
-      menuOverlay.addEventListener('click', () => {
-        navbar.classList.remove('show');
-        menuToggle.classList.remove('active');
-        menuOverlay.classList.remove('show');
-      });
-    }
-  }
-
-  // ═══════════════════════════════════════════════════════════════
-  // 7. SEARCH FUNCTIONALITY
+  // 5. SEARCH FUNCTIONALITY
   // ═══════════════════════════════════════════════════════════════
 
   function setupSearch() {
@@ -455,7 +355,6 @@
 
     if (!searchInput) return;
 
-    // Handle search input
     searchInput.addEventListener('input', debounce((e) => {
       const query = e.target.value;
       if (query.length >= 2) {
@@ -463,7 +362,6 @@
       }
     }, 300));
 
-    // Handle search button
     if (searchButton) {
       searchButton.addEventListener('click', (e) => {
         e.preventDefault();
@@ -474,7 +372,6 @@
       });
     }
 
-    // Handle Enter key
     searchInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
@@ -487,18 +384,14 @@
   }
 
   function performSearch(query) {
-    // Only show live results on shop page
     if (!window.location.pathname.includes('shop.html')) return;
 
     const results = ProductManager.search(query);
-    
-    // Trigger custom event for shop.js to handle
     document.dispatchEvent(new CustomEvent('netshop:search', {
       detail: { query, results }
     }));
   }
 
-  // Debounce helper
   function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -512,19 +405,42 @@
   }
 
   // ═══════════════════════════════════════════════════════════════
-  // 8. GLOBAL EXPORTS (for backward compatibility)
+  // 6. INITIALIZATION
   // ═══════════════════════════════════════════════════════════════
 
-  // Export commonly used functions globally
+  function init() {
+    console.log('[NetShop Core] Initializing...');
+    
+    ToastManager.init();
+    ProductManager.init();
+    CartManager.updateCartCount();
+    setupSearch();
+
+    console.log('[NetShop Core] ✓ Initialized successfully');
+  }
+
+  // Run on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // 7. GLOBAL EXPORTS
+  // ═══════════════════════════════════════════════════════════════
+
   window.addToCart = (product) => CartManager.addItem(product);
   window.updateCartCount = () => CartManager.updateCartCount();
   window.safeParse = (key, fallback) => Utils.safeParse(key, fallback);
   window.safeSet = (key, value) => Utils.safeSet(key, value);
   window.formatPrice = (value) => Utils.formatPrice(value);
+  window.showToast = (message, type) => ToastManager.show(message, type);
+  window.toast = ToastManager;
 
 })();
 
-// Add pulse animation CSS
+// Toast styles (keep existing)
 const style = document.createElement('style');
 style.textContent = `
   @keyframes cartPulse {
@@ -534,5 +450,60 @@ style.textContent = `
   .cart-count.pulse {
     animation: cartPulse 0.3s ease;
   }
+  
+  @keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  
+  @keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+  }
+  
+  .toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 99999;
+    pointer-events: none;
+  }
+  
+  .toast {
+    background: white;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 0.3s ease-out;
+    min-width: 250px;
+    max-width: 400px;
+    pointer-events: all;
+  }
+  
+  .toast.success { border-left: 4px solid #28a745; }
+  .toast.success i { color: #28a745; }
+  .toast.error { border-left: 4px solid #dc3545; }
+  .toast.error i { color: #dc3545; }
+  .toast.warning { border-left: 4px solid #ffc107; }
+  .toast.warning i { color: #ffc107; }
+  .toast.info { border-left: 4px solid #17a2b8; }
+  .toast.info i { color: #17a2b8; }
+  
+  .toast i { font-size: 20px; }
+  .toast-message { flex: 1; color: #333; font-size: 14px; }
+  .toast-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+  }
+  .toast-close:hover { color: #333; }
 `;
 document.head.appendChild(style);

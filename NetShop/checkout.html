@@ -14,54 +14,59 @@
      <script defer src="checkout.js"></script>
 </head>
 <body>
-    <!-- Header -->
-    <header class="main-header">
-        <div class="header-top">
-            <h1 class="logo">NetShop</h1>
-            <button id="menu-toggle" class="menu-toggle">
+     <header class="main-header">
+    <div class="header-container">
+        <div class="header-left">
+            <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
                 <i class="fa-solid fa-bars"></i>
             </button>
+            <a href="netshop.html" class="logo-link">
+                <h1 class="logo">NetShop</h1>
+            </a>
+        </div>
 
+        <nav class="main-nav" id="main-nav">
+            <ul class="nav-list">
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link">Categories <i class="fa-solid fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="#"><i class="fas fa-mobile-alt"></i> Phones & Tablets</a>
+                        <a href="#"><i class="fas fa-laptop"></i> Computing</a>
+                        <a href="#"><i class="fas fa-tshirt"></i> Fashion</a>
+                        <a href="#"><i class="fas fa-home"></i> Home & Office</a>
+                        <a href="#"><i class="fas fa-gamepad"></i> Gaming</a>
+                        <a href="#"><i class="fas fa-dumbbell"></i> Sporting Goods</a>
+                        <a href="#"><i class="fas fa-car"></i> Automobile</a>
+                        <a href="#"><i class="fas fa-tools"></i> Other Categories</a>
+                    </div>
+                </li>
+                <li><a href="seller.html" class="nav-link">Sell on NetShop</a></li>
+                <li><a href="orders.html" class="nav-link">Orders</a></li>
+                <li><a href="#" class="nav-link" id="help-btn">Help</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-right">
             <div class="search-container">
                 <div class="search-box">
-                    <select class="search-category">
-                        <option value="all">All Categories</option>
-                        <option value="electronics">Electronics</option>
-                        <option value="fashion">Fashion</option>
-                        <option value="home">Home & Living</option>
-                    </select>
-                    <input type="search" placeholder="Search products, brands and categories..." />
+                    <input type="search" placeholder="Search..." />
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </div>
             </div>
-
-            <div class="header-actions">
-                <a href="dashboard.html" class="action-btn">
-                    <i class="fa-solid fa-user"></i>
-                    <span>Account</span>
-                </a>
-                <a href="#" class="action-btn" id="help-btn">
-                    <i class="fa-solid fa-circle-question"></i>
-                    <span>Help</span>
-                </a>
-                <a href="cart.html" class="action-btn cart-btn">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="cart-count" id="cart-count">0</span>
-                    <span>Cart</span>
-                </a>
-            </div>
+            <a href="dashboard.html" class="action-btn">
+                <i class="fa-solid fa-user"></i>
+                <span class="action-text">Account</span>
+            </a>
+            <a href="cart.html" class="action-btn cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count" id="cart-count">0</span>
+                <span class="action-text">Cart</span>
+            </a>
         </div>
-
-        <nav class="main-nav">
-            <ul id="navbar">
-                <li><a href="netshop.html" class="nav-link">Home</a></li>
-                <li><a href="shop.html" class="nav-link">Shop</a></li>
-                <li><a href="cart.html" class="nav-link">Cart</a></li>
-                <li><a href="orders.html" class="nav-link">Orders</a></li>
-            </ul>
-        </nav>
-    </header>
-    <div id="menu-overlay"></div>
+    </div>
+</header>
+  
 
     <!-- Checkout Content -->
     <main class="checkout-container">
@@ -229,6 +234,39 @@
 
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        console.log('[Checkout] Page loaded');
+        
+        // Mobile menu functionality
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (menuBtn && mobileMenu) {
+            console.log('[Checkout] Menu elements found');
+            menuBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('[Checkout] Menu toggled');
+                const isHidden = mobileMenu.classList.contains('hidden');
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.style.display = 'block';
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.style.display = 'none';
+                }
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.style.display = 'none';
+                }
+            });
+        }
+        </script>
 
     <script src="https://kit.fontawesome.com/82046994e6.js" crossorigin="anonymous"></script>
 </body>

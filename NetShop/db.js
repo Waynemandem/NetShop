@@ -152,12 +152,25 @@ async function makeDefaultAddress(addressId) {
 }
 
 class ImageDB {
+    static db = null;
+
     static async init() {
+        if (this.db) {
+            return this.db;
+        }
+
         return new Promise((resolve, reject) => {
             const request = indexedDB.open(DB_NAME, DB_VERSION);
 
-            request.onerror = () => reject(request.error);
-            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => {
+                console.error("Error opening database:", request.error);
+                reject(request.error);
+            };
+
+            request.onsuccess = () => {
+                this.db = request.result;
+                resolve(this.db);
+            };
 
             request.onupgradeneeded = (event) => {
                 const db = event.target.result;
@@ -185,8 +198,15 @@ class ImageDB {
         });
     }
 
+    static async getDb() {
+        if (!this.db) {
+            await this.init();
+        }
+        return this.db;
+    }
+
     static async saveImage(productId, imageDataUrl) {
-        const db = await this.init();
+        const db = await this.getDb();
         return new Promise((resolve, reject) => {
             const transaction = db.transaction([STORES.IMAGES], 'readwrite');
             const store = transaction.objectStore(STORES.IMAGES);
@@ -194,12 +214,15 @@ class ImageDB {
             const request = store.put(imageDataUrl, productId);
             
             request.onsuccess = () => resolve(true);
-            request.onerror = () => reject(request.error);
+            request.onerror = () => {
+                console.error("Error saving image:", request.error);
+                reject(request.error);
+            };
         });
     }
 
     static async getImage(productId) {
-        const db = await this.init();
+        const db = await this.getDb();
         return new Promise((resolve, reject) => {
             const transaction = db.transaction([STORES.IMAGES], 'readonly');
             const store = transaction.objectStore(STORES.IMAGES);
@@ -207,12 +230,15 @@ class ImageDB {
             const request = store.get(productId);
             
             request.onsuccess = () => resolve(request.result);
-            request.onerror = () => reject(request.error);
+            request.onerror = () => {
+                console.error("Error getting image:", request.error);
+                reject(request.error);
+            };
         });
     }
 
     static async deleteImage(productId) {
-        const db = await this.init();
+        const db = await this.getDb();
         return new Promise((resolve, reject) => {
             const transaction = db.transaction([STORES.IMAGES], 'readwrite');
             const store = transaction.objectStore(STORES.IMAGES);
@@ -220,7 +246,10 @@ class ImageDB {
             const request = store.delete(productId);
             
             request.onsuccess = () => resolve(true);
-            request.onerror = () => reject(request.error);
+            request.onerror = () => {
+                console.error("Error deleting image:", request.error);
+                reject(request.error);
+            };
         });
     }
 }

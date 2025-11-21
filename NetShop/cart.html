@@ -12,34 +12,59 @@
     <link rel="icon" type="image/png" href="arrow.png">
 </head>
 <body>
-     <header>
-        <h1>Cart🛒</h1>
-    <nav>
-      <ul id="navbar">
-        <li><a href="netshop.html" class="nav-link active">Home</a></li>
-        <li><a href="shop.html" class="nav-link active">Shop</a></li>
-        <li><a href="categories.html" class="nav-link active">Categories</a></li>
-        <li><a href="about.html" class="nav-link active">About</a></li>
-        <li><a href="contact.html" class="nav-link active">Contact</a></li>
-                <li><a href="login.html" class="nav-link login-btn">
-          <i class="fa-solid fa-user"></i>
-          </a>
-        </li>
-        <li>
-                  <a href="cart.html" class="cart-link">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="cart-count" class="cart-count">0</span>
-                  </a>
+      <header class="main-header">
+    <div class="header-container">
+        <div class="header-left">
+            <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="netshop.html" class="logo-link">
+                <h1 class="logo">Cart🛒</h1>
+            </a>
+        </div>
+
+        <nav class="main-nav" id="main-nav">
+            <ul class="nav-list">
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link">Categories <i class="fa-solid fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="#"><i class="fas fa-mobile-alt"></i> Phones & Tablets</a>
+                        <a href="#"><i class="fas fa-laptop"></i> Computing</a>
+                        <a href="#"><i class="fas fa-tshirt"></i> Fashion</a>
+                        <a href="#"><i class="fas fa-home"></i> Home & Office</a>
+                        <a href="#"><i class="fas fa-gamepad"></i> Gaming</a>
+                        <a href="#"><i class="fas fa-dumbbell"></i> Sporting Goods</a>
+                        <a href="#"><i class="fas fa-car"></i> Automobile</a>
+                        <a href="#"><i class="fas fa-tools"></i> Other Categories</a>
+                    </div>
                 </li>
-      </ul>
-    </nav>
-    <div class="menu-toggle" id="menu-toggle">
-      <span></span>
-      <span></span>
-      <span></span>
+                <li><a href="seller.html" class="nav-link">Sell on NetShop</a></li>
+                <li><a href="orders.html" class="nav-link">Orders</a></li>
+                <li><a href="#" class="nav-link" id="help-btn">Help</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-right">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="search" placeholder="Search..." />
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+            <a href="dashboard.html" class="action-btn">
+                <i class="fa-solid fa-user"></i>
+                <span class="action-text">Account</span>
+            </a>
+            <a href="cart.html" class="action-btn cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count" id="cart-count">0</span>
+                <span class="action-text">Cart</span>
+            </a>
+        </div>
     </div>
-  </header>
-  <div id="menu-overlay"></div>
+</header>
+  
 
   <main>  
     <section id="cart-container">
@@ -134,6 +159,39 @@
     menuOverlay.classList.remove('show');
   });
 </script>
+
+<script>
+        console.log('[Cart] Page loaded');
+        
+        // Mobile menu functionality
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (menuBtn && mobileMenu) {
+            console.log('[Cart] Menu elements found');
+            menuBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('[Cart] Menu toggled');
+                const isHidden = mobileMenu.classList.contains('hidden');
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.style.display = 'block';
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.style.display = 'none';
+                }
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.style.display = 'none';
+                }
+            });
+        }
+        </script>
 
 
     <script src="https://kit.fontawesome.com/82046994e6.js" crossorigin="anonymous"></script>

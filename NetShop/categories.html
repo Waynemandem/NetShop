@@ -10,38 +10,100 @@
      <script defer src="netshop_core_fixed.js"></script>
      <script defer src="[page-specific].js"></script>
     <link rel="icon" type="image/png" href="arrow.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-     <header>
-    <h1>Categories</h1>
-    <nav>
-      <ul id="navbar">
-        <li><a href="netshop.html" class="nav-link active">Home</a></li>
-        <li><a href="shop.html" class="nav-link active">Shop</a></li>
-        <li><a href="categories.html" class="nav-link active">Categories</a></li>
-        <li><a href="about.html" class="nav-link active">About</a></li>
-        <li><a href="contact.html" class="nav-link active">Contact</a></li>
-                <li><a href="login.html" class="nav-link login-btn">
-          <i class="fa-solid fa-user"></i>
-          </a>
-        </li>
-        <li>
-                  <a href="cart.html" class="cart-link">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="cart-count" class="cart-count">0</span>
-                  </a>
+    
+   <header class="main-header">
+    <div class="header-container">
+        <div class="header-left">
+            <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="netshop.html" class="logo-link">
+                <h1 class="logo">NetShop</h1>
+            </a>
+        </div>
+
+        <nav class="main-nav" id="main-nav">
+            <ul class="nav-list">
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link">Categories <i class="fa-solid fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="#"><i class="fas fa-mobile-alt"></i> Phones & Tablets</a>
+                        <a href="#"><i class="fas fa-laptop"></i> Computing</a>
+                        <a href="#"><i class="fas fa-tshirt"></i> Fashion</a>
+                        <a href="#"><i class="fas fa-home"></i> Home & Office</a>
+                        <a href="#"><i class="fas fa-gamepad"></i> Gaming</a>
+                        <a href="#"><i class="fas fa-dumbbell"></i> Sporting Goods</a>
+                        <a href="#"><i class="fas fa-car"></i> Automobile</a>
+                        <a href="#"><i class="fas fa-tools"></i> Other Categories</a>
+                    </div>
                 </li>
-      </ul>
-    </nav>
-    <div class="menu-toggle" id="menu-toggle">
-      <span></span>
-      <span></span>
-      <span></span>
+                <li><a href="seller.html" class="nav-link">Sell on NetShop</a></li>
+                <li><a href="orders.html" class="nav-link">Orders</a></li>
+                <li><a href="#" class="nav-link" id="help-btn">Help</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-right">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="search" placeholder="Search..." />
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+            <a href="dashboard.html" class="action-btn">
+                <i class="fa-solid fa-user"></i>
+                <span class="action-text">Account</span>
+            </a>
+            <a href="cart.html" class="action-btn cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count" id="cart-count">0</span>
+                <span class="action-text">Cart</span>
+            </a>
+        </div>
     </div>
-  </header>
-  <div id="menu-overlay"></div>
+</header>
+  
 
 
+  <main class="container categories">
+    <h1 class="page-title">Shop by Category</h1>
+
+    <div class="categories-grid">
+      <a class="category-card" href="products.html?category=electronics">
+        <img src="assets/categories/electronics.jpg" alt="Electronics" />
+        <h3>Electronics</h3>
+      </a>
+
+      <a class="category-card" href="products.html?category=fashion">
+        <img src="assets/categories/fashion.jpg" alt="Fashion" />
+        <h3>Fashion</h3>
+      </a>
+
+      <a class="category-card" href="products.html?category=home">
+        <img src="assets/categories/home.jpg" alt="Home & Living" />
+        <h3>Home & Living</h3>
+      </a>
+
+      <a class="category-card" href="products.html?category=beauty">
+        <img src="assets/categories/beauty.jpg" alt="Beauty Products" />
+        <h3>Beauty Products</h3>
+      </a>
+
+      <a class="category-card" href="products.html?category=phones">
+        <img src="assets/categories/phones.jpg" alt="Mobile Phones" />
+        <h3>Mobile Phones</h3>
+      </a>
+
+      <a class="category-card" href="products.html?category=groceries">
+        <img src="assets/categories/groceries.jpg" alt="Groceries" />
+        <h3>Groceries</h3>
+      </a>
+    </div>
+  </main>
 
 <footer>
   <!-- About / Company Info -->
@@ -56,7 +118,7 @@
     <ul>
       <li><a href="netshop.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
-      <li><a href="#">Categories</a></li>
+      <li><a href="categories.html">Categories</a></li>
       <li><a href="cart.html">Cart</a></li>
       <li><a href="checkout.html">Checkout</a></li>
     </ul>
