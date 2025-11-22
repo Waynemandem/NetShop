@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>My Orders</title>
+  <link rel="stylesheet" href="netshop.css">
+  <script defer src="netshop.js"></script>
+  <script defer src="orders.js"></script>
+</head>
+<body>
+  <header>
+    <h1>NetShop</h1>
+    <nav>
+      <ul id="navbar">
+        <li><a href="netshop.html" class="nav-link active">Home</a></li>
+        <li><a href="shop.html" class="nav-link active">Shop</a></li>
+        <li><a href="categories.html" class="nav-link active">Categories</a></li>
+        <li><a href="about.html" class="nav-link active">About</a></li>
+        <li><a href="contact.html" class="nav-link active">Contact</a></li>
+        <li><a href="login.html" class="nav-link login-btn">
+          <i class="fa-solid fa-user"></i>
+          </a>
+        </li>
+        <li>
+                  <a href="cart.html" class="cart-link">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                  </a>
+                </li>
+      </ul>
+    </nav>
+    <div class="menu-toggle" id="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+  <div id="menu-overlay"></div>
+
+
+  <main class="orders-page">
+    <section id="orders-list">
+      <p>Loading orders...</p>
+    </section>
+  </main>
+
+  <footer>
+  <!-- About / Company Info -->
+  <div class="col about">
+    <h1>NetShop</h1>
+    <p>Your one-stop shop for electronics, fashion, and more. Quality products delivered fast.</p>
+  </div>
+
+  <!-- Quick Links -->
+  <div class="col links">
+    <h4>Quick Links</h4>
+    <ul>
+      <li><a href="netshop.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="categories.html">Categories</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="checkout.html">Checkout</a></li>
+    </ul>
+  </div>
+
+  <!-- Customer Service -->
+  <div class="col support">
+    <h4>Customer Service</h4>
+    <ul>
+      <li><a href="#">Help Center</a></li>
+      <li><a href="#">Returns</a></li>
+      <li><a href="#">Shipping Info</a></li>
+      <li><a href="#">Terms & Conditions</a></li>
+    </ul>
+  </div>
+
+  <!-- Follow & App Downloads -->
+  <div class="col follow-apps">
+    <div class="follow">
+      <p>Follow Us</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+
+    <div class="apps">
+      <p>Get Our App</p>q
+      <div class="app-logos">
+        <i class="fab fa-apple"></i>
+        <i class="fab fa-google-play"></i>
+      </div>
+    </div>
+
+    <div class="payments">
+      <p>We Accept</p>
+      <i class="fas fa-credit-card"></i>
+    </div>
+  </div>
+
+  <p class="copyright">
+    &copy; 2025 NetShop. All rights reserved.
+  </p>
+</footer>
+
+ 
+
+  <script src="https://kit.fontawesome.com/82046994e6.js" crossorigin="anonymous"></script>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbar = document.getElementById('navbar');
+    const menuOverlay = document.getElementById('menu-overlay');
+
+    menuToggle.addEventListener('click', () => {
+      navbar.classList.toggle('show');
+      menuToggle.classList.toggle('active');
+      menuOverlay.classList.toggle('show');
+    });
+
+    // Close menu if user clicks outside
+    menuOverlay.addEventListener('click', () => {
+      navbar.classList.remove('show');
+      menuToggle.classList.remove('active');
+      menuOverlay.classList.remove('show');
+    });
+  </script>
+
+
+
+</body>
+</html>
