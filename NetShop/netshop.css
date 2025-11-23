@@ -464,45 +464,6 @@ body {
 .section-p1{
     padding: 40px 88px;
 }
-/* featured box */
-#trust-badges {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-  flex-wrap: wrap; /* allow wrap only if too small */
-  padding: 30px 15px;
-  background: #fff;
-  border-top: 1px solid rgba(0,0,0,0.05);
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-
-.badge {
-  text-align: center;
-  flex: 0 1 180px;
-  background: #fafafa;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-}
-
-.badge:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-
-.badge img {
-  margin-bottom: 10px;
-  object-fit: contain;
-}
-
-.badge p {
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-}
-
 /* For the featured products  */
 
 .featured-products {
@@ -606,11 +567,13 @@ body {
 
   .card-buttons { display:flex; gap:8px; margin-top:6px; }
   .card-buttons .cart-btn, .card-buttons .buy-btn {
-    flex:1; padding:8px 10px; border-radius:6px; border:none; cursor:pointer; font-weight:700;
+    flex:1; padding:8px 10px; border-radius:6px; border:none; cursor:pointer; font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px; font-size:13px; transition: all 0.3s ease;
   }
+  .card-buttons .cart-btn i, .card-buttons .buy-btn i { font-size:14px; }
   .card-buttons .cart-btn { background:#fff; border:1px solid #e6e6e6; color:#222; }
-  .card-buttons .cart-btn:hover { background:#fafafa; }
+  .card-buttons .cart-btn:hover { background:#fafafa; border-color:#ddd; transform: translateY(-2px); }
   .card-buttons .buy-btn { background: linear-gradient(90deg,#7a1aff,#4b00ff); color:#fff; }
+  .card-buttons .buy-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(122, 26, 255, 0.3); }
 
   /* keep cards compact on small screens */
   @media (max-width: 768px) {

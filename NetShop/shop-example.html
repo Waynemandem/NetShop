@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - NetShop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="netshop.css">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .page-description {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: #f8f9fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            color: #6a00d9;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- REUSABLE NAVBAR COMPONENT - Copy-Paste Ready -->
+    <header class="app-navbar" role="banner">
+        <div class="navbar-container">
+            <a href="netshop.html" class="navbar-logo" aria-label="NetShop Home">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="navbar-brand">NetShop</span>
+            </a>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="navbar-hamburger" aria-label="Toggle menu" aria-expanded="false" type="button">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <nav class="navbar-menu" aria-label="Main navigation">
+                <ul class="navbar-list">
+                    <li><a href="netshop.html" class="navbar-link">Home</a></li>
+                    <li><a href="shop.html" class="navbar-link">Shop</a></li>
+                    <li><a href="categories.html" class="navbar-link">Categories</a></li>
+                    <li><a href="orders.html" class="navbar-link">Orders</a></li>
+                    <li><a href="Contact.html" class="navbar-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- Action Icons (Cart, Orders, Profile) -->
+            <div class="navbar-actions">
+                <a href="cart.html" class="navbar-action-btn navbar-action-cart" aria-label="View cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="navbar-badge">0</span>
+                </a>
+                <a href="orders.html" class="navbar-action-btn navbar-action-orders" aria-label="View orders">
+                    <i class="fas fa-box"></i>
+                </a>
+                <button class="navbar-action-btn navbar-action-profile" aria-label="Profile menu" type="button">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="page-title">Shop</h1>
+        <p class="page-description">Browse our collection of products</p>
+
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image">📱</div>
+                <div class="product-info">
+                    <p class="product-name">Smartphone</p>
+                    <p class="product-price">₦45,000</p>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">⌨️</div>
+                <div class="product-info">
+                    <p class="product-name">Keyboard</p>
+                    <p class="product-price">₦8,900</p>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🖱️</div>
+                <div class="product-info">
+                    <p class="product-name">Wireless Mouse</p>
+                    <p class="product-price">₦3,200</p>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🎧</div>
+                <div class="product-info">
+                    <p class="product-name">Headphones</p>
+                    <p class="product-price">₦12,500</p>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">⌚</div>
+                <div class="product-info">
+                    <p class="product-name">Smartwatch</p>
+                    <p class="product-price">₦25,000</p>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">💻</div>
+                <div class="product-info">
+                    <p class="product-name">Laptop</p>
+                    <p class="product-price">₦150,000</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Load the navbar JavaScript -->
+    <script defer src="navbar.js"></script>
+</body>
+</html>

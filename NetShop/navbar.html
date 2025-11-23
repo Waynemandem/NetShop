@@ -1,0 +1,47 @@
+<!-- ===== REUSABLE NAVBAR COMPONENT ===== -->
+<!-- Copy this entire block and paste into any page's <body> tag at the top -->
+
+<header class="app-navbar" role="banner">
+    <div class="navbar-container">
+        <a href="netshop.html" class="navbar-logo" aria-label="NetShop Home">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="navbar-brand">NetShop</span>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button class="navbar-hamburger" aria-label="Toggle menu" aria-expanded="false" type="button">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <nav class="navbar-menu" aria-label="Main navigation">
+            <ul class="navbar-list">
+                <li><a href="netshop.html" class="navbar-link">Home</a></li>
+                <li><a href="shop.html" class="navbar-link">Shop</a></li>
+                <li><a href="categories.html" class="navbar-link">Categories</a></li>
+                <li><a href="orders.html" class="navbar-link">Orders</a></li>
+                <li><a href="Contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Action Icons (Cart, Orders, Profile) -->
+        <div class="navbar-actions">
+            <a href="cart.html" class="navbar-action-btn navbar-action-cart" aria-label="View cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="navbar-badge">0</span>
+            </a>
+            <a href="orders.html" class="navbar-action-btn navbar-action-orders" aria-label="View orders">
+                <i class="fas fa-box"></i>
+            </a>
+            <button class="navbar-action-btn navbar-action-profile" aria-label="Profile menu" type="button">
+                <i class="fas fa-user"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Include these two files after the navbar in your HTML -->
+<!-- <link rel="stylesheet" href="navbar.css"> -->
+<!-- <script defer src="navbar.js"></script> -->

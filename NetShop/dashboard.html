@@ -3,176 +3,391 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard - NetShop</title>
+    <title>Dashboard - NetShop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="navbar.css">
     <link rel="stylesheet" href="netshop.css">
     <link rel="stylesheet" href="dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script defer src="db.js"></script>
-    <script defer src="toast.js"></script>
-    <script defer src="netshop_core_fixed.js"></script>
-    <script defer src="[page-specific].js"></script>
+    <script defer src="navbar.js"></script>
 </head>
 <body>
-    <!-- Header will be injected by JavaScript -->
-    <header class="main-header"></header>
+    <!-- REUSABLE NAVBAR COMPONENT -->
+    <header class="app-navbar" role="banner">
+        <div class="navbar-container">
+            <a href="netshop.html" class="navbar-logo" aria-label="NetShop Home">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="navbar-brand">NetShop</span>
+            </a>
 
-    <main class="dashboard-container">
-        <!-- Sidebar Navigation -->
-        <aside class="dashboard-sidebar">
-            <div class="user-profile">
-                <div class="profile-image">
+            <!-- Mobile Menu Toggle Button -->
+            <button class="navbar-hamburger" aria-label="Toggle menu" aria-expanded="false" type="button">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <nav class="navbar-menu" aria-label="Main navigation">
+                <ul class="navbar-list">
+                    <li><a href="netshop.html" class="navbar-link">Home</a></li>
+                    <li><a href="shop.html" class="navbar-link">Shop</a></li>
+                    <li><a href="categories.html" class="navbar-link">Categories</a></li>
+                    <li><a href="orders.html" class="navbar-link">Orders</a></li>
+                    <li><a href="Contact.html" class="navbar-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- Action Icons (Cart, Orders, Profile) -->
+            <div class="navbar-actions">
+                <a href="cart.html" class="navbar-action-btn navbar-action-cart" aria-label="View cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="navbar-badge">0</span>
+                </a>
+                <a href="orders.html" class="navbar-action-btn navbar-action-orders" aria-label="View orders">
+                    <i class="fas fa-box"></i>
+                </a>
+                <button class="navbar-action-btn navbar-action-profile" aria-label="Profile menu" type="button">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-wrapper">
+        <!-- Sidebar Navigation (desktop only) -->
+        <aside class="dashboard-sidebar" aria-label="Dashboard navigation">
+            <div class="sidebar-header">
+                <div class="user-avatar">
                     <i class="fas fa-user-circle"></i>
                 </div>
-                <div class="profile-info">
+                <div class="user-meta">
                     <h3 class="user-name">John Doe</h3>
                     <p class="user-email">john@example.com</p>
                 </div>
             </div>
 
-            <nav class="dashboard-nav">
-                <a href="#overview" class="nav-item active">
-                    <i class="fas fa-home"></i> Overview
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="sidebar-nav-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
                 </a>
-                <a href="#orders" class="nav-item">
-                    <i class="fas fa-box"></i> My Orders
-                    <span class="badge">5</span>
+                <a href="#orders" class="sidebar-nav-item" data-section="orders">
+                    <i class="fas fa-box"></i>
+                    <span>Orders</span>
+                    <span class="nav-badge">5</span>
                 </a>
-                <a href="#wishlist" class="nav-item">
-                    <i class="fas fa-heart"></i> Wishlist
-                    <span class="badge">3</span>
+                <a href="#wishlist" class="sidebar-nav-item" data-section="wishlist">
+                    <i class="fas fa-heart"></i>
+                    <span>Wishlist</span>
+                    <span class="nav-badge">3</span>
                 </a>
-                <a href="#messages" class="nav-item">
-                    <i class="fas fa-envelope"></i> Messages
-                    <span class="badge">2</span>
+                <a href="#reviews" class="sidebar-nav-item" data-section="reviews">
+                    <i class="fas fa-star"></i>
+                    <span>Reviews</span>
                 </a>
-                <a href="#reviews" class="nav-item">
-                    <i class="fas fa-star"></i> My Reviews
+                <a href="#addresses" class="sidebar-nav-item" data-section="addresses">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Addresses</span>
                 </a>
-                <a href="#addresses" class="nav-item">
-                    <i class="fas fa-map-marker-alt"></i> Addresses
-                </a>
-                <a href="#wallet" class="nav-item">
-                    <i class="fas fa-wallet"></i> Wallet
-                </a>
-                <a href="#settings" class="nav-item">
-                    <i class="fas fa-cog"></i> Settings
+                <a href="#settings" class="sidebar-nav-item" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
                 </a>
             </nav>
 
-            <div class="logout-section">
-                <a href="#" class="logout-btn">
+            <div class="sidebar-footer">
+                <button class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
+                </button>
             </div>
         </aside>
 
-        <!-- Main Content Area -->
-        <div class="dashboard-content">
-            <!-- Overview Section -->
-            <section id="overview" class="dashboard-section active">
-                <div class="section-header">
-                    <h2>Dashboard Overview</h2>
-                    <p class="last-login">Last login: Nov 8, 2025, 10:30 AM</p>
-                </div>
-
-                <div class="quick-stats">
-                    <div class="stat-card">
-                        <i class="fas fa-box"></i>
-                        <div class="stat-info">
-                            <h3>Active Orders</h3>
-                            <p>5</p>
-                        </div>
+        <!-- Main Content -->
+        <div class="dashboard-main">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="dashboard-section active">
+                <!-- Header with Welcome & Quick Stats -->
+                <div class="dashboard-header">
+                    <div>
+                        <h1>Welcome back, <span id="userName">John</span></h1>
+                        <p class="subtext">Here's your performance overview</p>
                     </div>
-                    <div class="stat-card">
-                        <i class="fas fa-heart"></i>
-                        <div class="stat-info">
-                            <h3>Wishlist Items</h3>
-                            <p>3</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-wallet"></i>
-                        <div class="stat-info">
-                            <h3>Wallet Balance</h3>
-                            <p>₦15,000</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-tag"></i>
-                        <div class="stat-info">
-                            <h3>Available Coupons</h3>
-                            <p>2</p>
-                        </div>
+                    <div class="date-range">
+                        <span id="currentDate"></span>
                     </div>
                 </div>
 
-                <div class="dashboard-grid">
-                    <!-- Recent Orders -->
-                    <div class="dashboard-card">
-                        <div class="card-header">
-                            <h3>Recent Orders</h3>
-                            <a href="#orders" class="view-all">View All</a>
+                <!-- Key Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-shopping-bag"></i>
                         </div>
-                        <div class="recent-orders">
-                            <!-- Orders will be loaded dynamically -->
-                        </div>
-                    </div>
-
-                    <!-- Wishlist Preview -->
-                    <div class="dashboard-card">
-                        <div class="card-header">
-                            <h3>Wishlist</h3>
-                            <a href="#wishlist" class="view-all">View All</a>
-                        </div>
-                        <div class="wishlist-preview">
-                            <!-- Wishlist items will be loaded dynamically -->
+                        <div class="stat-body">
+                            <p class="stat-label">Total Orders</p>
+                            <p class="stat-value" data-value="24">0</p>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> 12% increase
+                            </span>
                         </div>
                     </div>
 
-                    <!-- Recent Reviews -->
-                    <div class="dashboard-card">
-                        <div class="card-header">
-                            <h3>Recent Reviews</h3>
-                            <a href="#reviews" class="view-all">View All</a>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-dollar-sign"></i>
                         </div>
-                        <div class="recent-reviews">
-                            <!-- Reviews will be loaded dynamically -->
+                        <div class="stat-body">
+                            <p class="stat-label">Total Spent</p>
+                            <p class="stat-value" data-value="2450">0</p>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> 8% vs last month
+                            </span>
                         </div>
                     </div>
 
-                    <!-- Latest Messages -->
-                    <div class="dashboard-card">
-                        <div class="card-header">
-                            <h3>Messages</h3>
-                            <a href="#messages" class="view-all">View All</a>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-heart"></i>
                         </div>
-                        <div class="latest-messages">
-                            <!-- Messages will be loaded dynamically -->
+                        <div class="stat-body">
+                            <p class="stat-label">Wishlist Items</p>
+                            <p class="stat-value" data-value="12">0</p>
+                            <span class="stat-change neutral">
+                                <i class="fas fa-minus"></i> No change
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-body">
+                            <p class="stat-label">Reviews Given</p>
+                            <p class="stat-value" data-value="8">0</p>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> 2 this month
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Grid -->
+                <div class="content-grid">
+                    <!-- Recent Activity -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Recent Activity</h2>
+                            <a href="#" class="card-action">View All</a>
+                        </div>
+                        <div class="activity-feed">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p class="activity-title">Order #2451 Delivered</p>
+                                    <p class="activity-time">2 hours ago</p>
+                                </div>
+                            </div>
+
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p class="activity-title">You gave 5★ to Wireless Headphones</p>
+                                    <p class="activity-time">Yesterday</p>
+                                </div>
+                            </div>
+
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p class="activity-title">Payment of ₦3,500 processed</p>
+                                    <p class="activity-time">2 days ago</p>
+                                </div>
+                            </div>
+
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p class="activity-title">Added 2 items to wishlist</p>
+                                    <p class="activity-time">3 days ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links / My Orders Preview -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Orders This Month</h2>
+                            <a href="#" class="card-action">Manage</a>
+                        </div>
+                        <div class="orders-preview">
+                            <div class="order-row">
+                                <div class="order-info">
+                                    <p class="order-id">Order #2451</p>
+                                    <p class="order-desc">Premium Wireless Headphones</p>
+                                </div>
+                                <span class="order-status delivered">Delivered</span>
+                            </div>
+                            <div class="order-row">
+                                <div class="order-info">
+                                    <p class="order-id">Order #2450</p>
+                                    <p class="order-desc">USB-C Cable Pack</p>
+                                </div>
+                                <span class="order-status shipped">In Transit</span>
+                            </div>
+                            <div class="order-row">
+                                <div class="order-info">
+                                    <p class="order-id">Order #2449</p>
+                                    <p class="order-desc">Screen Protector</p>
+                                </div>
+                                <span class="order-status delivered">Delivered</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Recommendations & Account Status -->
+                <div class="content-grid single">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Recommended For You</h2>
+                            <a href="#" class="card-action">Browse All</a>
+                        </div>
+                        <div class="products-row">
+                            <div class="product-item">
+                                <div class="product-img">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <p class="product-name">Smartphone Stand</p>
+                                <p class="product-price">₦2,500</p>
+                            </div>
+                            <div class="product-item">
+                                <div class="product-img">
+                                    <i class="fas fa-keyboard"></i>
+                                </div>
+                                <p class="product-name">Mechanical Keyboard</p>
+                                <p class="product-price">₦8,900</p>
+                            </div>
+                            <div class="product-item">
+                                <div class="product-img">
+                                    <i class="fas fa-mouse"></i>
+                                </div>
+                                <p class="product-name">Wireless Mouse</p>
+                                <p class="product-price">₦3,200</p>
+                            </div>
+                            <div class="product-item">
+                                <div class="product-img">
+                                    <i class="fas fa-wifi"></i>
+                                </div>
+                                <p class="product-name">WiFi Extender</p>
+                                <p class="product-price">₦5,400</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
- 
-            <!-- Other sections will be shown/hidden via JavaScript -->
+
+            <!-- Placeholder Sections (Orders, Wishlist, etc.) -->
+            <section id="orders" class="dashboard-section">
+                <h1>My Orders</h1>
+                <p>Orders section content goes here.</p>
+            </section>
+
+            <section id="wishlist" class="dashboard-section">
+                <h1>Wishlist</h1>
+                <p>Wishlist section content goes here.</p>
+            </section>
+
+            <section id="reviews" class="dashboard-section">
+                <h1>My Reviews</h1>
+                <p>Reviews section content goes here.</p>
+            </section>
+
+            <section id="addresses" class="dashboard-section">
+                <h1>Addresses</h1>
+                <p>Addresses section content goes here.</p>
+            </section>
+
+            <section id="settings" class="dashboard-section">
+                <h1>Settings</h1>
+                <p>Settings section content goes here.</p>
+            </section>
         </div>
     </main>
 
-    <script>
-document.querySelectorAll('.dashboard-nav .nav-item').forEach(item => {
-  item.addEventListener('click', e => {
-    e.preventDefault();
+    <!-- Footer -->
+    
+<footer>
+  <!-- About / Company Info -->
+  <div class="col about">
+    <h1>NetShop</h1>
+    <p>Your one-stop shop for electronics, fashion, and more. Quality products delivered fast.</p>
+  </div>
 
-    // Remove 'active' from all
-    document.querySelectorAll('.dashboard-nav .nav-item, .dashboard-section')
-      .forEach(el => el.classList.remove('active'));
+  <!-- Quick Links -->
+  <div class="col links">
+    <h4>Quick Links</h4>
+    <ul>
+      <li><a href="netshop.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="#">Categories</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="checkout.html">Checkout</a></li>
+    </ul>
+  </div>
 
-    // Add active class to clicked item and corresponding section
-    item.classList.add('active');
-    const sectionId = item.getAttribute('href');
-    document.querySelector(sectionId).classList.add('active');
-  });
-});
-</script>
+  <!-- Customer Service -->
+  <div class="col support">
+    <h4>Customer Service</h4>
+    <ul>
+      <li><a href="#">Help Center</a></li>
+      <li><a href="#">Returns</a></li>
+      <li><a href="#">Shipping Info</a></li>
+      <li><a href="#">Terms & Conditions</a></li>
+    </ul>
+  </div>
 
+  <!-- Follow & App Downloads -->
+  <div class="col follow-apps">
+    <div class="follow">
+      <p>Follow Us</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+
+    <div class="apps">
+      <p>Get Our App</p>
+      <div class="app-logos">
+        <i class="fab fa-apple"></i>
+        <i class="fab fa-google-play"></i>
+      </div>
+    </div>
+
+    <div class="payments">
+      <p>We Accept</p>
+      <i class="fas fa-credit-card"></i>
+    </div>
+  </div>
+
+  <p class="copyright">
+    &copy; 2025 NetShop. All rights reserved.
+  </p>
+</footer>
+
+    <!-- Dashboard JavaScript -->
+    <script src="dashboard.js" defer></script>
 </body>
 </html>

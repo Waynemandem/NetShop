@@ -1,0 +1,320 @@
+/* ====================================
+   REUSABLE NAVBAR COMPONENT CSS
+   No conflicts, fully isolated styling
+   ==================================== */
+
+:root {
+    --navbar-bg: #ffffff;
+    --navbar-border: #e5e7eb;
+    --navbar-text: #1f2937;
+    --navbar-text-light: #6b7280;
+    --navbar-hover: #f8f9fb;
+    --navbar-primary: #6a00d9;
+    --navbar-secondary: #ff6b35;
+    --navbar-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --navbar-height: 50px;
+}
+
+/* Reset & Base Styles (scoped to navbar) */
+.app-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navbar-height);
+    background: var(--navbar-bg);
+    border-bottom: 1px solid var(--navbar-border);
+    z-index: 999;
+    box-shadow: var(--navbar-shadow);
+}
+
+.navbar-container {
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* Logo */
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--navbar-primary);
+    font-weight: 700;
+    font-size: 1.1rem;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+    flex-shrink: 0;
+}
+
+.navbar-logo:hover {
+    opacity: 0.85;
+}
+
+.navbar-logo i {
+    font-size: 1.3rem;
+}
+
+.navbar-brand {
+    display: none;
+}
+
+/* Hamburger Menu Button */
+.navbar-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--navbar-text);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.navbar-hamburger.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.navbar-hamburger.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar-hamburger.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+}
+
+/* Navigation Menu */
+.navbar-menu {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-list {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 0;
+}
+
+.navbar-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: var(--navbar-text);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.navbar-link:hover {
+    color: var(--navbar-primary);
+    background: var(--navbar-hover);
+    border-radius: 6px;
+}
+
+/* Action Buttons */
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+.navbar-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: none;
+    border: none;
+    color: var(--navbar-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    text-decoration: none;
+    font-size: 1.05rem;
+}
+
+.navbar-action-btn:hover {
+    background: var(--navbar-hover);
+    color: var(--navbar-primary);
+}
+
+/* Cart Badge */
+.navbar-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--navbar-secondary);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== TABLET BREAKPOINT (1024px) ===== */
+@media (max-width: 1024px) {
+    .navbar-brand {
+        display: inline;
+        font-size: 0.9rem;
+    }
+
+    .navbar-list {
+        gap: 0.5rem;
+    }
+
+    .navbar-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* ===== MOBILE BREAKPOINT (768px) ===== */
+@media (max-width: 768px) {
+    :root {
+        --navbar-height: 50px;
+    }
+
+    .navbar-hamburger {
+        display: flex;
+    }
+
+    .navbar-menu {
+        position: absolute;
+        top: var(--navbar-height);
+        left: 0;
+        right: 0;
+        background: var(--navbar-bg);
+        border-bottom: 1px solid var(--navbar-border);
+        box-shadow: var(--navbar-shadow);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        z-index: 1000;
+    }
+
+    .navbar-menu.active {
+        max-height: 300px;
+    }
+
+    .navbar-list {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .navbar-list li {
+        border-bottom: 1px solid var(--navbar-border);
+    }
+
+    .navbar-list li:last-child {
+        border-bottom: none;
+    }
+
+    .navbar-link {
+        padding: 12px 1rem;
+        display: block;
+        border-radius: 0;
+    }
+
+    .navbar-link:hover {
+        background: var(--navbar-hover);
+        padding-left: 1.25rem;
+    }
+
+    .navbar-actions {
+        gap: 0.25rem;
+    }
+
+    .navbar-action-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.95rem;
+    }
+}
+
+/* ===== SMALL MOBILE (480px) ===== */
+@media (max-width: 480px) {
+    .navbar-container {
+        padding: 0 0.75rem;
+        gap: 0.5rem;
+    }
+
+    .navbar-logo {
+        gap: 0.25rem;
+    }
+
+    .navbar-logo i {
+        font-size: 1.15rem;
+    }
+
+    .navbar-brand {
+        font-size: 0.8rem;
+    }
+
+    .navbar-action-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .navbar-badge {
+        width: 16px;
+        height: 16px;
+        font-size: 0.55rem;
+    }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.navbar-menu.active {
+    animation: slideDown 0.3s ease;
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .app-navbar {
+        display: none;
+    }
+}
+
+/* Ensure navbar doesn't interfere with page body */
+body {
+    padding-top: var(--navbar-height);
+}

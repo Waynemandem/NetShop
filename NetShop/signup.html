@@ -5,12 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - NetShop</title>
     <link rel="stylesheet" href="netshop.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
      <script defer src="db.js"></script>
      <script defer src="toast.js"></script>
      <script defer src="netshop_core_fixed.js"></script>
-     <script defer src="[page-specific].js"></script>
+     <script defer src="navbar.js"></script>
 </head>
 <body>
+  <header class="app-navbar" role="banner">
+        <div class="navbar-container">
+            <a href="netshop.html" class="navbar-logo" aria-label="NetShop Home">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="navbar-brand">NetShop</span>
+            </a>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="navbar-hamburger" aria-label="Toggle menu" aria-expanded="false" type="button">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <nav class="navbar-menu" aria-label="Main navigation">
+                <ul class="navbar-list">
+                    <li><a href="netshop.html" class="navbar-link">Home</a></li>
+                    <li><a href="shop.html" class="navbar-link">Shop</a></li>
+                    <li><a href="categories.html" class="navbar-link">Categories</a></li>
+                    <li><a href="orders.html" class="navbar-link">Orders</a></li>
+                    <li><a href="Contact.html" class="navbar-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- Action Icons (Cart, Orders, Profile) -->
+            <div class="navbar-actions">
+                <a href="cart.html" class="navbar-action-btn navbar-action-cart" aria-label="View cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="navbar-badge">0</span>
+                </a>
+                <a href="orders.html" class="navbar-action-btn navbar-action-orders" aria-label="View orders">
+                    <i class="fas fa-box"></i>
+                </a>
+                <button class="navbar-action-btn navbar-action-profile" aria-label="Profile menu" type="button">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    
   <div class="login-container"> 
     <button id="theme-toggle" class="theme-toggle-btn">
       <i class="fas fa-moon"></i>
