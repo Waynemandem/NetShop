@@ -80,6 +80,36 @@
     // Listen for custom events to update badge
     window.addEventListener('cartUpdated', updateCartBadge);
 
+    // ===== SEARCH BAR FUNCTIONALITY =====
+    const searchForm = navbar.querySelector('#navbarSearchForm');
+    const searchInput = navbar.querySelector('#navbarSearchInput');
+
+    if (searchForm && searchInput) {
+        // Handle search form submission
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const query = searchInput.value.trim();
+            
+            if (query.length > 0) {
+                // Navigate to shop page with search query
+                window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+            }
+        });
+
+        // Real-time search on shop page
+        if (window.location.pathname.includes('shop.html')) {
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.trim();
+                
+                // Dispatch custom event for shop.js to listen to
+                const event = new CustomEvent('navbarSearch', {
+                    detail: { query: query }
+                });
+                document.dispatchEvent(event);
+            });
+        }
+    }
+
     // ===== PROFILE MENU BUTTON (OPTIONAL) =====
     const profileBtn = navbar.querySelector('.navbar-action-profile');
     if (profileBtn) {
@@ -109,6 +139,12 @@
         },
         getNavbar() {
             return navbar;
+        },
+        // New: Set search query programmatically
+        setSearchQuery(query) {
+            if (searchInput) {
+                searchInput.value = query;
+            }
         }
     };
 })();

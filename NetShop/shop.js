@@ -282,8 +282,37 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // ═══════════════════════════════════════════════════════════════
-  // SEARCH LISTENER (from core)
+  // SEARCH FUNCTIONALITY
   // ═══════════════════════════════════════════════════════════════
+  
+  // Function to perform search
+  function performSearch(query) {
+    if (!query || query.length === 0) {
+      renderProducts(shopProducts);
+      return;
+    }
+
+    console.log(`[Shop] Searching for: "${query}"`);
+    const results = shopProducts.filter(p => 
+      p.name.toLowerCase().includes(query.toLowerCase()) ||
+      (p.brandName && p.brandName.toLowerCase().includes(query.toLowerCase())) ||
+      (p.category && p.category.toLowerCase().includes(query.toLowerCase()))
+    );
+    
+    renderProducts(results);
+  }
+
+  // Listen for navbar search events (real-time search)
+  document.addEventListener('navbarSearch', async (e) => {
+    try {
+      const { query } = e.detail;
+      performSearch(query);
+    } catch (err) {
+      console.error('[Shop] Error in navbar search listener:', err);
+    }
+  });
+
+  // Listen for legacy core search events
   document.addEventListener('netshop:search', async (e) => {
     try {
       const { results } = e.detail;
@@ -294,22 +323,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Check for search query in URL
+  // Check for search query in URL (from navbar form submission)
   const urlParams = new URLSearchParams(window.location.search);
   const searchQuery = urlParams.get('search');
   if (searchQuery) {
-    try {
-      console.log(`[Shop] Searching for: "${searchQuery}"`);
-      const results = NetShop.ProductManager 
-        ? NetShop.ProductManager.search(searchQuery)
-        : shopProducts.filter(p => 
-            p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            (p.brandName && p.brandName.toLowerCase().includes(searchQuery.toLowerCase()))
-          );
-      await renderProducts(results);
-    } catch (err) {
-      console.error('[Shop] Error in URL search:', err);
-    }
+    performSearch(searchQuery);
   }
 
   // ═══════════════════════════════════════════════════════════════
