@@ -1,0 +1,286 @@
+/* ====================================
+   REUSABLE NAVBAR COMPONENT CSS
+   No conflicts, fully isolated styling
+   ==================================== */
+
+:root {
+    --navbar-bg: #ffffff;
+    --navbar-border: #e5e7eb;
+    --navbar-text: #1f2937;
+    --navbar-text-light: #6b7280;
+    --navbar-hover: #f8f9fb;
+    --navbar-primary: #6a00d9;
+    --navbar-secondary: #ff6b35;
+    --navbar-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --navbar-height: 60px;
+}
+
+/* Reset & Base Styles (scoped to navbar) */
+.app-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navbar-height);
+    background: var(--navbar-bg);
+    border-bottom: 1px solid var(--navbar-border);
+    z-index: 999;
+    box-shadow: var(--navbar-shadow);
+}
+
+.navbar-container {
+    max-width: 1200px;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* Logo */
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--navbar-primary);
+    font-weight: 700;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+    flex-shrink: 0;
+}
+
+.navbar-logo:hover {
+    opacity: 0.85;
+}
+
+.navbar-logo i {
+    font-size: 1.4rem;
+}
+
+/* Hamburger Menu Button */
+.navbar-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--navbar-text);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.navbar-hamburger.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.navbar-hamburger.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar-hamburger.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+}
+
+/* Navigation Menu */
+.navbar-menu {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar-list {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 1.5rem;
+}
+
+.navbar-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+    color: var(--navbar-text);
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    border-radius: 6px;
+}
+
+.navbar-link:hover,
+.navbar-link.active {
+    color: var(--navbar-primary);
+    background: var(--navbar-hover);
+}
+
+/* Search Bar */
+.navbar-search-wrapper {
+    flex: 0 1 300px;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 1rem;
+}
+
+.navbar-search-form {
+    width: 100%;
+}
+
+.navbar-search-input-group {
+    display: flex;
+    align-items: center;
+    background: var(--navbar-hover);
+    border: 1px solid var(--navbar-border);
+    border-radius: 8px;
+    padding: 0.25rem 0.5rem;
+    transition: all 0.2s ease;
+    gap: 0.5rem;
+}
+
+.navbar-search-input-group:focus-within {
+    border-color: var(--navbar-primary);
+    box-shadow: 0 0 0 2px rgba(106, 0, 217, 0.1);
+}
+
+.navbar-search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 0.5rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--navbar-text);
+    outline: none;
+    font-family: inherit;
+}
+
+.navbar-search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: none;
+    color: var(--navbar-text-light);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.navbar-search-btn:hover {
+    color: var(--navbar-primary);
+    background: rgba(106, 0, 217, 0.1);
+}
+
+/* Action Buttons */
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.navbar-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: none;
+    border: none;
+    color: var(--navbar-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.navbar-action-btn:hover {
+    background: var(--navbar-hover);
+    color: var(--navbar-primary);
+}
+
+/* Cart Badge */
+.navbar-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: var(--navbar-secondary);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== MOBILE BREAKPOINT (768px) ===== */
+@media (max-width: 768px) {
+    .navbar-hamburger {
+        display: flex;
+    }
+
+    .navbar-menu {
+        position: absolute;
+        top: var(--navbar-height);
+        left: 0;
+        right: 0;
+        background: var(--navbar-bg);
+        border-bottom: 1px solid var(--navbar-border);
+        box-shadow: var(--navbar-shadow);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        z-index: 1000;
+        display: block;
+        /* Override flex */
+    }
+
+    .navbar-menu.active {
+        max-height: 350px;
+    }
+
+    .navbar-list {
+        flex-direction: column;
+        gap: 0;
+        padding: 0.5rem 0;
+    }
+
+    .navbar-link {
+        padding: 1rem 1.5rem;
+        border-radius: 0;
+    }
+
+    .navbar-link:hover {
+        padding-left: 2rem;
+    }
+
+    .navbar-search-wrapper {
+        display: none;
+        /* Hide on mobile for now, maybe add inside menu */
+    }
+}

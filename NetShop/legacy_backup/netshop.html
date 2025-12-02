@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NetShop - Online Shopping</title>
+  <link rel="stylesheet" href="netshop.css">
+  <link rel="stylesheet" href="navbar.css">
+  <script defer src="db.js"></script>
+  <script defer src="toast.js"></script>
+  <script defer src="netshop_core_fixed.js"></script>
+  <script defer src="netshop.js"></script>
+  <script defer src="navbar.js"></script>
+  <link rel="icon" type="image/png" href="arrow.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+  <!-- REUSABLE NAVBAR COMPONENT -->
+  <header class="app-navbar" role="banner">
+    <div class="navbar-container">
+      <a href="netshop.html" class="navbar-logo" aria-label="NetShop Home">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="navbar-brand">NetShop</span>
+      </a>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button class="navbar-hamburger" aria-label="Toggle menu" aria-expanded="false" type="button">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
+      <!-- Navigation Links -->
+      <nav class="navbar-menu" aria-label="Main navigation">
+        <ul class="navbar-list">
+          <li><a href="netshop.html" class="navbar-link">Home</a></li>
+          <li><a href="shop.html" class="navbar-link">Shop</a></li>
+          <li><a href="categories.html" class="navbar-link">Categories</a></li>
+          <li><a href="orders.html" class="navbar-link">Orders</a></li>
+          <li><a href="seller.html" class="navbar-link">Seller</a></li>
+          <li><a href="Contact.html" class="navbar-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Action Icons (Cart, Orders, Profile) -->
+      <div class="navbar-actions">
+        <a href="cart.html" class="navbar-action-btn navbar-action-cart" aria-label="View cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="navbar-badge">0</span>
+        </a>
+        <a href="orders.html" class="navbar-action-btn navbar-action-orders" aria-label="View orders">
+          <i class="fas fa-box"></i>
+        </a>
+        <button class="navbar-action-btn navbar-action-profile" aria-label="Profile menu" type="button">
+          <i class="fas fa-user"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1>Shop by Category</h1>
+    <div class="grid">
+      <div class="card">
+        <div class="icon">📱</div>
+        <div class="name">Phones</div>
+      </div>
+      <div class="card">
+        <div class="icon">💻</div>
+        <div class="name">Computing</div>
+      </div>
+      <div class="card">
+        <div class="icon">👕</div>
+        <div class="name">Fashion</div>
+      </div>
+      <div class="card">
+        <div class="icon">📺</div>
+        <div class="name">Electronics</div>
+      </div>
+      <div class="card">
+        <div class="icon">🏠</div>
+        <div class="name">Home</div>
+      </div>
+      <div class="card">
+        <div class="icon">⚽</div>
+        <div class="name">Sports</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Official Stores -->
+  <section class="official-stores">
+    <h2 class="section-title">Official Stores</h2>
+    <div class="stores-grid">
+      <a href="#" class="store-card">
+        <img src="samsung.jpeg" alt="Samsung Store">
+        <h3>Samsung</h3>
+      </a>
+      <a href="#" class="store-card">
+        <img src="airforce1.jpeg" alt="Nike Store">
+        <h3>Nike</h3>
+      </a>
+      <a href="#" class="store-card">
+        <img src="apple.jpeg" alt="Apple Store">
+        <h3>Apple</h3>
+      </a>
+      <a href="#" class="store-card">
+        <img src="adidasonhand.jpeg" alt="Adidas Store">
+        <h3>Adidas</h3>
+      </a>
+    </div>
+  </section>
+
+
+  <section class="product-section">
+    <h2 class="section-title">Featured Products</h2>
+    <div class="product-grid" id="product-grid"></div>
+    <!-- Products will be added dynamically here -->
+    <p style="text-align: center;">Loading products...</p>
+    </div>
+  </section>
+
+
+
+  <section id="banner">
+    <h4>Repair Services</h4>
+    <h1>Up to <span>70% Off</span> All t-shirts & Accessories</h1>
+    <button class="normal">Explore More</button>
+  </section>
+
+
+  <section class="product-section2">
+    <h2 class="section-title2">New Arrivals</h2>
+    <p>Summer Collection New Mordern Design</p>
+    <div class="product-grid2" id="productGrid2">
+      <!-- Products will be added dynamically here -->
+      <p style="text-align: center;">Loading products...</p>
+    </div>
+  </section>
+
+
+  <section id="promo-section" class="promo-section"></section>
+
+
+
+  <!-- Inspiration Preview Section -->
+  <section class="inspiration-preview">
+    <h2>Creative Inspiration</h2>
+    <p>Check out ideas that spark our design and product creativity.</p>
+
+    <!-- Pinterest Board Preview Embed -->
+    <iframe src="https://assets.pinterest.com/ext/embed.html?id=https://www.pinterest.com/okoemu4/inspiration-page/"
+      height="350" width="100%" frameborder="0" scrolling="no">
+    </iframe>
+
+    <div class="view-all">
+      <a href="netshop-inspiration.html" class="btn">View All Inspirations</a>
+    </div>
+  </section>
+
+  <style>
+    .inspiration-preview {
+      background: #fafafa;
+      text-align: center;
+      padding: 2rem 1rem;
+      border-radius: 12px;
+      margin: 2rem auto;
+      max-width: 900px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .inspiration-preview h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .inspiration-preview p {
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+    .inspiration-preview iframe {
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .view-all .btn {
+      background: #e60023;
+      color: white;
+      text-decoration: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .view-all .btn:hover {
+      background: #c0001b;
+    }
+  </style>
+
+
+
+  <section id="category-section" class="category-section">
+    <h2 class="category-title">Shop by Category</h2>
+    <div id="category-grid" class="category-grid"></div>
+  </section>
+
+
+  <!-- Newsletter Subscription -->
+  <section class="newsletter">
+    <div class="newsletter-content">
+      <h2>Subscribe to our Newsletter</h2>
+      <p>Get updates on our latest offers!</p>
+      <form class="subscribe-form">
+        <input type="email" placeholder="Enter your email address" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+    <h2>On all purchase</h2>
+    <p>Save more with coupons & up to 80% off! </p>
+    <button>Shop Now</button>
+    </div>
+  </section>
+
+
+  <footer>
+    <!-- About / Company Info -->
+    <div class="col about">
+      <h1>NetShop</h1>
+      <p>Your one-stop shop for electronics, fashion, and more. Quality products delivered fast.</p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="col links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="netshop.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="#">Categories</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="checkout.html">Checkout</a></li>
+      </ul>
+    </div>
+
+    <!-- Customer Service -->
+    <div class="col support">
+      <h4>Customer Service</h4>
+      <ul>
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Terms & Conditions</a></li>
+      </ul>
+    </div>
+
+    <!-- Follow & App Downloads -->
+    <div class="col follow-apps">
+      <div class="follow">
+        <p>Follow Us</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <div class="apps">
+        <p>Get Our App</p>
+        <div class="app-logos">
+          <i class="fab fa-apple"></i>
+          <i class="fab fa-google-play"></i>
+        </div>
+      </div>
+
+      <div class="payments">
+        <p>We Accept</p>
+        <i class="fas fa-credit-card"></i>
+      </div>
+    </div>
+
+    <p class="copyright">
+      &copy; 2025 NetShop. All rights reserved.
+    </p>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+  <script defer src="hamburger.js"></script>
+
+
+
+
+</body>
+
+</html>

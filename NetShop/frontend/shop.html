@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - NetShop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <style>
+        .shop-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            height: fit-content;
+        }
+
+        .filter-group {
+            margin-bottom: 2rem;
+        }
+
+        .filter-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .filter-link {
+            color: var(--text-light);
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .filter-link:hover,
+        .filter-link.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .sort-select {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+            border: 1px solid var(--border-color);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #f3f4f6;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--text-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .shop-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="app-navbar" role="banner">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-logo">
+                <i class="fas fa-shopping-bag"></i>
+                NetShop
+            </a>
+            <button class="navbar-hamburger" type="button">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            <nav class="navbar-menu">
+                <ul class="navbar-list">
+                    <li><a href="index.html" class="navbar-link">Home</a></li>
+                    <li><a href="shop.html" class="navbar-link">Shop</a></li>
+                    <li><a href="login.html" class="navbar-link">Login</a></li>
+                </ul>
+            </nav>
+            <div class="navbar-actions">
+                <a href="cart.html" class="navbar-action-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="navbar-badge">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container shop-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="filter-group">
+                <h3 class="filter-title">Categories</h3>
+                <ul class="filter-list" id="category-list">
+                    <li><span class="filter-link active" data-category="">All Products</span></li>
+                    <li><span class="filter-link" data-category="Electronics">Electronics</span></li>
+                    <li><span class="filter-link" data-category="Fashion">Fashion</span></li>
+                    <li><span class="filter-link" data-category="Home">Home</span></li>
+                    <li><span class="filter-link" data-category="Sports">Sports</span></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            <div class="shop-header">
+                <h2 id="page-title">All Products</h2>
+                <select class="sort-select" id="sort-select">
+                    <option value="newest">Newest Arrivals</option>
+                    <option value="price_asc">Price: Low to High</option>
+                    <option value="price_desc">Price: High to Low</option>
+                </select>
+            </div>
+
+            <div id="product-grid" class="product-grid">
+                <!-- Products will be loaded here -->
+                <p>Loading...</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/shop.js"></script>
+</body>
+
+</html>
